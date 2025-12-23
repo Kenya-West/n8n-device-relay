@@ -1,0 +1,81 @@
+{
+    "macro": {
+        "disabledTimestamp": 0,
+        "exportedActionBlocks": [],
+        "forceEvenIfNotEnabledTimestamp": 0,
+        "isActionBlock": false,
+        "isBeingImported": false,
+        "isClonedInstance": false,
+        "isExtra": false,
+        "isFavourite": false,
+        "lastEditedTimestamp": 1766489383054,
+        "localVariables": [],
+        "m_GUID": -5596334605019923429,
+        "m_actionList": [
+            {
+                "requestConfig": {
+                    "allowAnyCertificate": false,
+                    "basicAuthEnabled": false,
+                    "basicAuthPassword": "",
+                    "basicAuthUsername": "",
+                    "blockNextAction": false,
+                    "contentBodyFileDisplayName": "",
+                    "contentBodyFileUri": "",
+                    "contentBodySource": 0,
+                    "contentBodyText": "{\r\n            \"id\": \"{macro_id}-{sms_sim_id}-{cell_id}-{system_time_ms}\",\r\n            \"createdAt\": \"[setting_global\u003dauto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"YOUR-DEVICE-NAME\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure\u003dkey_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global\u003dbluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global\u003dairplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global\u003dauto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"call_received\",\n                \"fromName\": \"{call_name}\",\n                \"fromNameInContacts\": \"{call_name}\",\r\n                \"fromPhoneNumber\": \"{call_number}\"\r\n            }\r\n        }",
+                    "contentType": "application/json",
+                    "followRedirects": false,
+                    "headerParams": [
+                        {
+                            "paramName": "x-n8n-device-relay",
+                            "paramValue": "<YOUR-TOKEN-HERE>"
+                        }
+                    ],
+                    "queryParams": [],
+                    "requestTimeOutSeconds": 30,
+                    "requestType": 1,
+                    "responseVariableName": "response",
+                    "returnCodeVariableName": "statuscode",
+                    "saveResponseFileName": "",
+                    "saveResponseFolderPathDisplayName": "",
+                    "saveResponseFolderPathUri": "",
+                    "saveResponseType": 1,
+                    "saveReturnCodeToVariable": false,
+                    "saveReturnHeadersToVariable": false,
+                    "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
+                },
+                "m_SIGUID": -5764170875012959535,
+                "m_classType": "HttpRequestAction",
+                "m_constraintList": [],
+                "m_isDisabled": false,
+                "m_isOrCondition": false
+            }
+        ],
+        "m_category": "Без категории",
+        "m_constraintList": [],
+        "m_description": "",
+        "m_descriptionOpen": false,
+        "m_enabled": true,
+        "m_excludeLog": false,
+        "m_headingColor": -8062,
+        "m_isOrCondition": false,
+        "m_name": "Example: Call received to n8n",
+        "m_triggerList": [
+            {
+                "m_incomingCallFromList": [],
+                "isExclude": false,
+                "m_groupIdList": [],
+                "m_groupNameList": [],
+                "m_option": 3,
+                "m_phoneNumberExclude": false,
+                "useRegex": false,
+                "m_SIGUID": -4614000197920827275,
+                "m_classType": "IncomingCallTrigger",
+                "m_constraintList": [],
+                "m_isDisabled": false,
+                "m_isOrCondition": false
+            }
+        ]
+    },
+    "macroExportVersion": 1
+}

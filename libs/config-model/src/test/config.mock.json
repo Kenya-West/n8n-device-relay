@@ -1,0 +1,435 @@
+{
+    "configModels": {
+        "minimal": {
+            "version": "1.0.0",
+            "name": "Minimal example",
+            "recipients": {
+                "alice": {
+                    "name": "Alice",
+                    "vars": {
+                        "tgChatId": "123456"
+                    }
+                }
+            },
+            "endpoints": {
+                "telegram-default": {
+                    "name": "Telegram sendMessage",
+                    "method": "POST",
+                    "url": "https://api.telegram.org/bot{recipient.vars.botToken}/sendMessage",
+                    "body": {
+                        "type": "json",
+                        "content": {
+                            "chat_id": "{recipient.vars.tgChatId}",
+                            "text": "{template.text}"
+                        }
+                    }
+                }
+            },
+            "templates": {
+                "sms_default": {
+                    "name": "SMS default",
+                    "text": "New SMS from {data.from}: {data.body}"
+                }
+            }
+        },
+        "withDevicesAndRules": {
+            "version": "1.0.0",
+            "name": "Devices + routing rules",
+            "defaults": {
+                "httpTimeoutMs": 15000,
+                "headers": {
+                    "User-Agent": "n8n-device-relay/1.0",
+                    "X-Request-Source": "n8n"
+                },
+                "strictTemplating": true
+            },
+            "devices": {
+                "pixel_7": {
+                    "name": "Pixel 7",
+                    "platform": "android",
+                    "vars": {
+                        "owner": "Ken"
+                    }
+                },
+                "ipad": {
+                    "name": "iPad",
+                    "platform": "ios"
+                }
+            },
+            "recipients": {
+                "ops": {
+                    "name": "Ops channel",
+                    "vars": {
+                        "tgChatId": "-1001234567890",
+                        "botToken": "REDACTED_TOKEN"
+                    },
+                    "allowedDeviceIds": [
+                        "pixel_7"
+                    ],
+                    "endpointIds": [
+                        "telegram"
+                    ],
+                    "templateIds": [
+                        "sms_default",
+                        "otp_alert",
+                        "wifi_connected"
+                    ],
+                    "allowedDataTypes": [
+                        "sms_received",
+                        "wifi_connected"
+                    ],
+                    "rendering": {
+                        "language": "en",
+                        "timezone": "Africa/Nairobi",
+                        "escapeMode": "telegram_html"
+                    },
+                    "rules": [
+                        {
+                            "id": "otp-only",
+                            "description": "Send OTP messages using OTP template",
+                            "when": {
+                                "dataType": "sms_received",
+                                "field": [
+                                    {
+                                        "path": "event.data.isOtp",
+                                        "op": "equals",
+                                        "value": true
+                                    },
+                                    {
+                                        "path": "event.data.body",
+                                        "op": "includes",
+                                        "value": "OTP"
+                                    }
+                                ]
+                            },
+                            "then": {
+                                "templateIds": [
+                                    "otp_alert"
+                                ],
+                                "endpointIds": [
+                                    "telegram"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "wifi-home",
+                            "description": "Notify when connected to home Wi-Fi",
+                            "when": {
+                                "dataType": "wifi_connected",
+                                "ssidEquals": [
+                                    "MyHomeWifi"
+                                ]
+                            },
+                            "then": {
+                                "templateIds": [
+                                    "wifi_connected"
+                                ],
+                                "endpointIds": [
+                                    "telegram"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "endpoints": {
+                "telegram": {
+                    "name": "Telegram sendMessage",
+                    "method": "POST",
+                    "url": "https://api.telegram.org/bot{recipient.vars.botToken}/sendMessage",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "timeoutMs": 12000,
+                    "retry": {
+                        "maxAttempts": 3,
+                        "backoff": "exponential",
+                        "baseDelayMs": 500,
+                        "retryOnStatusCodes": [
+                            429,
+                            500,
+                            502,
+                            503,
+                            504
+                        ]
+                    },
+                    "successCriteria": {
+                        "statusCodes": [
+                            200
+                        ],
+                        "jsonBooleanPath": "ok"
+                    },
+                    "body": {
+                        "type": "form_urlencoded",
+                        "content": {
+                            "chat_id": "{recipient.vars.tgChatId}",
+                            "text": "{template.text}",
+                            "parse_mode": "HTML",
+                            "disable_web_page_preview": "true"
+                        }
+                    }
+                },
+                "genericWebhook": {
+                    "name": "Generic webhook",
+                    "method": "POST",
+                    "url": "https://example.com/notify",
+                    "headers": {
+                        "Authorization": "Bearer {recipient.vars.apiToken}"
+                    },
+                    "body": {
+                        "type": "json",
+                        "content": {
+                            "recipientId": "{recipient.id}",
+                            "eventId": "{meta.eventId}",
+                            "deviceId": "{meta.deviceId}",
+                            "createdAt": "{meta.createdAt}",
+                            "message": "{template.text}"
+                        }
+                    }
+                }
+            },
+            "templates": {
+                "sms_default": {
+                    "name": "SMS message",
+                    "text": "<b>SMS</b> from <code>{data.from}</code>\n{data.body}",
+                    "format": {
+                        "parseMode": "telegram_html",
+                        "ignoreUnknownPlaceholders": false
+                    }
+                },
+                "otp_alert": {
+                    "name": "OTP alert",
+                    "text": "<b>OTP</b> from <code>{data.from}</code>\nCodes: {data.otpCodes}",
+                    "format": {
+                        "parseMode": "telegram_html",
+                        "ignoreUnknownPlaceholders": true
+                    },
+                    "fields": {
+                        "title": "OTP"
+                    }
+                },
+                "wifi_connected": {
+                    "name": "Wi-Fi connected",
+                    "text": "Wi-Fi connected: {data.ssid} ({data.ipAddress})"
+                }
+            }
+        }
+    },
+    "webhookEvents": {
+        "smsReceivedFull": {
+            "id": "b7fd4c3a-1e6a-4b9b-9a19-6edc4e1f437a",
+            "createdAt": "2025-12-15T07:31:00.000Z",
+            "source": "tasker",
+            "device": {
+                "id": "pixel_7",
+                "batteryLevelPercent": 10,
+                "isCharging": true,
+                "simSlotCount": 2,
+                "isEsimPresent": true,
+                "currentSimSlotIndex": 1,
+                "isCurrentEsim": false,
+                "cellularCarrierName": "Ipsum ducimus provident voluptatem.",
+                "locationLatitude": 49.123456,
+                "locationLongitude": 22.419,
+                "locationPoint": "Architecto dolorem",
+                "locationAccuracyMeters": 68.5,
+                "currentSpeed": 0,
+                "currentWifiSsid": "Wi-Fi SSID Example name",
+                "currentWifiBssid": "00:14:22:01:23:45",
+                "networkType": "wifi",
+                "isScreenOn": false,
+                "mediaVolumePercent": 50,
+                "ringerVolumePercent": 75,
+                "isBluetoothOn": true,
+                "isDoNotDisturbOn": false,
+                "isAirplaneModeOn": false,
+                "timeZone": "Europe/Warsaw",
+                "locale": "pl-PL",
+                "availableStorageBytes": 8356978,
+                "totalStorageBytes": 34500000,
+                "hasNfc": true,
+                "hasFingerprintSensor": false
+            },
+            "meta": {
+                "traceId": "trace-001"
+            },
+            "data": {
+                "type": "sms_received",
+                "fromName": "Bank Sber",
+                "fromNameInContacts": "Sberbank",
+                "fromPhoneNumber": "+254700000000",
+                "body": "Your OTP is 123456. Do not share.",
+                "at": "2025-12-15T07:30:58.000Z",
+                "simSlot": "number",
+                "carrier": "string",
+                "serviceCenter": "string",
+                "isOtp": true,
+                "otpCodes": [],
+                "threadId": "string",
+                "capturedByPackage": "string",
+                "tags": []
+            }
+        },
+        "callReceived": {
+            "id": "a4f2bb3b-0b7a-4d14-8a5c-2f5a9f3d8b7c",
+            "createdAt": "2025-12-15T08:10:00.000Z",
+            "source": "macrodroid",
+            "device": {
+                "id": "pixel_7"
+            },
+            "data": {
+                "type": "call_received",
+                "from": "+254711111111",
+                "startedAt": "2025-12-15T08:09:55.000Z",
+                "endedAt": "2025-12-15T08:10:20.000Z",
+                "direction": "incoming",
+                "answered": true,
+                "durationSec": 25
+            }
+        },
+        "callReceivedFull": {
+            "id": "a4f2bb3b-0b7a-4d14-8a5c-2f5a9f3d8b7c",
+            "createdAt": "2025-12-15T08:10:00.000Z",
+            "source": "macrodroid",
+            "device": {
+                "id": "pixel_7",
+                "batteryLevelPercent": 10,
+                "isCharging": true,
+                "simSlotCount": 2,
+                "isEsimPresent": true,
+                "currentSimSlotIndex": 1,
+                "isCurrentEsim": false,
+                "cellularCarrierName": "Ipsum ducimus provident voluptatem.",
+                "locationLatitude": 49.123456,
+                "locationLongitude": 22.419,
+                "locationPoint": "Architecto dolorem",
+                "locationAccuracyMeters": 68.5,
+                "currentSpeed": 0,
+                "currentWifiSsid": "Wi-Fi SSID Example name",
+                "currentWifiBssid": "00:14:22:01:23:45",
+                "networkType": "wifi",
+                "isScreenOn": false,
+                "mediaVolumePercent": 50,
+                "ringerVolumePercent": 75,
+                "isBluetoothOn": true,
+                "isDoNotDisturbOn": false,
+                "isAirplaneModeOn": false,
+                "timeZone": "Europe/Warsaw",
+                "locale": "pl-PL",
+                "availableStorageBytes": 8356978,
+                "totalStorageBytes": 34500000,
+                "hasNfc": true,
+                "hasFingerprintSensor": false
+            },
+            "data": {
+                "type": "call_received",
+                "fromName": "Eum qui sit nemo.",
+                "fromNameInContacts": "Sunt in molestiae veniam animi repellat consequatur.",
+                "fromPhoneNumber": "Impedit tempore repudiandae.",
+                "at": "Molestias et nihil nisi perferendis eum.",
+                "endedAt": "Vel at repellendus aut nostrum magni.",
+                "direction": "outgoing",
+                "missed": true,
+                "rejected": false,
+                "answered": false,
+                "durationSec": 1100,
+                "simSlot": 35932,
+                "carrier": "Consequatur est sit numquam aut velit.",
+                "contactName": "Similique autem eius eaque est.",
+                "spamLabel": "Cum non eum molestiae asperiores voluptatem est architecto.",
+                "tags": [
+                    "Temporibus error sit aut perferendis aliquam.",
+                    "Dicta dolorem natus dolor expedita quam porro minus beatae sequi.",
+                    "Dolorem excepturi et sapiente similique nulla omnis.",
+                    "Sint eligendi repudiandae."
+                ]
+            }
+        },
+        "wifiConnectedFull": {
+            "id": "2fd3a8d2-7c95-4c6b-8e6d-4cf0580fd1c1",
+            "createdAt": "2025-12-15T19:05:00.000Z",
+            "source": "automate",
+            "device": {
+                "id": "pixel_7",
+                "batteryLevelPercent": 10,
+                "isCharging": true,
+                "simSlotCount": 2,
+                "isEsimPresent": true,
+                "currentSimSlotIndex": 1,
+                "isCurrentEsim": false,
+                "cellularCarrierName": "Ipsum ducimus provident voluptatem.",
+                "locationLatitude": 49.123456,
+                "locationLongitude": 22.419,
+                "locationPoint": "Architecto dolorem",
+                "locationAccuracyMeters": 68.5,
+                "currentSpeed": 0,
+                "currentWifiSsid": "Wi-Fi SSID Example name",
+                "currentWifiBssid": "00:14:22:01:23:45",
+                "networkType": "wifi",
+                "isScreenOn": false,
+                "mediaVolumePercent": 50,
+                "ringerVolumePercent": 75,
+                "isBluetoothOn": true,
+                "isDoNotDisturbOn": false,
+                "isAirplaneModeOn": false,
+                "timeZone": "Europe/Warsaw",
+                "locale": "pl-PL",
+                "availableStorageBytes": 8356978,
+                "totalStorageBytes": 34500000,
+                "hasNfc": true,
+                "hasFingerprintSensor": false
+            },
+            "data": {
+                "type": "wifi_connected",
+                "ssid": "MyHomeWifi",
+                "bssid": "AA:BB:CC:DD:EE:FF",
+                "ipAddress": "192.168.1.50",
+                "linkSpeedMbps": 144,
+                "rssiDbm": -55,
+                "frequencyMhz": 5200,
+                "at": "2025-12-15T19:04:55.000Z",
+                "security": "wpa2",
+                "metered": false,
+                "tags": []
+            }
+        },
+        "wifiConnectedMinimal": {
+            "id": "2fd3a8d2-7c95-4c6b-8e6d-4cf0580fd1c1",
+            "createdAt": "2025-12-15T19:05:00.000Z",
+            "device": {
+                "id": "pixel_7"
+            },
+            "source": "automate",
+            "data": {
+                "type": "wifi_connected",
+                "ssid": "MyHomeWifi",
+                "bssid": "AA:BB:CC:DD:EE:FF",
+                "ipAddress": "192.168.1.50",
+                "linkSpeedMbps": 144,
+                "rssiDbm": -55,
+                "frequencyMhz": 5200,
+                "connectedAt": "2025-12-15T19:04:55.000Z",
+                "security": "wpa2",
+                "metered": false,
+                "tags": []
+            }
+        },
+        "appNotification": {
+            "id": "2fd3a8d2-7c95-4c6b-8e6d-4cf0580fd1c1",
+            "createdAt": "2025-12-15T19:05:00.000Z",
+            "device": {
+                "id": "pixel_7"
+            },
+            "source": "automate",
+            "data": {
+                "type": "notification_received",
+                "packageName": "com.microsoft.appmanager",
+                "appName": "Link to Windows",
+                "at": "2025-12-15T19:04:55.000Z",
+                "title": "Link to Windows notification",
+                "body": "Your PC is trying to connect",
+                "tags": []
+            }
+        }
+    }
+}

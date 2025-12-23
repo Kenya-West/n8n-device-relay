@@ -1,0 +1,28 @@
+{
+  "name": "config-model",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/config-model/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/config-model",
+        "main": "libs/config-model/src/index.ts",
+        "tsConfig": "libs/config-model/tsconfig.lib.json",
+        "assets": ["libs/config-model/*.md"],
+        "format": ["cjs"],
+        "generatePackageJson": true
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "passWithNoTests": false,
+        "reportsDirectory": "../../coverage/libs/config-model"
+      }
+    }
+  }
+}
