@@ -1,22 +1,27 @@
 <TaskerData sr="" dvi="1" tv="6.5.11">
-	<Profile sr="prof999999902" ve="2">
+	<Profile sr="prof999999906" ve="2">
 		<cdate>1681738734493</cdate>
-		<edate>1766489906430</edate>
+		<clp>true</clp>
+		<edate>1766489869455</edate>
 		<flags>8</flags>
-		<id>999999902</id>
-		<mid0>999999901</mid0>
-		<nme>Example profile: All Calls to n8n</nme>
-		<State sr="con0" ve="2">
-			<code>40</code>
-			<Int sr="arg0" val="0"/>
+		<id>999999906</id>
+		<mid0>999999905</mid0>
+		<nme>Example profile: All SMS to n8n</nme>
+		<Event sr="con0" ve="2">
+			<code>7</code>
+			<pri>0</pri>
+			<Int sr="arg0" val="2"/>
 			<Str sr="arg1" ve="3"/>
-		</State>
+			<Str sr="arg2" ve="3">%SMSRB</Str>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+		</Event>
 	</Profile>
-	<Task sr="task999999901">
+	<Task sr="task999999905">
 		<cdate>1696330880419</cdate>
-		<edate>1766499820608</edate>
-		<id>999999901</id>
-		<nme>Example task: Send call received to n8n</nme>
+		<edate>1766489869455</edate>
+		<id>999999905</id>
+		<nme>Example task: Send SMS to n8n</nme>
 		<pri>100</pri>
 		<Action sr="act0" ve="7">
 			<code>123</code>
@@ -111,7 +116,7 @@ Suppressed Effects
             "createdAt": "%ISO_TIME",
             "source": "tasker",
             "device": {
-                "id": "kw-mi-1",
+                "id": "your-device-name-1",
                 "batteryLevelPercent": "%BATT",
                 "currentSimSlotIndex": "%SIMNUM" ,
                 "cellularCarrierName": "%TNET",
@@ -129,12 +134,14 @@ Suppressed Effects
                 "isAirplaneModeOn": "%AIR",
                 "availableStorageBytes": "%MEMF"
             },
-            "data":  {
-                "type": "call_received",
-                "fromName": "%CNAME",
-                "fromNameInContacts": "%CNAME",
-                "fromPhoneNumber": "%CNUM",
-                "at": "%CTIME"
+            "data": {
+                "type": "sms_received",
+                "fromName": "%evtprm2",
+                "fromNameInContacts": "%SMSRN",
+                "fromPhoneNumber": "%SMSRF",
+                "body": "%evtprm3",
+                "at": "%SMSRD %SMSRT",
+                "tags": []
             }
         }</Str>
 			<Int sr="arg2" val="0"/>
@@ -167,7 +174,7 @@ The size of the response in bytes&lt;/_array_net.dinglisch.android.tasker.RELEVA
 			<Int sr="arg10" val="0"/>
 			<Int sr="arg11" val="0"/>
 			<Int sr="arg12" val="1"/>
-			<Str sr="arg2" ve="3">https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay</Str>
+			<Str sr="arg2" ve="3">https://YOUR-N8N-INSTANCE-DOMAIN/webhook/device-relay</Str>
 			<Str sr="arg3" ve="3">x-n8n-device-relay:YOUR-TOKEN-HERE</Str>
 			<Str sr="arg4" ve="3"/>
 			<Str sr="arg5" ve="3">%json</Str>

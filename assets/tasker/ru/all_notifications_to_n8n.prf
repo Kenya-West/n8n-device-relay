@@ -326,7 +326,7 @@ Suppressed Effects
             "createdAt": "%ISO_TIME",
             "source": "tasker",
             "device": {
-                "id": "kw-mi-1",
+                "id": "your-device-name-1",
                 "batteryLevelPercent": "%BATT",
                 "currentSimSlotIndex": "%SIMNUM" ,
                 "cellularCarrierName": "%TNET",

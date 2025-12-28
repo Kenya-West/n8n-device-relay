@@ -1,0 +1,186 @@
+{
+  "macro": {
+    "disabledTimestamp": 0,
+    "exportedActionBlocks": [],
+    "forceEvenIfNotEnabledTimestamp": 0,
+    "isActionBlock": false,
+    "isBeingImported": false,
+    "isClonedInstance": false,
+    "isExtra": false,
+    "isFavourite": false,
+    "lastEditedTimestamp": 1766899658746,
+    "localVariables": [],
+    "m_GUID": "-1700000000000000000",
+    "m_actionList": [
+      {
+        "m_option": 1,
+        "m_text": "{notification}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\n",
+            " "
+          ]
+        },
+        "variableName": "notification_normalized",
+        "m_SIGUID": "-1600000000000000000",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{not_text_big}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\n",
+            " "
+          ]
+        },
+        "variableName": "notification_expanded_normalized",
+        "m_SIGUID": "-1600000000000000001",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "booleanDictionaryKeys": {
+          "keys": []
+        },
+        "dictionaryKeys": [],
+        "dictionaryOrArrayType": -1,
+        "existingManualKeyType": 0,
+        "m_booleanInvert": false,
+        "m_darkMode": -1,
+        "m_doubleRandomMax": 0.0,
+        "m_doubleRandomMin": 0.0,
+        "m_falseLabel": "Ложь",
+        "m_intExpression": false,
+        "m_intRandom": false,
+        "m_intRandomMax": 0,
+        "m_intRandomMin": 0,
+        "m_intValueDecrement": false,
+        "m_intValueIncrement": false,
+        "m_newBooleanValue": false,
+        "m_newDoubleValue": 0.0,
+        "m_newIntValue": 0,
+        "m_newStringValue": "{\r\n            \"id\": \"{macro_id}-{sms_sim_id}-{cell_id}-{system_time_ms}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{not_title}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
+        "m_trueLabel": "Истина",
+        "m_userPrompt": false,
+        "m_userPromptEmptyAtStart": false,
+        "m_userPromptPassword": false,
+        "m_userPromptShowCancel": true,
+        "m_userPromptStopAfterCancel": true,
+        "m_variable": {
+          "dictionary": {
+            "entries": [],
+            "isArray": false,
+            "variableType": 4,
+            "type": "Dictionary"
+          },
+          "isActionBlockWorkingVar": false,
+          "isLocalVar": true,
+          "isSecure": false,
+          "m_booleanValue": false,
+          "m_decimalValue": 0.0,
+          "m_intValue": 0,
+          "m_name": "data",
+          "m_stringValue": "",
+          "m_type": 2,
+          "supportsInput": false,
+          "supportsOutput": true
+        },
+        "m_SIGUID": "-1600000000000000002",
+        "m_classType": "SetVariableAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "logLevel": "STANDARD",
+        "m_logText": "{lv=data}",
+        "m_SIGUID": "-1600000000000000003",
+        "m_classType": "LogAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "requestConfig": {
+          "allowAnyCertificate": false,
+          "basicAuthEnabled": false,
+          "basicAuthPassword": "",
+          "basicAuthUsername": "",
+          "blockNextAction": false,
+          "contentBodyFileDisplayName": "",
+          "contentBodyFileUri": "",
+          "contentBodySource": 0,
+          "contentBodyText": "{lv=data}",
+          "contentType": "application/json",
+          "followRedirects": false,
+          "headerParams": [
+            {
+              "paramName": "x-n8n-device-relay",
+              "paramValue": "<YOUR_CUSTOM_TOKEN_FOR_DEVICE_HERE>"
+            }
+          ],
+          "queryParams": [],
+          "requestTimeOutSeconds": 30,
+          "requestType": 1,
+          "responseVariableName": "response",
+          "returnCodeVariableName": "statuscode",
+          "saveResponseFileName": "",
+          "saveResponseFolderPathDisplayName": "",
+          "saveResponseFolderPathUri": "",
+          "saveResponseType": 1,
+          "saveReturnCodeToVariable": false,
+          "saveReturnHeadersToVariable": false,
+          "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
+        },
+        "m_SIGUID": "-1600000000000000004",
+        "m_classType": "HttpRequestAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      }
+    ],
+    "m_category": "Без категории",
+    "m_constraintList": [],
+    "m_description": "",
+    "m_descriptionOpen": false,
+    "m_enabled": true,
+    "m_excludeLog": false,
+    "m_headingColor": -8062,
+    "m_isOrCondition": false,
+    "m_name": "Example App notification to n8n",
+    "m_triggerList": [
+      {
+        "enableRegex": false,
+        "ignoreCase": true,
+        "m_applicationNameList": [
+          "Any Application"
+        ],
+        "m_exactMatch": false,
+        "m_excludeApps": false,
+        "m_excludes": false,
+        "m_ignoreOngoing": true,
+        "m_option": 0,
+        "m_packageNameList": [
+          "Any Application"
+        ],
+        "m_soundOption": 0,
+        "m_supressMultiples": true,
+        "m_textContent": "",
+        "m_SIGUID": "-1600000000000000005",
+        "m_classType": "NotificationTrigger",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      }
+    ]
+  },
+  "macroExportVersion": 1
+}
