@@ -102,3 +102,17 @@ Security is established via:
 -   `assets/workflow-configs/`: Contains example JSON configurations for the n8n workflow.
 -   `assets/macrodroid/`: Contains MacroDroid export files.
 -   `assets/tasker/`: Contains Tasker profile export files.
+
+## I want ready-to-use MacroDroid configs for my devices
+
+You can use the PowerShell script located at `scripts/generate-macrodroid-macros-per-device.ps1` to generate MacroDroid macros for multiple devices with unique identifiers.
+
+You first need to copy either `device-list.example.json` or `device-list-minimal.example.json` to `device-list.json` and edit it with your device information.
+
+Then execute this command (assuming you are on root of this repository):
+
+```powershell
+pwsh .\scripts\generate-macrodroid-macros-per-device.ps1
+```
+
+\- this will generate MacroDroid macros per device in the `scripts/devices` folder. Totally on `.gitignore` so do not worry about data leaks.
