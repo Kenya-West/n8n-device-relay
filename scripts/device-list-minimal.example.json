@@ -1,0 +1,25 @@
+{
+    "devices": [
+        {
+            "identifier": "android-1234567890abcdef",
+            "type": "android",
+            "app": "MacroDroid",
+            "endpoint": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay",
+            "token": "<INSERT_DEVICE_TOKEN_HERE_EXCLUSIVE_FOR_THIS_DEVICE>"
+        },
+        {
+            "identifier": "android-abcdef1234567890-2",
+            "type": "android",
+            "app": "MacroDroid",
+            "endpoint": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay",
+            "token": "<INSERT_DEVICE_TOKEN_HERE_EXCLUSIVE_FOR_THIS_DEVICE>"
+        },
+        {
+            "identifier": "android-1122334455667788-3",
+            "type": "android",
+            "app": "Tasker",
+            "endpoint": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay",
+            "token": "<INSERT_DEVICE_TOKEN_HERE_EXCLUSIVE_FOR_THIS_DEVICE>"
+        }
+    ]
+}
