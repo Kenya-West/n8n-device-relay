@@ -66,7 +66,13 @@ foreach ($path in $Paths) {
         # ---- lastEditedTimestamp & localVariables ----------------------------
 
         # $macro.lastEditedTimestamp = 0
-        $macro.localVariables = @()
+        if ($macro.PSObject.Properties.Name -contains 'localVariables') {
+            foreach ($localVariable in $macro.localVariables) {
+                if ($localVariable.PSObject.Properties.Name -contains 'm_stringValue') {
+                    $localVariable.m_stringValue = ""
+                }
+            }
+        }
 
         # ---- m_actionList ----------------------------------------------------
 

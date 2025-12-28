@@ -9,7 +9,46 @@
     "isExtra": false,
     "isFavourite": false,
     "lastEditedTimestamp": 1766899829313,
-    "localVariables": [],
+    "localVariables": [
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "response",
+        "m_stringValue": "",
+        "m_type": 2,
+        "supportsInput": false,
+        "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "statuscode",
+        "m_stringValue": "",
+        "m_type": 1,
+        "supportsInput": false,
+        "supportsOutput": true
+      }
+    ],
     "m_GUID": "-1700000000000000003",
     "m_actionList": [
       {
