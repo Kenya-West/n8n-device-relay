@@ -3,43 +3,43 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "41fb69a9-30ac-4dc7-9a12-3e9eccc989d5",
+        "path": "device-relay",
         "options": {}
       },
-      "id": "c1fc0a57-a259-4ddd-83fc-755da94a7f41",
+      "id": "0880b116-1fd5-45c5-acc4-1437ba1a5791",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        304,
-        -208
+        0,
+        0
       ],
-      "webhookId": "41fb69a9-30ac-4dc7-9a12-3e9eccc989d5"
+      "webhookId": "fe4a40f7-acfa-4380-99d1-72c4b7c7ca34"
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        848,
-        -48
+        544,
+        160
       ],
-      "id": "6659b310-c293-4fe0-8b50-fce46eeaa344",
+      "id": "caaf5c27-488f-4b8a-8c81-64465a4e9f84",
       "name": "Merge"
     },
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "{\n}",
+        "jsonOutput": "{}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        672,
-        -48
+        368,
+        160
       ],
-      "id": "b7145ad0-d1bb-4d9d-a12e-524319e83e08",
+      "id": "16db132b-a22c-4ff5-b3b2-e0dc22a91878",
       "name": "Config"
     },
     {
@@ -49,38 +49,38 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1168,
-        720
+        864,
+        928
       ],
-      "id": "73e076c0-da15-4ca5-83df-d4f682baf514",
+      "id": "0025c174-18b9-48cf-b04a-8e018d9b467b",
       "name": "Form outbound",
       "alwaysOutputData": false
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst wrapper = $input.first().json;\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst outbound = wrapper.outbound;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event, \"Has outbound?\", !!outbound);\nlog(\"Outbound (redacted):\", redact(outbound));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!outbound) throw new Error(\"Missing outbound\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!Array.isArray(outbound?.dispatches)) throw new Error(\"Missing outbound.dispatches\");\nif (!event?.body?.data?.type) throw new Error(\"Missing event.body.data.type\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id\");\n\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\n\nconst mergeHeaders = (base, override) => ({\n  ...(base || {}),\n  ...(override || {}),\n});\n\nconst ensure = (kind, id, value) => {\n  if (!value) throw new Error(`Unknown ${kind} id \"${id}\"`);\n  return value;\n};\n\nconst defaultTimeoutMs = config?.defaults?.httpTimeoutMs;\nconst defaultHeaders = config?.defaults?.headers;\n\nlog(\"dispatch count:\", outbound.dispatches.length);\n\nconst items = outbound.dispatches.map((dispatch) => {\n  const recipientId = dispatch.recipientId;\n  const endpointId = dispatch.endpointId;\n  const templateId = dispatch.templateId;\n\n  const recipient = ensure(\"recipient\", recipientId, config.recipients[recipientId]);\n  const endpoint = ensure(\"endpoint\", endpointId, config.endpoints[endpointId]);\n  const template = ensure(\"template\", templateId, config.templates[templateId]);\n\n  // IMPORTANT: no templating here. Leave placeholders as-is.\n  // This node only adds metadata for later templating nodes.\n  if (endpoint?.body?.type && endpoint.body.type !== \"json\") {\n    throw new Error(\n      `Endpoint \"${endpointId}\" body.type=\"${endpoint.body.type}\" is not supported by this node (expects \"json\")`\n    );\n  }\n\n  return {\n    json: {\n      // metadata for later nodes that will do templating/rendering\n      templateData: {\n        meta, // typical {meta.*} namespace\n        data: event.body.data, // typical {data.*} namespace\n        recipient: {\n          id: recipientId,\n          vars: recipient.vars, // typical {recipient.vars.*} namespace\n        }\n      },\n      toTemplate: {\n        template: {\n          id: templateId,\n          text: template.text, // where `{message}` (or similar) should come from later\n          format: template.format,\n          fields: template.fields,\n        },\n        endpoint: endpoint\n      },\n    },\n  };\n});\n\nlog(\"Prepared items:\", items.length);\nlog(\"First item preview (redacted):\", redact(items[0]?.json));\n\nreturn items;"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst wrapper = $input.first().json;\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst outbound = wrapper.outbound;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event, \"Has outbound?\", !!outbound);\nlog(\"Outbound (redacted):\", redact(outbound));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!outbound) throw new Error(\"Missing outbound\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!Array.isArray(outbound?.dispatches)) throw new Error(\"Missing outbound.dispatches\");\nif (!event?.body?.data?.type) throw new Error(\"Missing event.body.data.type\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id\");\n\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\n\nconst mergeHeaders = (base, override) => ({\n  ...(base || {}),\n  ...(override || {}),\n});\n\nconst ensure = (kind, id, value) => {\n  if (!value) throw new Error(`Unknown ${kind} id \"${id}\"`);\n  return value;\n};\n\nconst defaultTimeoutMs = config?.defaults?.httpTimeoutMs;\nconst defaultHeaders = config?.defaults?.headers;\n\nlog(\"dispatch count:\", outbound.dispatches.length);\n\nconst items = outbound.dispatches.map((dispatch) => {\n  const recipientId = dispatch.recipientId;\n  const endpointId = dispatch.endpointId;\n  const templateId = dispatch.templateId;\n\n  const recipient = ensure(\"recipient\", recipientId, config.recipients[recipientId]);\n  const endpoint = ensure(\"endpoint\", endpointId, config.endpoints[endpointId]);\n  const template = ensure(\"template\", templateId, config.templates[templateId]);\n\n  // IMPORTANT: no templating here. Leave placeholders as-is.\n  // This node only adds metadata for later templating nodes.\n  if (endpoint?.body?.type && endpoint.body.type !== \"json\") {\n    throw new Error(\n      `Endpoint \"${endpointId}\" body.type=\"${endpoint.body.type}\" is not supported by this node (expects \"json\")`\n    );\n  }\n\n  return {\n    json: {\n      // metadata for later nodes that will do templating/rendering\n      templateData: {\n        meta, // typical {meta.*} namespace\n        data: event.body.data, // typical {data.*} namespace\n        device: event.body.device, // typical {data.*} namespace\n        recipient: {\n          id: recipientId,\n          vars: recipient.vars, // typical {recipient.vars.*} namespace\n        }\n      },\n      toTemplate: {\n        template: {\n          id: templateId,\n          text: template.text, // where `{message}` (or similar) should come from later\n          format: template.format,\n          fields: template.fields,\n        },\n        endpoint: endpoint\n      },\n    },\n  };\n});\n\nlog(\"Prepared items:\", items.length);\nlog(\"First item preview (redacted):\", redact(items[0]?.json));\n\nreturn items;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1376,
-        720
+        1072,
+        928
       ],
-      "id": "9bbf3651-9ac7-4696-9000-429dc4a1fd82",
+      "id": "23e3f252-81c6-4c34-9e20-b1f71eecee60",
       "name": "Compose messages",
       "alwaysOutputData": false
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log('[debug]', ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v, path = '') => {\n    if (v == null) return v;\n\n    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${path}[${i}]`));\n\n    if (typeof v === 'object') {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        const full = path ? `${path}.${k}` : k;\n        if (SECRET_KEY_RE.test(k)) out[k] = '***REDACTED***';\n        else out[k] = walk(child, full);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog('Input item count:', $input.all().length);\n\nconst wrapper = $input.first().json;\nlog('Wrapper keys:', Object.keys(wrapper ?? {}));\n\n// Allow common shapes: {config, event}, {config, body}, or direct webhook body\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsFilteredGlobally = wrapper.recipientsFilteredGlobally;\n\nlog('Has config?', !!config, 'Has event?', !!event);\nlog('Config (redacted):', redact(config));\nlog('Event keys:', Object.keys(event ?? {}));\nlog('Event.body keys:', Object.keys(event?.body ?? {}));\n\nif (!recipientsFilteredGlobally) throw new Error('Missing recipientsFilteredGlobally');\nif (!config?.recipients) throw new Error('Missing config.recipients (ConfigModel)');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type (IncomingDataModel discriminator)');\nif (!event?.body?.device.id) throw new Error('Missing event.body.device.id');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\nlog('deviceId:', deviceId);\nlog('dataType:', dataType);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog('meta:', meta);\n\nconst getByPath = (root, path) => {\n  const parts = (path ? String(path) : '')\n    .split('.')\n    .filter(Boolean);\n\n  let cur = root;\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n  return cur;\n};\n\nconst isPresent = (v) => v !== undefined && v !== null;\n\nconst toComparableNumber = (v) => {\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  if (typeof v === 'string' && v.trim() !== '') {\n    const n = Number(v);\n    return Number.isFinite(n) ? n : undefined;\n  }\n  return undefined;\n};\n\nconst normalizeEquals = (actual, expected) => {\n  log('normalizeEquals:', { actual, expected, actualType: typeof actual, expectedType: typeof expected });\n\n  if (!isPresent(actual) && !isPresent(expected)) return true;\n\n  if (typeof actual === 'boolean') {\n    if (typeof expected === 'boolean') return actual === expected;\n    if (typeof expected === 'string') {\n      const s = expected.trim().toLowerCase();\n      if (s === 'true') return actual === true;\n      if (s === 'false') return actual === false;\n    }\n    return false;\n  }\n\n  if (typeof actual === 'number') {\n    const n = toComparableNumber(expected);\n    return n !== undefined ? actual === n : false;\n  }\n\n  return String(actual) === String(expected);\n};\n\n// Uses \"operator\" (your current my.json)\nconst predicateMatches = (predicate) => {\n  const op = predicate?.operator;\n  const path = predicate?.path;\n  const expected = predicate?.value;\n\n  // Root lets your rules use paths like \"deviceId\" or \"data.body\" or \"meta.device.id\"\n  const predicateRoot = { ...event.body, data: event.body.data, meta };\n  const actual = getByPath(predicateRoot, path);\n\n  log('predicate:', { path, op, expected, actual });\n\n  switch (op) {\n    case 'equals':\n      return normalizeEquals(actual, expected);\n\n    case 'not_equals':\n      return !normalizeEquals(actual, expected);\n\n    case 'includes': {\n      if (!isPresent(actual)) return false;\n      if (Array.isArray(actual)) return actual.includes(expected);\n      return String(actual).includes(String(expected ?? ''));\n    }\n\n    case 'not_includes': {\n      if (!isPresent(actual)) return true;\n      if (Array.isArray(actual)) return !actual.includes(expected);\n      return !String(actual).includes(String(expected ?? ''));\n    }\n\n    case 'starts_with':\n      return isPresent(actual) && String(actual).startsWith(String(expected ?? ''));\n\n    case 'ends_with':\n      return isPresent(actual) && String(actual).endsWith(String(expected ?? ''));\n\n    case 'matches_regex': {\n      if (!isPresent(actual)) return false;\n      try {\n        const re = new RegExp(String(expected ?? ''));\n        return re.test(String(actual));\n      } catch {\n        throw new Error(`Invalid regex in predicate for path \"${path}\": ${String(expected)}`);\n      }\n    }\n\n    case 'gt':\n    case 'gte':\n    case 'lt':\n    case 'lte': {\n      const a = toComparableNumber(actual);\n      const b = toComparableNumber(expected);\n      log('numeric compare:', { op, a, b });\n      if (a === undefined || b === undefined) return false;\n      if (op === 'gt') return a > b;\n      if (op === 'gte') return a >= b;\n      if (op === 'lt') return a < b;\n      return a <= b;\n    }\n\n    case 'exists':\n      return isPresent(actual);\n\n    default:\n      throw new Error(`Unsupported predicate operator: ${op}`);\n  }\n};\n\nconst resolveRecipient = (recipientId, recipient) => {\n  log('--- resolveRecipient ---', recipientId);\n  log('recipient (redacted):', redact(recipient));\n\n  const allowedDeviceIds = Array.isArray(recipient.allowedDeviceIds) ? recipient.allowedDeviceIds : [];\n  log('allowedDeviceIds:', allowedDeviceIds);\n  if (allowedDeviceIds.length > 0 && !allowedDeviceIds.includes(deviceId)) {\n    log('SKIP: deviceId not allowed', { deviceId, allowedDeviceIds });\n    return null;\n  }\n\n  const allowedDataTypes = Array.isArray(recipient.allowedDataTypes) ? recipient.allowedDataTypes : [];\n  log('allowedDataTypes:', allowedDataTypes);\n  if (allowedDataTypes.length > 0 && !allowedDataTypes.includes(dataType)) {\n    log('SKIP: dataType not allowed', { dataType, allowedDataTypes });\n    return null;\n  }\n\n  const baseEndpointIds = Array.isArray(recipient.endpointIds) ? recipient.endpointIds : [];\n  const baseTemplateIds = Array.isArray(recipient.templateIds) ? recipient.templateIds : [];\n  log('baseEndpointIds:', baseEndpointIds);\n  log('baseTemplateIds:', baseTemplateIds);\n\n  const rules = Array.isArray(recipient.rules) ? recipient.rules : [];\n  log('rule count:', rules.length);\n\n  if (rules.length === 0) {\n    log('NO RULES: selecting recipient with base routing');\n    return { id: recipientId, ...recipient, endpointIds: baseEndpointIds, templateIds: baseTemplateIds };\n  }\n\n  const matchedRules = [];\n\n  for (const rule of rules) {\n    log('checking rule:', { ruleId: rule?.id, type: rule?.type });\n\n    if (rule?.type !== dataType) {\n      log('rule type mismatch, skip:', { ruleType: rule?.type, dataType });\n      continue;\n    }\n\n    const whens = Array.isArray(rule.when) ? rule.when : [];\n    log('when predicates:', whens);\n\n    const matched = whens.every((p, idx) => {\n      const ok = predicateMatches(p);\n      log(`predicate[${idx}] result:`, ok);\n      return ok;\n    });\n\n    log('rule matched?', matched, 'ruleId:', rule?.id);\n\n    if (!matched) continue;\n\n    // IMPORTANT: keep track of matches (you were missing this)\n    matchedRules.push(rule);\n  }\n\n  log('matchedRules ids:', matchedRules.map((r) => r.id));\n\n  if (matchedRules.length === 0) {\n    log('NO MATCHED RULES: dropping recipient');\n    return null;\n  }\n\n  return { \n    id: recipientId,\n    vars: recipient.vars,\n    rules: matchedRules.map((r) => {\n      return { id: r.id, then: r.then };\n    }),\n  };\n};\n\nlog('recipient ids:', recipientsFilteredGlobally.join(\", \"));\n\nconst resolvedRecipients = recipientsFilteredGlobally\n  .map((id) => resolveRecipient(id, config.recipients?.[id]))\n  .filter(Boolean);\n\nlog('resolvedRecipients count:', resolvedRecipients.length);\nlog('resolvedRecipients (redacted):', redact(resolvedRecipients));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved: resolvedRecipients\n    }\n  }\n];"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log('[debug]', ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v, path = '') => {\n    if (v == null) return v;\n\n    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${path}[${i}]`));\n\n    if (typeof v === 'object') {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        const full = path ? `${path}.${k}` : k;\n        if (SECRET_KEY_RE.test(k)) out[k] = '***REDACTED***';\n        else out[k] = walk(child, full);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog('Input item count:', $input.all().length);\n\nconst wrapper = $input.first().json;\nlog('Wrapper keys:', Object.keys(wrapper ?? {}));\n\n// Allow common shapes: {config, event}, {config, body}, or direct webhook body\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsFilteredGlobally = wrapper.recipientsFilteredGlobally;\n\nlog('Has config?', !!config, 'Has event?', !!event);\nlog('Config (redacted):', redact(config));\nlog('Event keys:', Object.keys(event ?? {}));\nlog('Event.body keys:', Object.keys(event?.body ?? {}));\n\nif (!recipientsFilteredGlobally) throw new Error('Missing recipientsFilteredGlobally');\nif (!config?.recipients) throw new Error('Missing config.recipients (ConfigModel)');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type (IncomingDataModel discriminator)');\nif (!event?.body?.device.id) throw new Error('Missing event.body.device.id');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\nlog('deviceId:', deviceId);\nlog('dataType:', dataType);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog('meta:', meta);\n\nconst isPresent = (v) => v !== undefined && v !== null;\n\n/**\n  * If the value is a string, convert it to lowercase.\n  * Otherwise, return the value as is.\n  * @param {unknown} v - The value to be checked and potentially converted.\n  * @returns {unknown | string} - The lowercase string or the original value.\n */\nconst normalizeIfString = (v) => {\n  if (typeof v === 'string') {\n    return v.trim().toLowerCase();\n  }\n  return v;\n}\n\n/**\n * Convert a value to a comparable number if possible.\n * @param {unknown} v - The value to be converted.\n * @returns {number | undefined} - The comparable number or undefined if conversion is not possible.\n */\nconst toComparableNumber = (v) => {\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  if (typeof v === 'string' && normalizeIfString(v) !== '') {\n    const n = Number(v);\n    return Number.isFinite(n) ? n : undefined;\n  }\n  return undefined;\n};\n\nconst normalizeEquals = (actual, expected) => {\n  log('normalizeEquals:', { actual, expected, actualType: typeof actual, expectedType: typeof expected });\n\n  if (!isPresent(actual) && !isPresent(expected)) return true;\n\n  if (typeof actual === 'boolean') {\n    if (typeof expected === 'boolean') return actual === expected;\n    if (typeof expected === 'string') {\n      const s = normalizeIfString(expected);\n      if (s === 'true') return actual === true;\n      if (s === 'false') return actual === false;\n    }\n    return false;\n  }\n\n  if (typeof actual === 'number') {\n    const n = toComparableNumber(expected);\n    return n !== undefined ? actual === n : false;\n  }\n\n  return normalizeIfString(String(actual)) === normalizeIfString(String(expected));\n};\n\nconst getByPath = (root, path) => {\n  const parts = (path ? String(normalizeIfString(path)) : '')\n    .split('.')\n    .filter(Boolean);\n\n  let cur = root;\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n  return cur;\n};\n\n// Uses \"operator\" (your current my.json)\nconst predicateMatches = (predicate) => {\n  const op = predicate?.operator;\n  const path = predicate?.path;\n  const expected = predicate?.value;\n\n  // Root lets your rules use paths like \"deviceId\" or \"data.body\" or \"meta.device.id\"\n  const predicateRoot = { ...event.body, data: event.body.data, meta };\n  const actual = getByPath(predicateRoot, path);\n\n  log('predicate:', { path, op, expected, actual });\n\n  switch (op) {\n    case 'equals':\n      return normalizeEquals(actual, expected);\n\n    case 'not_equals':\n      return !normalizeEquals(actual, expected);\n\n    case 'includes': {\n      if (!isPresent(actual)) return false;\n      if (Array.isArray(actual)) return actual.includes(expected);\n      return normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'not_includes': {\n      if (!isPresent(actual)) return true;\n      if (Array.isArray(actual)) return !actual.includes(expected);\n      return !normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'starts_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).startsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'ends_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).endsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'matches_regex': {\n      if (!isPresent(actual)) return false;\n      try {\n        const re = new RegExp(normalizeIfString(String(expected ?? '')));\n        return re.test(normalizeIfString(String(actual)));\n      } catch {\n        throw new Error(`Invalid regex in predicate for path \"${path}\": ${normalizeIfString(String(expected))}`);\n      }\n    }\n\n    case 'gt':\n    case 'gte':\n    case 'lt':\n    case 'lte': {\n      const a = toComparableNumber(actual);\n      const b = toComparableNumber(expected);\n      log('numeric compare:', { op, a, b });\n      if (a === undefined || b === undefined) return false;\n      if (op === 'gt') return a > b;\n      if (op === 'gte') return a >= b;\n      if (op === 'lt') return a < b;\n      return a <= b;\n    }\n\n    case 'exists':\n      return isPresent(actual);\n\n    default:\n      throw new Error(`Unsupported predicate operator: ${op}`);\n  }\n};\n\nconst resolveRecipient = (recipientId, recipient) => {\n  log('--- resolveRecipient ---', recipientId);\n  log('recipient (redacted):', redact(recipient));\n\n  const allowedDeviceIds = Array.isArray(recipient.allowedDeviceIds) ? recipient.allowedDeviceIds : [];\n  log('allowedDeviceIds:', allowedDeviceIds);\n  if (allowedDeviceIds.length > 0 && !allowedDeviceIds.includes(deviceId)) {\n    log('SKIP: deviceId not allowed', { deviceId, allowedDeviceIds });\n    return null;\n  }\n\n  const allowedDataTypes = Array.isArray(recipient.allowedDataTypes) ? recipient.allowedDataTypes : [];\n  log('allowedDataTypes:', allowedDataTypes);\n  if (allowedDataTypes.length > 0 && !allowedDataTypes.includes(dataType)) {\n    log('SKIP: dataType not allowed', { dataType, allowedDataTypes });\n    return null;\n  }\n\n  const baseEndpointIds = Array.isArray(recipient.endpointIds) ? recipient.endpointIds : [];\n  const baseTemplateIds = Array.isArray(recipient.templateIds) ? recipient.templateIds : [];\n  log('baseEndpointIds:', baseEndpointIds);\n  log('baseTemplateIds:', baseTemplateIds);\n\n  const rules = Array.isArray(recipient.rules) ? recipient.rules : [];\n  log('rule count:', rules.length);\n\n  if (rules.length === 0) {\n    log('NO RULES: selecting recipient with base routing');\n    return { id: recipientId, ...recipient, endpointIds: baseEndpointIds, templateIds: baseTemplateIds };\n  }\n\n  const matchedRules = [];\n\n  for (const rule of rules) {\n    log('checking rule:', { ruleId: rule?.id, type: rule?.type });\n\n    if (rule?.type !== dataType) {\n      log('rule type mismatch, skip:', { ruleType: rule?.type, dataType });\n      continue;\n    }\n\n    const whens = Array.isArray(rule.when) ? rule.when : [];\n    log('when predicates:', whens);\n\n    const matched = whens.every((p, idx) => {\n      const ok = predicateMatches(p);\n      log(`predicate[${idx}] result:`, ok);\n      return ok;\n    });\n\n    log('rule matched?', matched, 'ruleId:', rule?.id);\n\n    if (!matched) continue;\n\n    // IMPORTANT: keep track of matches (you were missing this)\n    matchedRules.push(rule);\n  }\n\n  log('matchedRules ids:', matchedRules.map((r) => r.id));\n\n  if (matchedRules.length === 0) {\n    log('NO MATCHED RULES: dropping recipient');\n    return null;\n  }\n\n  return { \n    id: recipientId,\n    vars: recipient.vars,\n    rules: matchedRules.map((r) => {\n      return { id: r.id, then: r.then };\n    }),\n  };\n};\n\nlog('recipient ids:', recipientsFilteredGlobally.join(\", \"));\n\nconst resolvedRecipients = recipientsFilteredGlobally\n  .map((id) => resolveRecipient(id, config.recipients?.[id]))\n  .filter(Boolean);\n\nlog('resolvedRecipients count:', resolvedRecipients.length);\nlog('resolvedRecipients (redacted):', redact(resolvedRecipients));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved: resolvedRecipients\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        752,
-        720
+        448,
+        928
       ],
-      "id": "d6c36d26-1758-47f9-821b-3916c321c19d",
+      "id": "a1f4e48b-aa25-4364-a133-dd1e28ae964b",
       "name": "Filter recipients by recipient rules",
       "alwaysOutputData": false
     },
@@ -91,10 +91,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1584,
-        720
+        1280,
+        928
       ],
-      "id": "85638187-30e7-41f4-bd81-21f094ede07e",
+      "id": "d4230566-9ef7-4151-9c01-1d381f7f5cb1",
       "name": "Template messages",
       "alwaysOutputData": false
     },
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        544,
-        720
+        240,
+        928
       ],
-      "id": "44817243-1afc-4b2c-8d83-d3b0af5c2f96",
+      "id": "f57cda86-1fc8-4137-bba9-2bba889f00f7",
       "name": "Filter recipients by DeviceId and DataType filters"
     },
     {
@@ -118,10 +118,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        720
+        656,
+        928
       ],
-      "id": "9b883e87-f1d2-4084-83ba-864dab884730",
+      "id": "b051e281-e924-4893-8dc7-c954533eebd0",
       "name": "Filter rules by recipients endpointIds and templateIds",
       "alwaysOutputData": false
     },
@@ -182,10 +182,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        336,
-        1024
+        32,
+        1232
       ],
-      "id": "2d5d7bff-45c4-4c1a-85ee-c524b78b6164",
+      "id": "141dd7d9-a224-4d7b-953b-ad1aee19cdf3",
       "name": "Switch"
     },
     {
@@ -203,13 +203,13 @@
         "jsonBody": "={{ $json.toSend.body }}",
         "options": {}
       },
-      "id": "e436b349-d7f4-4f1f-ad31-80845e0c561b",
+      "id": "9eeb6e84-522a-4508-b7e9-2199ace47148",
       "name": "Send to Telegram (POST)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        544,
-        944
+        240,
+        1152
       ]
     },
     {
@@ -224,13 +224,13 @@
         "jsonHeaders": "={{ JSON.stringify($json.toSend.headers) }}",
         "options": {}
       },
-      "id": "f280952f-aefd-435f-824b-ea0db6a83008",
+      "id": "e4fa2b8d-ee23-4dc8-8a82-745f1de4779b",
       "name": "Send to Telegram (GET)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        544,
-        1104
+        240,
+        1312
       ]
     },
     {
@@ -261,10 +261,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        480,
-        -208
+        176,
+        0
       ],
-      "id": "16880cd5-50b6-4471-9788-a818edbb83a5",
+      "id": "a3b15a99-0a7d-43c7-8483-66abb6822e8e",
       "name": "If"
     },
     {
@@ -274,10 +274,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        848,
-        -192
+        544,
+        16
       ],
-      "id": "f0152240-4be7-4ee6-8409-24c95b677ada",
+      "id": "a82e3290-7597-4388-9b8c-3fec6e0766aa",
       "name": "Stop and Error"
     },
     {
@@ -307,10 +307,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        336,
-        368
+        32,
+        576
       ],
-      "id": "14e97f54-4916-4293-8ae1-6cd3cf8972a2",
+      "id": "ca63c49b-8dab-48a3-9a48-d11b7e368e06",
       "name": "Validate config presence"
     },
     {
@@ -320,10 +320,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        544,
-        544
+        240,
+        752
       ],
-      "id": "bd6cc8d7-0868-4ece-9c43-4b8ad7ffdf18",
+      "id": "07c7bf06-5882-42e3-a69d-9251f3aad799",
       "name": "Stop and Error - config presence"
     },
     {
@@ -333,10 +333,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        752,
-        544
+        448,
+        752
       ],
-      "id": "081fd857-044f-4fc3-8ba3-1b8effb879ac",
+      "id": "e03ba66b-b594-4280-b465-93a32d84d291",
       "name": "Stop and Error - config tokens length"
     },
     {
@@ -366,10 +366,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        544,
-        368
+        240,
+        576
       ],
-      "id": "91f09d4d-4cf4-44eb-9080-ffcfdbb8292d",
+      "id": "a5963014-8404-4991-856f-9aa8b0aafd17",
       "name": "Validate config tokens length"
     },
     {
@@ -400,10 +400,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        752,
-        368
+        448,
+        576
       ],
-      "id": "ab597ae8-981a-41d3-b41f-0ab1a6edf952",
+      "id": "81838256-1a62-40b3-b229-d2ab2da45d46",
       "name": "Validate config token"
     },
     {
@@ -413,10 +413,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        960,
-        544
+        656,
+        752
       ],
-      "id": "122b3fb5-d61a-41a8-86e7-8306acffcb0c",
+      "id": "2a461526-7952-44f6-9f0b-8c945bf1d559",
       "name": "Stop and Error - validate config token"
     },
     {
@@ -457,10 +457,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1168,
-        368
+        864,
+        576
       ],
-      "id": "56ec3e57-e5aa-4110-a5ea-2c5b016a9a25",
+      "id": "02ad6982-2dbe-4d9d-bc58-e09864fee258",
       "name": "Validate config data type"
     },
     {
@@ -501,10 +501,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1376,
-        368
+        1072,
+        576
       ],
-      "id": "25d6e383-aae6-4178-a645-f2d5f633a2a6",
+      "id": "329336f9-c3d2-4d7e-86c4-d814bf6478b5",
       "name": "Validate config device id"
     },
     {
@@ -514,10 +514,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1376,
-        544
+        1072,
+        752
       ],
-      "id": "495a8191-0a89-4f52-9f61-c87313b0ae1f",
+      "id": "38ec3f3d-43ed-47a0-9a09-4f6846d3f77c",
       "name": "Stop and Error - validate data type in event"
     },
     {
@@ -527,10 +527,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1584,
-        544
+        1280,
+        752
       ],
-      "id": "d8155c9b-109f-4f69-aeee-cfbeccadfebc",
+      "id": "f865a3a8-5384-4594-b232-436e7b300b7a",
       "name": "Stop and Error - validate device id in event"
     },
     {
@@ -539,24 +539,24 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        336,
-        -64
+        32,
+        144
       ],
       "typeVersion": 1,
-      "id": "e4632676-2f95-485b-9cd6-232ca7d34205",
+      "id": "8a744118-d758-4538-b584-8a333c3ed8f8",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "jsCode": "// 0) Validate webhook payload type\nconst all = $input.all();\n\nconst eventItem = all[0].json;   // from Webhook\nconst configItem = all[1].json;  // from config node\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem\n    }\n  }\n];\n"
       },
-      "id": "5797355a-a77f-43f7-a197-687a82a7b9d2",
+      "id": "be92875d-81a2-404f-8c3d-62406f8aa788",
       "name": "Remap objects",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        336,
-        720
+        32,
+        928
       ]
     },
     {
@@ -586,10 +586,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        960,
-        368
+        656,
+        576
       ],
-      "id": "bd8e2172-60a6-4e8f-96de-ea140d08ed09",
+      "id": "73f9faf8-6332-4d21-be39-7e5f7b133d08",
       "name": "Validate config token per device"
     },
     {
@@ -619,10 +619,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        960,
-        176
+        656,
+        384
       ],
-      "id": "bffbbe2b-8d01-40dd-90db-c2567b275e48",
+      "id": "1171c17b-f6a3-4171-a1b8-47f65dd1e76f",
       "name": "Is not debug device token"
     },
     {
@@ -632,10 +632,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1168,
-        544
+        864,
+        752
       ],
-      "id": "82223490-e248-4f97-9788-b249ca58328e",
+      "id": "56bb80bc-ee26-41b7-b6b0-8024f3dc2791",
       "name": "Stop and Error - validate config per device"
     }
   ],
@@ -921,6 +921,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "f4300700b5a89163b88ad6a908ff9e3076c705e8b03a3f40f03ff2f29f7e4289"
+    "instanceId": ""
   }
 }
