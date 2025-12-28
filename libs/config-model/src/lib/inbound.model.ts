@@ -49,6 +49,8 @@ export interface DeviceDataModel {
   locationLatitude?: number;
   locationLongitude?: number;
   locationPoint?: string;
+  locationLink?: string;
+  locationLastTimestamp?: string;
   locationAccuracyMeters?: number;
   currentSpeed?: number;
   // Wi-Fi
