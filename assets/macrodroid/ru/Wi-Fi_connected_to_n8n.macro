@@ -8,7 +8,7 @@
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1766899829313,
+    "lastEditedTimestamp": 1767018984067,
     "localVariables": [
       {
         "dictionary": {
@@ -47,10 +47,61 @@
         "m_type": 1,
         "supportsInput": false,
         "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "uuid",
+        "m_stringValue": "",
+        "m_type": 2,
+        "supportsInput": false,
+        "supportsOutput": true
       }
     ],
     "m_GUID": "-1700000000000000003",
     "m_actionList": [
+      {
+        "blockNextAction": true,
+        "m_nonRoot": true,
+        "m_script": "cat /proc/sys/kernel/random/uuid",
+        "m_variableToSaveResponse": {
+          "dictionary": {
+            "entries": [],
+            "isArray": false,
+            "variableType": 4,
+            "type": "Dictionary"
+          },
+          "isActionBlockWorkingVar": false,
+          "isLocalVar": true,
+          "isSecure": false,
+          "m_booleanValue": false,
+          "m_decimalValue": 0.0,
+          "m_intValue": 0,
+          "m_name": "uuid",
+          "m_stringValue": "",
+          "m_type": 2,
+          "supportsInput": false,
+          "supportsOutput": true
+        },
+        "timeoutSeconds": 5,
+        "useHelper": false,
+        "useShizuku": false,
+        "m_SIGUID": "-1600000000000000025",
+        "m_classType": "ShellScriptAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
       {
         "requestConfig": {
           "allowAnyCertificate": false,
@@ -61,7 +112,7 @@
           "contentBodyFileDisplayName": "",
           "contentBodyFileUri": "",
           "contentBodySource": 0,
-          "contentBodyText": "{\r\n            \"id\": \"{macro_id}-{sms_sim_id}-{cell_id}-{system_time_ms}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"wifi_connected\",\r\n                \"ssid\": \"{ssid}\",\r\n                \"bssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\n                \"ipAddress\": \"{ip}\",\r\n                \"rssiDbm\": \"{wifi_strength}\"\r\n            }\r\n        }",
+          "contentBodyText": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"wifi_connected\",\r\n                \"ssid\": \"{ssid}\",\r\n                \"bssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\n                \"ipAddress\": \"{ip}\",\r\n                \"rssiDbm\": \"{wifi_strength}\"\r\n            }\r\n        }",
           "contentType": "application/json",
           "followRedirects": false,
           "headerParams": [
@@ -83,7 +134,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000013",
+        "m_SIGUID": "-1600000000000000026",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -106,7 +157,7 @@
           "Любая сеть"
         ],
         "m_wifiState": 2,
-        "m_SIGUID": "-1600000000000000014",
+        "m_SIGUID": "-1600000000000000027",
         "m_classType": "WifiConnectionTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

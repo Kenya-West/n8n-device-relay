@@ -8,7 +8,7 @@
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1766911730162,
+    "lastEditedTimestamp": 1767019443805,
     "localVariables": [
       {
         "dictionary": {
@@ -104,10 +104,131 @@
         "m_type": 2,
         "supportsInput": false,
         "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "uuid",
+        "m_stringValue": "",
+        "m_type": 2,
+        "supportsInput": false,
+        "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "not_title_normalized",
+        "m_stringValue": "",
+        "m_type": 2,
+        "supportsInput": false,
+        "supportsOutput": true
       }
     ],
     "m_GUID": "-1700000000000000000",
     "m_actionList": [
+      {
+        "blockNextAction": true,
+        "m_nonRoot": true,
+        "m_script": "cat /proc/sys/kernel/random/uuid",
+        "m_variableToSaveResponse": {
+          "dictionary": {
+            "entries": [],
+            "isArray": false,
+            "variableType": 4,
+            "type": "Dictionary"
+          },
+          "isActionBlockWorkingVar": false,
+          "isLocalVar": true,
+          "isSecure": false,
+          "m_booleanValue": false,
+          "m_decimalValue": 0.0,
+          "m_intValue": 0,
+          "m_name": "uuid",
+          "m_stringValue": "c7230dc9-c137-4f2a-89c1-f06bee0746e6",
+          "m_type": 2,
+          "supportsInput": false,
+          "supportsOutput": true
+        },
+        "timeoutSeconds": 5,
+        "useHelper": false,
+        "useShizuku": false,
+        "m_SIGUID": "-1600000000000000000",
+        "m_classType": "ShellScriptAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{not_title}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\n",
+            " "
+          ]
+        },
+        "variableName": "not_title_normalized",
+        "m_SIGUID": "-1600000000000000001",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=not_title_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\r",
+            " "
+          ]
+        },
+        "variableName": "not_title_normalized",
+        "m_SIGUID": "-1600000000000000002",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=not_title_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\\"",
+            "'"
+          ]
+        },
+        "variableName": "not_title_normalized",
+        "m_SIGUID": "-1600000000000000003",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
       {
         "m_option": 1,
         "m_text": "{notification}",
@@ -119,7 +240,41 @@
           ]
         },
         "variableName": "notification_normalized",
-        "m_SIGUID": "-1600000000000000000",
+        "m_SIGUID": "-1600000000000000004",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=notification_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\r",
+            " "
+          ]
+        },
+        "variableName": "notification_normalized",
+        "m_SIGUID": "-1600000000000000005",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=notification_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\\"",
+            "'"
+          ]
+        },
+        "variableName": "notification_normalized",
+        "m_SIGUID": "-1600000000000000006",
         "m_classType": "TextManipulationAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -136,7 +291,41 @@
           ]
         },
         "variableName": "notification_expanded_normalized",
-        "m_SIGUID": "-1600000000000000001",
+        "m_SIGUID": "-1600000000000000007",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=notification_expanded_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\r",
+            " "
+          ]
+        },
+        "variableName": "notification_expanded_normalized",
+        "m_SIGUID": "-1600000000000000008",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 1,
+        "m_text": "{lv=notification_expanded_normalized}",
+        "m_textManipulation": {
+          "type": "ReplaceAllManipulation",
+          "params": [
+            "\\\"",
+            "'"
+          ]
+        },
+        "variableName": "notification_expanded_normalized",
+        "m_SIGUID": "-1600000000000000009",
         "m_classType": "TextManipulationAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -163,7 +352,7 @@
         "m_newBooleanValue": false,
         "m_newDoubleValue": 0.0,
         "m_newIntValue": 0,
-        "m_newStringValue": "{\r\n            \"id\": \"{macro_id}-{sms_sim_id}-{cell_id}-{system_time_ms}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{not_title}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
+        "m_newStringValue": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\", \r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{lv=not_title_normalized}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
         "m_trueLabel": "Истина",
         "m_userPrompt": false,
         "m_userPromptEmptyAtStart": false,
@@ -189,7 +378,7 @@
           "supportsInput": false,
           "supportsOutput": true
         },
-        "m_SIGUID": "-1600000000000000002",
+        "m_SIGUID": "-1600000000000000010",
         "m_classType": "SetVariableAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -198,7 +387,7 @@
       {
         "logLevel": "STANDARD",
         "m_logText": "{lv=data}",
-        "m_SIGUID": "-1600000000000000003",
+        "m_SIGUID": "-1600000000000000011",
         "m_classType": "LogAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -236,7 +425,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000004",
+        "m_SIGUID": "-1600000000000000012",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -270,7 +459,7 @@
         "m_soundOption": 0,
         "m_supressMultiples": true,
         "m_textContent": "",
-        "m_SIGUID": "-1600000000000000005",
+        "m_SIGUID": "-1600000000000000013",
         "m_classType": "NotificationTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,
