@@ -6,13 +6,13 @@
         "path": "device-relay",
         "options": {}
       },
-      "id": "0880b116-1fd5-45c5-acc4-1437ba1a5791",
+      "id": "b23b7b06-a159-4425-af22-7186007550d7",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        -960,
+        576
       ],
       "webhookId": "fe4a40f7-acfa-4380-99d1-72c4b7c7ca34"
     },
@@ -21,10 +21,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        544,
-        160
+        -416,
+        736
       ],
-      "id": "caaf5c27-488f-4b8a-8c81-64465a4e9f84",
+      "id": "1d02a08e-b465-4bcc-8f1d-251d34b12ae7",
       "name": "Merge"
     },
     {
@@ -36,10 +36,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        368,
-        160
+        -592,
+        736
       ],
-      "id": "16db132b-a22c-4ff5-b3b2-e0dc22a91878",
+      "id": "fe78a809-f10c-48c4-a6a8-5bb70f427990",
       "name": "Config"
     },
     {
@@ -49,24 +49,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        864,
-        928
+        -96,
+        1504
       ],
-      "id": "0025c174-18b9-48cf-b04a-8e018d9b467b",
+      "id": "68f520b0-b024-4375-b12a-3f3de25c5619",
       "name": "Form outbound",
       "alwaysOutputData": false
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst wrapper = $input.first().json;\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst outbound = wrapper.outbound;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event, \"Has outbound?\", !!outbound);\nlog(\"Outbound (redacted):\", redact(outbound));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!outbound) throw new Error(\"Missing outbound\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!Array.isArray(outbound?.dispatches)) throw new Error(\"Missing outbound.dispatches\");\nif (!event?.body?.data?.type) throw new Error(\"Missing event.body.data.type\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id\");\n\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\n\nconst mergeHeaders = (base, override) => ({\n  ...(base || {}),\n  ...(override || {}),\n});\n\nconst ensure = (kind, id, value) => {\n  if (!value) throw new Error(`Unknown ${kind} id \"${id}\"`);\n  return value;\n};\n\nconst defaultTimeoutMs = config?.defaults?.httpTimeoutMs;\nconst defaultHeaders = config?.defaults?.headers;\n\nlog(\"dispatch count:\", outbound.dispatches.length);\n\nconst items = outbound.dispatches.map((dispatch) => {\n  const recipientId = dispatch.recipientId;\n  const endpointId = dispatch.endpointId;\n  const templateId = dispatch.templateId;\n\n  const recipient = ensure(\"recipient\", recipientId, config.recipients[recipientId]);\n  const endpoint = ensure(\"endpoint\", endpointId, config.endpoints[endpointId]);\n  const template = ensure(\"template\", templateId, config.templates[templateId]);\n\n  // IMPORTANT: no templating here. Leave placeholders as-is.\n  // This node only adds metadata for later templating nodes.\n  if (endpoint?.body?.type && endpoint.body.type !== \"json\") {\n    throw new Error(\n      `Endpoint \"${endpointId}\" body.type=\"${endpoint.body.type}\" is not supported by this node (expects \"json\")`\n    );\n  }\n\n  return {\n    json: {\n      // metadata for later nodes that will do templating/rendering\n      templateData: {\n        meta, // typical {meta.*} namespace\n        data: event.body.data, // typical {data.*} namespace\n        device: event.body.device, // typical {data.*} namespace\n        recipient: {\n          id: recipientId,\n          vars: recipient.vars, // typical {recipient.vars.*} namespace\n        }\n      },\n      toTemplate: {\n        template: {\n          id: templateId,\n          text: template.text, // where `{message}` (or similar) should come from later\n          format: template.format,\n          fields: template.fields,\n        },\n        endpoint: endpoint\n      },\n    },\n  };\n});\n\nlog(\"Prepared items:\", items.length);\nlog(\"First item preview (redacted):\", redact(items[0]?.json));\n\nreturn items;"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst wrapper = $input.first().json;\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst outbound = wrapper.outbound;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event, \"Has outbound?\", !!outbound);\nlog(\"Outbound (redacted):\", redact(outbound));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!outbound) throw new Error(\"Missing outbound\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!Array.isArray(outbound?.dispatches)) throw new Error(\"Missing outbound.dispatches\");\nif (!event?.body?.data?.type) throw new Error(\"Missing event.body.data.type\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id\");\n\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\n\nconst mergeHeaders = (base, override) => ({\n  ...(base || {}),\n  ...(override || {}),\n});\n\nconst ensure = (kind, id, value) => {\n  if (!value) throw new Error(`Unknown ${kind} id \"${id}\"`);\n  return value;\n};\n\nconst defaultTimeoutMs = config?.defaults?.httpTimeoutMs;\nconst defaultHeaders = config?.defaults?.headers;\n\nlog(\"dispatch count:\", outbound.dispatches.length);\n\nconst items = outbound.dispatches.map((dispatch) => {\n  const recipientId = dispatch.recipientId;\n  const endpointId = dispatch.endpointId;\n  const templateId = dispatch.templateId;\n\n  const recipient = ensure(\"recipient\", recipientId, config.recipients[recipientId]);\n  const endpoint = ensure(\"endpoint\", endpointId, config.endpoints[endpointId]);\n  const template = ensure(\"template\", templateId, config.templates[templateId]);\n\n  // IMPORTANT: no templating here. Leave placeholders as-is.\n  // This node only adds metadata for later templating nodes.\n  if (endpoint?.body?.type && endpoint.body.type !== \"json\") {\n    throw new Error(\n      `Endpoint \"${endpointId}\" body.type=\"${endpoint.body.type}\" is not supported by this node (expects \"json\")`\n    );\n  }\n\n  return {\n    json: {\n      event,\n      config,\n      // metadata for later nodes that will do templating/rendering\n      templateData: {\n        meta, // typical {meta.*} namespace\n        data: event.body.data, // typical {data.*} namespace\n        device: event.body.device, // typical {data.*} namespace\n        recipient: {\n          id: recipientId,\n          vars: recipient.vars, // typical {recipient.vars.*} namespace\n        }\n      },\n      toTemplate: {\n        template: {\n          id: templateId,\n          text: template.text, // where `{message}` (or similar) should come from later\n          format: template.format,\n          fields: template.fields,\n        },\n        endpoint: endpoint\n      },\n    },\n  };\n});\n\nlog(\"Prepared items:\", items.length);\nlog(\"First item preview (redacted):\", redact(items[0]?.json));\n\nreturn items;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1072,
-        928
+        112,
+        1504
       ],
-      "id": "23e3f252-81c6-4c34-9e20-b1f71eecee60",
+      "id": "d6ccb718-e616-4044-bff3-2c4f405cc867",
       "name": "Compose messages",
       "alwaysOutputData": false
     },
@@ -77,24 +77,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        448,
-        928
+        -512,
+        1504
       ],
-      "id": "a1f4e48b-aa25-4364-a133-dd1e28ae964b",
+      "id": "31f21db0-aeac-4170-bc9d-8fa5fc8b61a9",
       "name": "Filter recipients by recipient rules",
       "alwaysOutputData": false
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst getByPath = (root, path) => {\n  if (!path || typeof path !== \"string\") return undefined;\n\n  // supports simple dot paths like: meta.createdAt, data.body, recipient.vars.botToken\n  const parts = path.split(\".\").filter(Boolean);\n  let cur = root;\n\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n\n  return cur;\n};\n\nconst templateString = (input, templateData, renderedText) => {\n  if (typeof input !== \"string\") return input;\n\n  return input.replace(/\\{([^{}]+)\\}/g, (match, rawToken) => {\n    const token = String(rawToken).trim();\n\n    // Special placeholder: {%text%} => already-rendered template.text\n    if (token === \"%text%\") return String(renderedText ?? \"\");\n\n    const value = getByPath(templateData, token);\n\n    // If missing, keep placeholder as-is (non-strict)\n    if (value === undefined || value === null) return match;\n\n    // For non-primitives, stringify to avoid \"[object Object]\"\n    if (typeof value === \"object\") return JSON.stringify(value);\n\n    return String(value);\n  });\n};\n\nconst templateDeepOnlyStrings = (value, templateData, renderedText) => {\n  if (typeof value === \"string\") return templateString(value, templateData, renderedText);\n\n  if (Array.isArray(value)) {\n    return value.map((v) => templateDeepOnlyStrings(v, templateData, renderedText));\n  }\n\n  if (value && typeof value === \"object\") {\n    const out = {};\n    for (const [k, v] of Object.entries(value)) {\n      out[k] = templateDeepOnlyStrings(v, templateData, renderedText);\n    }\n    return out;\n  }\n\n  return value;\n};\n\nconst items = $input.all().map((item) => {\n  const wrapper = item.json;\n\n  const templateData = wrapper.templateData;\n  const toTemplate = wrapper.toTemplate;\n\n  if (!templateData) throw new Error(\"Missing templateData\");\n  if (!toTemplate) throw new Error(\"Missing toTemplate\");\n  if (!toTemplate?.template?.text) throw new Error(\"Missing toTemplate.template.text\");\n  if (!toTemplate?.endpoint) throw new Error(\"Missing toTemplate.endpoint\");\n\n  // 1) Render template.text first (only uses templateData)\n  const renderedText = templateString(toTemplate.template.text, templateData, \"\");\n\n  // 2) Template ONLY within toTemplate (strings only), using templateData,\n  //    with {%text%} resolved from the rendered template.text above.\n  const templatedEndpoint = templateDeepOnlyStrings(\n    toTemplate.endpoint,\n    templateData,\n    renderedText\n  );\n\n  // 3) Build \"toSend\" as a flattened, templated endpoint (no nesting)\n  //    Keep everything else as-is; just add toSend.\n  const toSend = {\n    method: templatedEndpoint.method,\n    url: templatedEndpoint.url,\n    headers: templatedEndpoint.headers ?? {},\n    searchParams: templatedEndpoint.searchParams ?? {},\n    timeoutMs: templatedEndpoint.timeoutMs,\n    body:\n      templatedEndpoint?.body?.type === \"json\"\n        ? (templatedEndpoint.body?.content ?? {})\n        : templatedEndpoint?.body?.content ?? templatedEndpoint?.body,\n  };\n\n  log(\"Rendered text preview:\", renderedText);\n  log(\"toSend (redacted):\", redact(toSend));\n\n  return {\n    json: {\n      toSend,\n    },\n  };\n});\n\nreturn items;"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst getByPath = (root, path) => {\n  if (!path || typeof path !== \"string\") return undefined;\n\n  // supports simple dot paths like: meta.createdAt, data.body, recipient.vars.botToken\n  const parts = path.split(\".\").filter(Boolean);\n  let cur = root;\n\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n\n  return cur;\n};\n\nconst templateString = (input, templateData, renderedText) => {\n  if (typeof input !== \"string\") return input;\n\n  return input.replace(/\\{([^{}]+)\\}/g, (match, rawToken) => {\n    const token = String(rawToken).trim();\n\n    // Special placeholder: {%text%} => already-rendered template.text\n    if (token === \"%text%\") return String(renderedText ?? \"\");\n\n    const value = getByPath(templateData, token);\n\n    // If missing, keep placeholder as-is (non-strict)\n    if (value === undefined || value === null) return match;\n\n    // For non-primitives, stringify to avoid \"[object Object]\"\n    if (typeof value === \"object\") return JSON.stringify(value);\n\n    return String(value);\n  });\n};\n\nconst templateDeepOnlyStrings = (value, templateData, renderedText) => {\n  if (typeof value === \"string\") return templateString(value, templateData, renderedText);\n\n  if (Array.isArray(value)) {\n    return value.map((v) => templateDeepOnlyStrings(v, templateData, renderedText));\n  }\n\n  if (value && typeof value === \"object\") {\n    const out = {};\n    for (const [k, v] of Object.entries(value)) {\n      out[k] = templateDeepOnlyStrings(v, templateData, renderedText);\n    }\n    return out;\n  }\n\n  return value;\n};\n\nconst items = $input.all().map((item) => {\n  const wrapper = item.json;\n  \n  const config = wrapper.config;\n  const event = wrapper.event;\n\n  const templateData = wrapper.templateData;\n  const toTemplate = wrapper.toTemplate;\n\n  if (!templateData) throw new Error(\"Missing templateData\");\n  if (!toTemplate) throw new Error(\"Missing toTemplate\");\n  if (!toTemplate?.template?.text) throw new Error(\"Missing toTemplate.template.text\");\n  if (!toTemplate?.endpoint) throw new Error(\"Missing toTemplate.endpoint\");\n\n  // 1) Render template.text first (only uses templateData)\n  const renderedText = templateString(toTemplate.template.text, templateData, \"\");\n\n  // 2) Template ONLY within toTemplate (strings only), using templateData,\n  //    with {%text%} resolved from the rendered template.text above.\n  const templatedEndpoint = templateDeepOnlyStrings(\n    toTemplate.endpoint,\n    templateData,\n    renderedText\n  );\n\n  // 3) Build \"toSend\" as a flattened, templated endpoint (no nesting)\n  //    Keep everything else as-is; just add toSend.\n  const toSend = {\n    method: templatedEndpoint.method,\n    url: templatedEndpoint.url,\n    headers: templatedEndpoint.headers ?? {},\n    searchParams: templatedEndpoint.searchParams ?? {},\n    timeoutMs: templatedEndpoint.timeoutMs,\n    body:\n      templatedEndpoint?.body?.type === \"json\"\n        ? (templatedEndpoint.body?.content ?? {})\n        : templatedEndpoint?.body?.content ?? templatedEndpoint?.body,\n  };\n\n  log(\"Rendered text preview:\", renderedText);\n  log(\"toSend (redacted):\", redact(toSend));\n\n  return {\n    json: {\n      event,\n      config,\n      toSend,\n    },\n  };\n});\n\nreturn items;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1280,
-        928
+        320,
+        1504
       ],
-      "id": "d4230566-9ef7-4151-9c01-1d381f7f5cb1",
+      "id": "0daf0cac-4e93-46d7-8dc8-27834dc36294",
       "name": "Template messages",
       "alwaysOutputData": false
     },
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        240,
-        928
+        -720,
+        1504
       ],
-      "id": "f57cda86-1fc8-4137-bba9-2bba889f00f7",
+      "id": "94eb3b83-fab4-45d0-9510-2d4c138e0e91",
       "name": "Filter recipients by DeviceId and DataType filters"
     },
     {
@@ -118,10 +118,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        656,
-        928
+        -304,
+        1504
       ],
-      "id": "b051e281-e924-4893-8dc7-c954533eebd0",
+      "id": "6b05443e-d7af-4944-8a90-979da3d344c3",
       "name": "Filter rules by recipients endpointIds and templateIds",
       "alwaysOutputData": false
     },
@@ -182,10 +182,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        32,
-        1232
+        -928,
+        1808
       ],
-      "id": "141dd7d9-a224-4d7b-953b-ad1aee19cdf3",
+      "id": "33168e35-b75c-4ba9-b075-32a63c33391f",
       "name": "Switch"
     },
     {
@@ -203,13 +203,13 @@
         "jsonBody": "={{ $json.toSend.body }}",
         "options": {}
       },
-      "id": "9eeb6e84-522a-4508-b7e9-2199ace47148",
+      "id": "4be75843-fbff-45a7-9e11-b5815a312c0f",
       "name": "Send to Telegram (POST)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        240,
-        1152
+        -720,
+        1728
       ]
     },
     {
@@ -224,13 +224,13 @@
         "jsonHeaders": "={{ JSON.stringify($json.toSend.headers) }}",
         "options": {}
       },
-      "id": "e4fa2b8d-ee23-4dc8-8a82-745f1de4779b",
+      "id": "5684aafa-48a8-49a7-8150-3efba6f37a44",
       "name": "Send to Telegram (GET)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        240,
-        1312
+        -720,
+        1888
       ]
     },
     {
@@ -261,10 +261,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        176,
-        0
+        -784,
+        576
       ],
-      "id": "a3b15a99-0a7d-43c7-8483-66abb6822e8e",
+      "id": "ada8bbc8-9e36-4c8d-b899-f46a5ea78169",
       "name": "If"
     },
     {
@@ -274,10 +274,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        544,
-        16
+        -416,
+        592
       ],
-      "id": "a82e3290-7597-4388-9b8c-3fec6e0766aa",
+      "id": "f76013bb-9014-4126-9e3e-53c8241e1b8b",
       "name": "Stop and Error"
     },
     {
@@ -307,10 +307,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        32,
-        576
+        -928,
+        1152
       ],
-      "id": "ca63c49b-8dab-48a3-9a48-d11b7e368e06",
+      "id": "c3f42e23-a92e-4a37-b5ea-899194cb9722",
       "name": "Validate config presence"
     },
     {
@@ -320,10 +320,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        240,
-        752
+        -720,
+        1328
       ],
-      "id": "07c7bf06-5882-42e3-a69d-9251f3aad799",
+      "id": "6c12c28f-7a7d-4398-bcac-9eb12fa9e055",
       "name": "Stop and Error - config presence"
     },
     {
@@ -333,10 +333,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        448,
-        752
+        -512,
+        1328
       ],
-      "id": "e03ba66b-b594-4280-b465-93a32d84d291",
+      "id": "e8abbad6-4c3a-4045-bded-a776e5c9540a",
       "name": "Stop and Error - config tokens length"
     },
     {
@@ -366,10 +366,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        240,
-        576
+        -720,
+        1152
       ],
-      "id": "a5963014-8404-4991-856f-9aa8b0aafd17",
+      "id": "c32c49b4-f799-43fe-99a0-134f605dbc43",
       "name": "Validate config tokens length"
     },
     {
@@ -400,10 +400,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        448,
-        576
+        -512,
+        1152
       ],
-      "id": "81838256-1a62-40b3-b229-d2ab2da45d46",
+      "id": "c58dbfee-72cb-46de-856a-0c3376505ad9",
       "name": "Validate config token"
     },
     {
@@ -413,10 +413,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        656,
-        752
+        -304,
+        1328
       ],
-      "id": "2a461526-7952-44f6-9f0b-8c945bf1d559",
+      "id": "02a1f61a-636c-4949-ad34-883fe16febb9",
       "name": "Stop and Error - validate config token"
     },
     {
@@ -457,10 +457,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        864,
-        576
+        -96,
+        1152
       ],
-      "id": "02ad6982-2dbe-4d9d-bc58-e09864fee258",
+      "id": "2a769c52-e96f-47c9-aa98-e6252600ceed",
       "name": "Validate config data type"
     },
     {
@@ -501,10 +501,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1072,
-        576
+        112,
+        1152
       ],
-      "id": "329336f9-c3d2-4d7e-86c4-d814bf6478b5",
+      "id": "41afb293-7b77-4066-8ffa-9d72a098541f",
       "name": "Validate config device id"
     },
     {
@@ -514,10 +514,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1072,
-        752
+        112,
+        1328
       ],
-      "id": "38ec3f3d-43ed-47a0-9a09-4f6846d3f77c",
+      "id": "65bd2d6f-9676-4fcd-b8e5-070dd4ae4bfe",
       "name": "Stop and Error - validate data type in event"
     },
     {
@@ -527,10 +527,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1280,
-        752
+        320,
+        1328
       ],
-      "id": "f865a3a8-5384-4594-b232-436e7b300b7a",
+      "id": "3b1e6b66-d7a9-474e-843b-b2555e88ddcc",
       "name": "Stop and Error - validate device id in event"
     },
     {
@@ -539,24 +539,24 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        32,
-        144
+        -928,
+        720
       ],
       "typeVersion": 1,
-      "id": "8a744118-d758-4538-b584-8a333c3ed8f8",
+      "id": "307fee8e-3103-4805-9221-1ab65ed623f4",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "jsCode": "// 0) Validate webhook payload type\nconst all = $input.all();\n\nconst eventItem = all[0].json;   // from Webhook\nconst configItem = all[1].json;  // from config node\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem\n    }\n  }\n];\n"
       },
-      "id": "be92875d-81a2-404f-8c3d-62406f8aa788",
+      "id": "ee4aad4d-42bf-45e0-b640-d713823be8ff",
       "name": "Remap objects",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        32,
-        928
+        -928,
+        1504
       ]
     },
     {
@@ -586,10 +586,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        656,
-        576
+        -304,
+        1152
       ],
-      "id": "73f9faf8-6332-4d21-be39-7e5f7b133d08",
+      "id": "1e821894-7d68-400f-97ae-0aecf6bad7f3",
       "name": "Validate config token per device"
     },
     {
@@ -619,10 +619,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        656,
-        384
+        -304,
+        960
       ],
-      "id": "1171c17b-f6a3-4171-a1b8-47f65dd1e76f",
+      "id": "d636b1ee-8975-44c5-a78d-c86e3aec97ac",
       "name": "Is not debug device token"
     },
     {
@@ -632,11 +632,629 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        864,
-        752
+        -96,
+        1328
       ],
-      "id": "56bb80bc-ee26-41b7-b6b0-8024f3dc2791",
+      "id": "eb56d3e8-15e4-41d7-8f2e-47cea9ebaab3",
       "name": "Stop and Error - validate config per device"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f835c8c-13fa-49f9-b5d9-922d92154be7",
+              "name": "step",
+              "value": "initial",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        336
+      ],
+      "id": "0c7b3342-3974-45c5-b3bb-6264730ff09f",
+      "name": "Step value: initial",
+      "executeOnce": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        896,
+        80
+      ],
+      "id": "6d2518c9-7369-4a7b-a310-5dc72b350f4d",
+      "name": "Merge after step and config check"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9095153c-1228-4fe9-934f-1c59c362b3a8",
+              "leftValue": "={{ $input.all()[1].json.logIngestions }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b4c8d7f7-6b71-4076-8b4d-d489ef7a766b",
+              "leftValue": "={{ $json.config.logIngestions }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        64,
+        192
+      ],
+      "id": "554117ab-b1a7-46d3-8e87-fbab4f0a4f7f",
+      "name": "If logIngestions exists"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f835c8c-13fa-49f9-b5d9-922d92154be7",
+              "name": "step",
+              "value": "config_validated",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        496
+      ],
+      "id": "14e5c4f6-483b-4087-99a0-fc56b38dab9d",
+      "name": "Step value: config_validated",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000012",
+              "name": "step",
+              "value": "validate_tokens_length",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        656
+      ],
+      "id": "dbcafb79-03ad-435d-957a-788ce6a3b6b6",
+      "name": "Step value: validate_tokens_length",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000013",
+              "name": "step",
+              "value": "validate_config_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        800
+      ],
+      "id": "9a169781-d208-48d0-afcf-473df085a3a1",
+      "name": "Step value: validate_config_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000014",
+              "name": "step",
+              "value": "validate_device_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        928
+      ],
+      "id": "2ddb66e0-69ca-4f22-9368-522505c724b5",
+      "name": "Step value: validate_device_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000015",
+              "name": "step",
+              "value": "validate_debug_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        1040
+      ],
+      "id": "0c770eff-a267-4872-977b-a2092970a2c0",
+      "name": "Step value: validate_debug_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000016",
+              "name": "step",
+              "value": "validate_data_type",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        1152
+      ],
+      "id": "22e04ca7-ffe1-4ef5-aa55-31d0e9c0781d",
+      "name": "Step value: validate_data_type",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000017",
+              "name": "step",
+              "value": "validate_device_id",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        1264
+      ],
+      "id": "ff079fe2-0186-4e8d-963e-4a1d58be7701",
+      "name": "Step value: validate_device_id",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000018",
+              "name": "step",
+              "value": "step_remap_objects",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        1376
+      ],
+      "id": "2eb37b01-7613-4007-ac83-75f996e125fa",
+      "name": "Step value: step_remap_objects",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000019",
+              "name": "step",
+              "value": "step_filter_recipients_by_deviceid_datatype",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        1488
+      ],
+      "id": "fb713200-e4ad-4b63-8cb0-316a572c1801",
+      "name": "Step value: step_filter_recipients_by_deviceid_datatype",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001a",
+              "name": "step",
+              "value": "step_filter_recipients_by_rules",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        1600
+      ],
+      "id": "5bdd9adc-906c-4d34-9adf-601e78c081b7",
+      "name": "Step value: step_filter_recipients_by_rules",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001b",
+              "name": "step",
+              "value": "step_filter_recipients_by_endpointids_templateids",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        1712
+      ],
+      "id": "8b8f7a3c-9ad2-4fe9-b4e3-27a86672b7a6",
+      "name": "Step value: step_filter_recipients_by_endpointids_templateids",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001c",
+              "name": "step",
+              "value": "step_form_outbound",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        1808
+      ],
+      "id": "c6a16e06-aab0-47a2-9864-3593a1ace714",
+      "name": "Step value: step_form_outbound",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001d",
+              "name": "step",
+              "value": "step_compose_messages",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        1920
+      ],
+      "id": "9ed35c59-d8b2-433f-929a-2efb19ab03f7",
+      "name": "Step value: step_compose_messages",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001e",
+              "name": "step",
+              "value": "step_template_messages",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        2032
+      ],
+      "id": "f6d917ea-3a7e-40b0-ae1a-a246045f45a3",
+      "name": "Step value: step_template_messages",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001f",
+              "name": "step",
+              "value": "send_message",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2048,
+        2128
+      ],
+      "id": "97cecaa6-4ce3-4862-83e0-53a745d22f54",
+      "name": "Step value: send_message",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000020",
+              "name": "step",
+              "value": "send_message_after",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        2224
+      ],
+      "id": "847a22a0-016b-4c78-9d13-18fbf9517f19",
+      "name": "Step value: send_message_after",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1168,
+        80
+      ],
+      "id": "46170573-fac6-433d-86f8-4c04874aa504",
+      "name": "Validate body and step presence"
+    },
+    {
+      "parameters": {
+        "content": "This is an optional log ingestion workflow to send telemetry and logs to an HTTP endpoint. It will be skipped if there is no `.logIngestion` property in JSON config.",
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "65f356d3-01a2-4951-99a6-e9fbf46e4484",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ Object.keys($input.all()[0].json.config.logIngestions || {}).length > 0 }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1392,
+        80
+      ],
+      "id": "8c1d22d4-a1d1-4557-b45f-53eec6556f14",
+      "name": "Validate logIngestions length"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Zd5JbqHzxPcdZhM6",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Zd5JbqHzxPcdZhM6",
+          "cachedResultName": "LogIngestion in Device Relay by Kenya-West (example)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "logIngestions": "={{ $json.logIngestions }}",
+            "step": "={{ $json.step }}",
+            "event": "={{ $json.event }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "event",
+              "displayName": "event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "logIngestions",
+              "displayName": "logIngestions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "step",
+              "displayName": "step",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1808,
+        80
+      ],
+      "name": "Call LogIngestion in Device Relay by Kenya-West",
+      "id": "7158a3a1-0a12-41af-8ddd-296a62378374",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const all = $input.all();\n\nconst eventItem = all[0].json.event;\nconst configItem = all[0].json.config;\nconst step = all[1].json.step;\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem,\n      logIngestions: configItem.logIngestions,\n      step\n    }\n  }\n];\n"
+      },
+      "id": "03eaf168-509d-4511-b247-e713cd04c0f8",
+      "name": "Remap logIngestion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        80
+      ]
     }
   ],
   "connections": {
@@ -656,6 +1274,16 @@
         [
           {
             "node": "Validate config presence",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: initial",
             "type": "main",
             "index": 0
           }
@@ -680,6 +1308,16 @@
             "node": "Compose messages",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_form_outbound",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -689,6 +1327,16 @@
         [
           {
             "node": "Template messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_compose_messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
             "type": "main",
             "index": 0
           }
@@ -702,6 +1350,16 @@
             "node": "Filter rules by recipients endpointIds and templateIds",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_rules",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -711,6 +1369,16 @@
         [
           {
             "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_template_messages",
             "type": "main",
             "index": 0
           }
@@ -724,6 +1392,16 @@
             "node": "Filter recipients by recipient rules",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_deviceid_datatype",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -733,6 +1411,16 @@
         [
           {
             "node": "Form outbound",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_endpointids_templateids",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
             "type": "main",
             "index": 0
           }
@@ -751,6 +1439,38 @@
         [
           {
             "node": "Send to Telegram (GET)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Telegram (POST)": {
+      "main": [
+        [
+          {
+            "node": "Step value: send_message_after",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Telegram (GET)": {
+      "main": [
+        [
+          {
+            "node": "Step value: send_message_after",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
             "type": "main",
             "index": 0
           }
@@ -787,6 +1507,11 @@
             "node": "Validate config tokens length",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -803,6 +1528,16 @@
         [
           {
             "node": "Validate config token",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_tokens_length",
             "type": "main",
             "index": 0
           }
@@ -823,6 +1558,16 @@
             "node": "Is not debug device token",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_config_token",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -839,6 +1584,16 @@
         [
           {
             "node": "Validate config device id",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_data_type",
             "type": "main",
             "index": 0
           }
@@ -859,6 +1614,16 @@
             "node": "Remap objects",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_device_id",
+            "type": "main",
+            "index": 0
           }
         ],
         [
@@ -877,6 +1642,16 @@
             "node": "Filter recipients by DeviceId and DataType filters",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Step value: step_remap_objects",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -886,6 +1661,16 @@
         [
           {
             "node": "Validate config data type",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_device_token",
             "type": "main",
             "index": 0
           }
@@ -906,11 +1691,258 @@
             "node": "Validate config token per device",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Step value: validate_debug_token",
+            "type": "main",
+            "index": 0
           }
         ],
         [
           {
             "node": "Validate config data type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step value: initial": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge after step and config check": {
+      "main": [
+        [
+          {
+            "node": "Validate body and step presence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If logIngestions exists": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step value: config_validated": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_tokens_length": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_config_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_device_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_debug_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_data_type": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_device_id": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_remap_objects": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_deviceid_datatype": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_rules": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_endpointids_templateids": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_form_outbound": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_compose_messages": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_template_messages": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: send_message": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: send_message_after": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Validate body and step presence": {
+      "main": [
+        [
+          {
+            "node": "Validate logIngestions length",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate logIngestions length": {
+      "main": [
+        [
+          {
+            "node": "Remap logIngestion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remap logIngestion": {
+      "main": [
+        [
+          {
+            "node": "Call LogIngestion in Device Relay by Kenya-West",
             "type": "main",
             "index": 0
           }

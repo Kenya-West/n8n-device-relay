@@ -1,0 +1,480 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// n8n Code node — support input as single ingestion object, an array of ingestions, or a config with `logIngestions` map.\nconst input = $json;\nconst globalStep = $json.step;\n\nfunction hasStepInRules(obj, step) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.some(rule => Array.isArray(rule.steps) && rule.steps.includes(step));\n}\n\nlet output = {};\n\nif (Array.isArray(input)) {\n  const filtered = input.filter(item => hasStepInRules(item, globalStep));\n  output = filtered.length ? filtered : {};\n} else if (input && typeof input === 'object' && input.logIngestions && typeof input.logIngestions === 'object' && !Array.isArray(input.logIngestions)) {\n  const kept = {};\n  for (const [key, val] of Object.entries(input.logIngestions)) {\n    if (hasStepInRules(val, globalStep)) kept[key] = val;\n  }\n  output = Object.keys(kept).length ? { ...input, logIngestions: kept } : null;\n} else if (input && typeof input === 'object') {\n  output = hasStepInRules(input, globalStep) ? input : null;\n} else {\n  output = {};\n}\n\nreturn { ...output };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3280,
+        -480
+      ],
+      "id": "94626d8f-84f3-4caf-90b7-6b5d6cdbbdb5",
+      "name": "Filter logIngestions by rules"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// n8n Code node — validate LogRuleModel fields and filter by `.step`.\nconst input = $json;\nconst globalStep = $json.step;\n\nfunction hasStepInRules(obj, step) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.some(rule => Array.isArray(rule.steps) && rule.steps.includes(step));\n}\n\nfunction isValidRule(rule) {\n  if (!rule || typeof rule !== 'object') return false;\n  if (typeof rule.id !== 'string' || rule.id.length === 0) return false;\n  if (!Array.isArray(rule.steps) || rule.steps.length === 0 || !rule.steps.every(s => typeof s === 'string')) return false;\n  if (!Array.isArray(rule.payloadIds) || rule.payloadIds.length === 0 || !rule.payloadIds.every(p => typeof p === 'string')) return false;\n  return true;\n}\n\nfunction rulesAreAllValid(obj) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.every(isValidRule);\n}\n\nlet output = null;\n\nif (Array.isArray(input)) {\n  const result = input\n    .map(item => {\n      if (!rulesAreAllValid(item)) return {}; // invalid rules -> empty object for this ingestion\n      return hasStepInRules(item, globalStep) ? item : null; // non-matching -> removed (null marker)\n    })\n    .filter(x => x !== null);\n  output = result.length ? result : null;\n} else if (input && typeof input === 'object' && input.logIngestions && typeof input.logIngestions === 'object' && !Array.isArray(input.logIngestions)) {\n  const kept = {};\n  for (const [key, val] of Object.entries(input.logIngestions)) {\n    if (!rulesAreAllValid(val)) {\n      kept[key] = {}; // invalid rules -> empty object entry\n      continue;\n    }\n    if (hasStepInRules(val, globalStep)) kept[key] = val;\n  }\n  output = Object.keys(kept).length ? { ...input, logIngestions: kept } : null;\n} else if (input && typeof input === 'object') {\n  if (!rulesAreAllValid(input)) {\n    output = {}; // invalid rules -> empty object\n  } else {\n    output = hasStepInRules(input, globalStep) ? input : null;\n  }\n} else {\n  output = null;\n}\n\nreturn {...output}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4336,
+        -480
+      ],
+      "id": "f7a62756-5fe6-4061-9072-9b6ca64e3f23",
+      "name": "Filter logIngestions rules consistency"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n    \"event\": null,\n    \"logIngestions\": null,\n    \"step\": null\n}"
+      },
+      "id": "3741e202-18cb-49a8-8bba-9c938aa46e0b",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        2512,
+        -480
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        -752
+      ],
+      "id": "6d48c69c-e200-4f04-839f-f267aaaf57d8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2704,
+        -752
+      ],
+      "id": "51fd1701-f229-4e3f-bc34-46080cc59583",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node — split `logIngestions` map into one item per ingestion (include `step`)\n\nconst inputs = $input.all();\nconst out = [];\n\nfor (const item of inputs) {\n  const wrapper = item.json || {};\n  const logIngestions = wrapper.logIngestions || {};\n  const step = wrapper.step;\n\n  for (const [id, ingestion] of Object.entries(logIngestions)) {\n    out.push({\n      json: {\n        id,\n        step,\n        ...ingestion\n      }\n    });\n  }\n}\n\nreturn out;"
+      },
+      "id": "9ef3834c-12fd-47c7-9a94-652ae29bdf67",
+      "name": "Remap logIngestions to multiple entries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3056,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
+              "leftValue": "={{ Object.keys($json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3488,
+        -480
+      ],
+      "id": "3a49508e-7a5f-4b57-9574-b0d848d86891",
+      "name": "Check if object is empty"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
+              "leftValue": "={{ $json.payloads?.length ?? 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3904,
+        -480
+      ],
+      "id": "b7a3b354-1bb7-46ac-aa71-5a95d67a23ca",
+      "name": "Check if object's payloads is empty"
+    },
+    {
+      "parameters": {
+        "method": "={{ $json.endpoint.method }}",
+        "url": "={{ $json.endpoint.url }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={{ JSON.stringify($json.endpoint.headers ?? {}) }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.endpoint.body.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        5184,
+        -480
+      ],
+      "id": "df592096-7328-4939-84e6-07e3b5c0f923",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const input = $json;\nconst step = input && input.step;\n\nif (!step || !input || !input.rules || !Array.isArray(input.rules)) {\n  return [{ json: input }];\n}\n\nconst filteredRules = input.rules.filter(rule =>\n  Array.isArray(rule.steps) && rule.steps.includes(step)\n);\n\nconst output = { ...input, rules: filteredRules };\n\nreturn { ...output };\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3696,
+        -480
+      ],
+      "id": "3dadfa7e-ff93-418c-a111-69d3b2471217",
+      "name": "Filter logIngestions by rules including the step"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
+              "leftValue": "={{ Object.keys($json.endpoints ?? {}).length ?? 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4112,
+        -480
+      ],
+      "id": "5062ed7d-a782-40fb-a712-c3aa2810029d",
+      "name": "Check if object's endpoints is empty"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// n8n Code node (JavaScript)\nconst input = $json;\n\nconst step = input?.step;\nconst rules = Array.isArray(input?.rules) ? input.rules : [];\nconst endpoints = input?.endpoints && typeof input.endpoints === 'object' ? input.endpoints : {};\n\nconst toSend = [];\n\nfor (const rule of rules) {\n  // Optional but usually desired: only include rules relevant to this step\n  if (step && Array.isArray(rule?.steps) && !rule.steps.includes(step)) continue;\n\n  const payloadIds = Array.isArray(rule?.payloadIds) ? rule.payloadIds : [];\n  const endpointIds = Array.isArray(rule?.endpointIds) ? rule.endpointIds : [];\n\n  for (const payloadId of payloadIds) {\n    for (const endpointId of endpointIds) {\n      const endpoint = endpoints[endpointId];\n      if (!endpoint) continue; // skip unknown endpoint ids\n\n      toSend.push({\n        step,        // step name\n        payloadId,   // payload id\n        endpoint,    // endpoint object taken entirely as-is (no modification)\n      });\n    }\n  }\n}\n\nreturn { json: { logIngestion: input, toSend } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4544,
+        -480
+      ],
+      "id": "97f8e46e-1ac3-4c3e-9dc5-c05c0b2906d3",
+      "name": "Compose requests"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function node code\n// Keep `logIngestion` untouched; only modify `toSend`.\n//\n// Templating policies:\n// - `{%step%}` => `logIngestion.step`\n// - `{%body%}` only inside `toSend` => rendered payload.body OBJECT (NOT stringified)\n// - `{%event%}` => JSON.stringify(event)\n// - `{%expr= ... %}` => evaluate as JS expression\n\nconst event = $input.all()?.[0]?.json?.event;\nconst input = $input.all()?.[1]?.json;\n\nconst logIngestion = input?.logIngestion;\nif (!logIngestion || !Array.isArray(input?.toSend)) {\n  return [{ json: input }];\n}\n\nconst step = logIngestion.step;\nconst eventString = JSON.stringify(event ?? null);\n\nfunction evalExpr(expression, scope) {\n  const allowedGlobals = {\n    Date,\n    Math,\n    Array,\n    JSON,\n    Number,\n    String,\n    Object,\n    Boolean,\n    RegExp,\n    parseInt,\n    parseFloat,\n    isNaN,\n    isFinite,\n  };\n\n  const argNames = [...Object.keys(allowedGlobals), ...Object.keys(scope)];\n  const argValues = [...Object.values(allowedGlobals), ...Object.values(scope)];\n\n  const fn = new Function(...argNames, `\"use strict\"; return (${expression});`);\n  return fn(...argValues);\n}\n\nfunction renderString(str, ctx, { allowBody }) {\n  if (typeof str !== \"string\") return str;\n\n  // 1) Evaluate {%expr=...%} blocks first\n  str = str.replace(/\\{\\%expr=([\\s\\S]*?)%\\}/g, (_, expr) => {\n    const value = evalExpr(expr, ctx);\n    return value == null ? \"\" : String(value);\n  });\n\n  // 2) If the whole string is exactly {%body%}, inject the OBJECT (no stringify)\n  if (allowBody && str === \"{%body%}\") {\n    return ctx.body == null ? \"\" : ctx.body;\n  }\n\n  // 3) Replace {%step%}\n  str = str.replace(/\\{\\%step%\\}/g, ctx.step == null ? \"\" : String(ctx.step));\n\n  // 4) Replace {%event%} with JSON-stringified event payload\n  str = str.replace(/\\{\\%event%\\}/g, ctx.eventString == null ? \"\" : String(ctx.eventString));\n\n  // 5) Replace {%body%} occurrences inside larger strings (must be string)\n  // If someone embeds it in text, we can only inject a string representation.\n  if (allowBody && str.includes(\"{%body%}\")) {\n    const bodyAsString =\n      ctx.body == null\n        ? \"\"\n        : typeof ctx.body === \"string\"\n          ? ctx.body\n          : JSON.stringify(ctx.body);\n    str = str.replace(/\\{\\%body%\\}/g, bodyAsString);\n  }\n\n  return str;\n}\n\nfunction renderDeep(value, ctx, opts) {\n  if (typeof value === \"string\") return renderString(value, ctx, opts);\n  if (Array.isArray(value)) return value.map((v) => renderDeep(v, ctx, opts));\n  if (value && typeof value === \"object\") {\n    const out = {};\n    for (const [k, v] of Object.entries(value)) {\n      out[k] = renderDeep(v, ctx, opts);\n    }\n    return out;\n  }\n  return value;\n}\n\nfunction findPayloadBodyById(payloadId) {\n  const payload = (logIngestion.payloads || []).find((p) => p?.id === payloadId);\n  return payload?.body;\n}\n\nfunction renderPayloadBody(payloadBody) {\n  if (payloadBody == null) return null;\n\n  // Render expressions/step inside payload body itself.\n  // `{%body%}` is NOT allowed here.\n  return renderDeep(payloadBody, { step, eventString }, { allowBody: false });\n}\n\n// Only modify `toSend`; do NOT change `logIngestion`\nconst renderedToSend = input.toSend.map((item) => {\n  const payloadBody = findPayloadBodyById(item.payloadId);\n  const renderedPayloadBody = renderPayloadBody(payloadBody);\n\n  const target = item.endpoint ? item.endpoint : item;\n\n  const ctx = {\n    step,\n    body: renderedPayloadBody, // OBJECT injected for `{%body%}`\n    eventString,               // STRING injected for `{%event%}`\n  };\n\n  const renderedTarget = {\n    ...target,\n    body: renderDeep(target.body, ctx, { allowBody: true }),\n    attributes: renderDeep(target.attributes, ctx, { allowBody: true }),\n  };\n\n  return item.endpoint\n    ? { ...item, endpoint: renderedTarget }\n    : { ...item, ...renderedTarget };\n});\n\nreturn [\n  {\n    json: {\n      ...input,\n      toSend: renderedToSend,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4736,
+        -480
+      ],
+      "id": "63900079-94f2-4b0c-b988-b1cac03fe45f",
+      "name": "Template requests"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "toSend",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        4976,
+        -480
+      ],
+      "id": "1d3b6c3d-8e0e-4012-96d2-89007470a7d5",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4736,
+        -736
+      ],
+      "id": "e4d14ceb-b31b-4def-94b5-f34b79416172",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f55a7c-ecf8-42da-8858-b8b86ce38f33",
+              "name": "event",
+              "value": "={{ $json.event }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3056,
+        -752
+      ],
+      "id": "87601e2c-42c8-44e2-9233-c567d7ba69d7",
+      "name": "Store event"
+    }
+  ],
+  "connections": {
+    "Filter logIngestions by rules": {
+      "main": [
+        [
+          {
+            "node": "Check if object is empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter logIngestions rules consistency": {
+      "main": [
+        [
+          {
+            "node": "Compose requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Remap logIngestions to multiple entries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Store event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Remap logIngestions to multiple entries",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Store event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remap logIngestions to multiple entries": {
+      "main": [
+        [
+          {
+            "node": "Filter logIngestions by rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if object is empty": {
+      "main": [
+        [
+          {
+            "node": "Filter logIngestions by rules including the step",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if object's payloads is empty": {
+      "main": [
+        [
+          {
+            "node": "Check if object's endpoints is empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Filter logIngestions by rules including the step": {
+      "main": [
+        [
+          {
+            "node": "Check if object's payloads is empty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if object's endpoints is empty": {
+      "main": [
+        [
+          {
+            "node": "Filter logIngestions rules consistency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose requests": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Template requests": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Template requests",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store event": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": ""
+  }
+}
