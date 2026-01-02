@@ -1,38 +1,38 @@
 <TaskerData sr="" dvi="1" tv="6.5.11">
-	<Profile sr="prof999999906" ve="2">
+	<Profile sr="prof99997" ve="2">
 		<cdate>1681738734493</cdate>
 		<clp>true</clp>
 		<edate>1766489869455</edate>
 		<flags>8</flags>
-		<id>999999906</id>
-		<mid0>999999905</mid0>
+		<id>99997</id>
+		<mid0>99897</mid0>
 		<nme>Example profile: All SMS to n8n</nme>
 		<Event sr="con0" ve="2">
 			<code>7</code>
 			<pri>0</pri>
-			<Int sr="arg0" val="2"/>
-			<Str sr="arg1" ve="3"/>
+			<Int sr="arg0" val="2" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%SMSRB</Str>
-			<Str sr="arg3" ve="3"/>
-			<Str sr="arg4" ve="3"/>
+			<Str sr="arg3" ve="3" />
+			<Str sr="arg4" ve="3" />
 		</Event>
 	</Profile>
-	<Task sr="task999999905">
+	<Task sr="task99897">
 		<cdate>1696330880419</cdate>
 		<edate>1766489869455</edate>
-		<id>999999905</id>
+		<id>99897</id>
 		<nme>Example task: Send SMS to n8n</nme>
 		<pri>100</pri>
 		<Action sr="act0" ve="7">
 			<code>123</code>
 			<Str sr="arg0" ve="3">uuidgen</Str>
-			<Int sr="arg1" val="0"/>
-			<Int sr="arg2" val="0"/>
+			<Int sr="arg1" val="0" />
+			<Int sr="arg2" val="0" />
 			<Str sr="arg3" ve="3">%UUID</Str>
-			<Str sr="arg4" ve="3"/>
-			<Str sr="arg5" ve="3"/>
-			<Int sr="arg6" val="1"/>
-			<Int sr="arg7" val="0"/>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Int sr="arg7" val="0" />
 		</Action>
 		<Action sr="act1" ve="7">
 			<code>394</code>
@@ -52,45 +52,45 @@
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
 				</Vals>
 			</Bundle>
-			<Int sr="arg1" val="2"/>
-			<Int sr="arg10" val="0"/>
-			<Str sr="arg11" ve="3"/>
-			<Str sr="arg12" ve="3"/>
+			<Int sr="arg1" val="2" />
+			<Int sr="arg10" val="0" />
+			<Str sr="arg11" ve="3" />
+			<Str sr="arg12" ve="3" />
 			<Str sr="arg2" ve="3">%TIMEMS</Str>
-			<Str sr="arg3" ve="3"/>
-			<Str sr="arg4" ve="3"/>
+			<Str sr="arg3" ve="3" />
+			<Str sr="arg4" ve="3" />
 			<Str sr="arg5" ve="3">yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</Str>
-			<Str sr="arg6" ve="3"/>
+			<Str sr="arg6" ve="3" />
 			<Str sr="arg7" ve="3">%ISO_TIME</Str>
-			<Int sr="arg8" val="0"/>
-			<Int sr="arg9" val="0"/>
+			<Int sr="arg8" val="0" />
+			<Int sr="arg9" val="0" />
 		</Action>
 		<Action sr="act2" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="5"/>
-			<Str sr="arg1" ve="3"/>
+			<Int sr="arg0" val="5" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%WIFI_SSID</Str>
 		</Action>
 		<Action sr="act3" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="3"/>
-			<Str sr="arg1" ve="3"/>
+			<Int sr="arg0" val="3" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%WIFI_BSSID</Str>
 		</Action>
 		<Action sr="act4" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="0"/>
-			<Str sr="arg1" ve="3"/>
+			<Int sr="arg0" val="0" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%NETWORK_TYPE</Str>
 		</Action>
 		<Action sr="act5" ve="7">
 			<code>312</code>
-			<Int sr="arg0" val="5"/>
-			<Int sr="arg1" val="0"/>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Str sr="arg4" ve="3"/>
-			<Str sr="arg5" ve="3"/>
+			<Int sr="arg0" val="5" />
+			<Int sr="arg1" val="0" />
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
 			<Bundle sr="arg6">
 				<Vals sr="val">
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""&gt;&lt;_array_net.dinglisch.android.tasker.RELEVANT_VARIABLES0&gt;%dnd_allow_callers
@@ -116,7 +116,7 @@ Suppressed Effects
             "createdAt": "%ISO_TIME",
             "source": "tasker",
             "device": {
-                "id": "your-device-name-1",
+                "id": "your-device-name",
                 "batteryLevelPercent": "%BATT",
                 "currentSimSlotIndex": "%SIMNUM" ,
                 "cellularCarrierName": "%TNET",
@@ -144,11 +144,11 @@ Suppressed Effects
                 "tags": []
             }
         }</Str>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Int sr="arg4" val="0"/>
-			<Int sr="arg5" val="3"/>
-			<Int sr="arg6" val="1"/>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Int sr="arg5" val="3" />
+			<Int sr="arg6" val="1" />
 		</Action>
 		<Action sr="act7" ve="7">
 			<code>339</code>
@@ -170,18 +170,18 @@ The size of the response in bytes&lt;/_array_net.dinglisch.android.tasker.RELEVA
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
 				</Vals>
 			</Bundle>
-			<Int sr="arg1" val="1"/>
-			<Int sr="arg10" val="0"/>
-			<Int sr="arg11" val="0"/>
-			<Int sr="arg12" val="1"/>
+			<Int sr="arg1" val="1" />
+			<Int sr="arg10" val="0" />
+			<Int sr="arg11" val="0" />
+			<Int sr="arg12" val="1" />
 			<Str sr="arg2" ve="3">https://YOUR-N8N-INSTANCE-DOMAIN/webhook/device-relay</Str>
-			<Str sr="arg3" ve="3">x-n8n-device-relay:YOUR-TOKEN-HERE</Str>
-			<Str sr="arg4" ve="3"/>
+			<Str sr="arg3" ve="3">x-n8n-device-relay:%YOUR_TOKEN_HERE</Str>
+			<Str sr="arg4" ve="3" />
 			<Str sr="arg5" ve="3">%json</Str>
-			<Str sr="arg6" ve="3"/>
-			<Str sr="arg7" ve="3"/>
-			<Int sr="arg8" val="30"/>
-			<Int sr="arg9" val="0"/>
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Int sr="arg8" val="30" />
+			<Int sr="arg9" val="0" />
 		</Action>
 	</Task>
 </TaskerData>

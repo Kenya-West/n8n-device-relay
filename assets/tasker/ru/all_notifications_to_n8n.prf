@@ -1,10 +1,10 @@
 <TaskerData sr="" dvi="1" tv="6.5.11">
-	<Profile sr="prof999999904" ve="2">
+	<Profile sr="prof99998" ve="2">
 		<cdate>1681834901230</cdate>
-		<edate>1766489881476</edate>
+		<edate>1767340680421</edate>
 		<flags>8</flags>
-		<id>999999904</id>
-		<mid0>999999903</mid0>
+		<id>99998</id>
+		<mid0>99898</mid0>
 		<nme>Example Profile: Notifications to n8n</nme>
 		<Event sr="con0" ve="2">
 			<code>1520257414</code>
@@ -224,27 +224,609 @@ When
 			</Bundle>
 			<Str sr="arg1" ve="3">com.joaomgcd.autonotification</Str>
 			<Str sr="arg2" ve="3">com.joaomgcd.autonotification.activity.ActivityConfigNotificationInterceptTaskerEvent</Str>
-			<Int sr="arg3" val="1"/>
+			<Int sr="arg3" val="1" />
 		</Event>
 	</Profile>
-	<Task sr="task999999903">
+	<Task sr="task99898">
 		<cdate>1696330880419</cdate>
-		<edate>1766503899187</edate>
-		<id>999999903</id>
-		<nme>Example task: Send notification to n8n</nme>
+		<edate>1767359502133</edate>
+		<id>99898</id>
+		<nme>Example Send notification to n8n</nme>
 		<pri>6</pri>
 		<Action sr="act0" ve="7">
-			<code>123</code>
-			<Str sr="arg0" ve="3">uuidgen</Str>
-			<Int sr="arg1" val="0"/>
-			<Int sr="arg2" val="0"/>
-			<Str sr="arg3" ve="3">%UUID</Str>
-			<Str sr="arg4" ve="3"/>
-			<Str sr="arg5" ve="3"/>
-			<Int sr="arg6" val="1"/>
-			<Int sr="arg7" val="0"/>
+			<code>547</code>
+			<Str sr="arg0" ve="3">%package_name_blacklist_raw</Str>
+			<Str sr="arg1" ve="3"># Messengers
+com.whatsapp
+org.telegram.messenger
+com.vkontakte.android
+com.vk.im
+jp.naver.line.android
+com.kakao.talk
+com.viber.voip
+com.snapchat.android
+
+# Microsoft
+com.microsoft.teams
+com.microsoft.appmanager
+com.microsoft.skydrive
+
+# Maps
+ru.dublgis.dgismobile
+com.blinkmap
+
+# System
+android.aosp.overlay
+android.aosp.overlay.telephony
+android.auto_generated_characteristics_rro
+android.autoinstalls.config.lge.d4
+android.autoinstalls.config.Xiaomi.model
+android.miui.home.launcher.res
+android.miui.overlay
+android.miui.overlay.telephony
+android.overlay.common
+android.overlay.priority1.CLR_COM
+android.overlay.priority2.CLR_COM
+android.overlay.target
+android.qvaoverlay.common
+com.android.angle
+com.android.apps.tag
+com.android.avatarpicker
+com.android.backupconfirm
+com.android.bips
+com.android.bluetooth
+com.android.bluetooth.overlay
+com.android.bluetoothmidiservice
+com.android.bookmarkprovider
+com.android.calculator2
+com.android.calllogbackup
+com.android.camera
+com.android.cameraextensions
+com.android.captiveportallogin
+com.android.carrierconfig
+com.android.carrierconfig.overlay.common
+com.android.carrierconfig.overlay.miui
+com.android.carrierdefaultapp
+com.android.cellbroadcastreceiver
+com.android.cellbroadcastreceiver.overlay.common
+com.android.certinstaller
+com.android.chrome
+com.android.companiondevicemanager
+com.android.companiondevicemanager.auto_generated_characteristics_rro
+com.android.compos.payload
+com.android.contacts
+com.android.credentialmanager
+com.android.cts.ctsshim
+com.android.cts.priv.ctsshim
+com.android.defcontainer
+com.android.deskclock
+com.android.DeviceAsWebcam
+com.android.devicediagnostics
+com.android.dialer
+com.android.documentsui
+com.android.dreams.basic
+com.android.dreams.phototable
+com.android.dynsystem
+com.android.egg
+com.android.email
+com.android.email.partnerprovider
+com.android.email.partnerprovider.overlay.priority2.CLR_COM
+com.android.emergency
+com.android.exchange
+com.android.externalstorage
+com.android.facelock
+com.android.factoryservice
+com.android.fmradio
+com.android.gallery3d
+com.android.hotspot2.osulogin
+com.android.hotwordenrollment.okgoogle
+com.android.hotwordenrollment.xgoogle
+com.android.htmlviewer
+com.android.huaqin.factory
+com.android.imsserviceentitlement
+com.android.inputdevices
+com.android.inputsettings.overlay.miui
+com.android.intentresolver
+com.android.internal.display.cutout.emulation.corner
+com.android.internal.display.cutout.emulation.double
+com.android.internal.display.cutout.emulation.hole
+com.android.internal.display.cutout.emulation.tall
+com.android.internal.display.cutout.emulation.waterfall
+com.android.internal.systemui.navbar.gestural
+com.android.internal.systemui.navbar.threebutton
+com.android.internal.systemui.navbar.transparent
+com.android.keychain
+com.android.launcher3
+com.android.launcher3.overlay.priority1.CLR_COM
+com.android.localtransport
+com.android.location.fused
+com.android.managedprovisioning
+com.android.managedprovisioning.overlay
+com.android.microdroid.empty_payload
+com.android.mms
+com.android.mms.service
+com.android.mtp
+com.android.musicfx
+com.android.networkstack.overlay.miui
+com.android.nfc
+com.android.noisefield
+com.android.ons
+com.android.overlay.gmscontactprovider
+com.android.overlay.gmssettingprovider
+com.android.overlay.gmssettings
+com.android.overlay.gmstelecomm
+com.android.overlay.gmstelephony
+com.android.overlay.systemui
+com.android.pacprocessor
+com.android.partnerbrowsercustomizations
+com.android.phasebeam
+com.android.phone
+com.android.phone.auto_generated_characteristics_rro
+com.android.phone.cust.overlay.miui
+com.android.phone.overlay.common
+com.android.phone.overlay.miui
+com.android.printspooler
+com.android.providers.applications
+com.android.providers.blockednumber
+com.android.providers.calendar
+com.android.providers.contactkeys
+com.android.providers.contacts
+com.android.providers.downloads
+com.android.providers.downloads.ui
+com.android.providers.media
+com.android.providers.partnerbookmarks
+com.android.providers.settings
+com.android.providers.settings.overlay
+com.android.providers.settings.overlay.priority2.CLR_COM
+com.android.providers.telephony
+com.android.providers.telephony.auto_generated_characteristics_rro
+com.android.providers.telephony.overlay.miui
+com.android.providers.userdictionary
+com.android.provision
+com.android.proxyhandler
+com.android.rkpdapp
+com.android.role.notes.enabled
+com.android.se
+com.android.server.telecom
+com.android.server.telecom.overlay.common
+com.android.server.telecom.overlay.miui
+com.android.settings
+com.android.settings.intelligence
+com.android.settings.overlay.common
+com.android.settings.overlay.miui
+com.android.sharedstoragebackup
+com.android.shell
+com.android.simappdialog
+com.android.simmelock
+com.android.smspush
+com.android.soundpicker
+com.android.soundrecorder
+com.android.statementservice
+com.android.stk
+com.android.stk.overlay.miui
+com.android.stk.overlay.priority1.CLR_COM
+com.android.storagemanager
+com.android.systemui
+com.android.systemui.accessibility.accessibilitymenu
+com.android.systemui.gesture.line.overlay
+com.android.systemui.navigation.bar.overlay
+com.android.systemui.overlay.common
+com.android.systemui.overlay.miui
+com.android.systemui.overlay.priority1.CLR_COM
+com.android.systemui.overlay.priority2.CLR_COM
+com.android.theme.font.notoserifsource
+com.android.thememanager
+com.android.thememanager.customizethemeconfig.config.overlay
+com.android.touch
+com.android.traceur
+com.android.updater
+com.android.uwb.resources
+com.android.uwb.resources.overlay.common
+com.android.vending
+com.android.virtualmachine.res
+com.android.vpndialogs
+com.android.wallpaper
+com.android.wallpaper.holospiral
+com.android.wallpaper.livepicker
+com.android.wallpaperbackup
+com.android.wallpapercropper
+com.android.wifi.dialog
+com.android.wifi.resources
+com.android.wifi.resources.overlay.common
+com.android.wifi.resources.overlay.target
+com.android.wifi.resources.overlay.taro
+com.android.wifi.res
+# Google
+com.google.ambient.streaming
+com.google.android.accessibility.switchaccess
+com.google.android.adservices.api
+com.google.android.apps.bard
+com.google.android.apps.docs
+com.google.android.apps.googleassistant
+com.google.android.apps.healthdata
+com.google.android.apps.magazines
+com.google.android.apps.maps
+com.google.android.apps.meetings
+com.google.android.apps.messaging
+com.google.android.apps.nbu.files
+com.google.android.apps.photos
+com.google.android.apps.podcasts
+com.google.android.apps.restore
+com.google.android.apps.safetyhub
+com.google.android.apps.subscriptions.red
+com.google.android.apps.tachyon
+com.google.android.apps.translate
+com.google.android.apps.turbo
+com.google.android.apps.walletnfcrel
+com.google.android.apps.wellbeing
+com.google.android.apps.youtube.music
+com.google.android.appsearch.apk
+com.google.android.as
+com.google.android.as.oss
+com.google.android.backuptransport
+com.google.android.calendar
+com.google.android.captiveportallogin
+com.google.android.cellbroadcastreceiver
+com.google.android.cellbroadcastreceiver.overlay.miui
+com.google.android.cellbroadcastservice
+com.google.android.cellbroadcastservice.overlay.miui
+com.google.android.configupdater
+com.google.android.connectivity.resources
+com.google.android.contactkeys
+com.google.android.contacts
+com.google.android.devicelockcontroller
+com.google.android.dialer
+com.google.android.documentsui
+com.google.android.ext.services
+com.google.android.ext.shared
+com.google.android.federatedcompute
+com.google.android.feedback
+com.google.android.gm
+com.google.android.gms
+com.google.android.gms.location.history
+com.google.android.gms.supervision
+com.google.android.googlequicksearchbox
+com.google.android.gsf
+com.google.android.gsf.login
+com.google.android.health.connect.backuprestore
+com.google.android.healthconnect.controller
+com.google.android.ims
+com.google.android.inputmethod.korean
+com.google.android.inputmethod.latin
+com.google.android.instantapps.supervisor
+com.google.android.marvin.talkback
+com.google.android.modulemetadata
+com.google.android.music
+com.google.android.networkstack
+com.google.android.networkstack.tethering
+com.google.android.ondevicepersonalization.services
+com.google.android.onetimeinitializer
+com.google.android.overlay.devicelockcontroller
+com.google.android.overlay.gmsconfig.asi
+com.google.android.overlay.gmsconfig.common
+com.google.android.overlay.gmsconfig.comms
+com.google.android.overlay.gmsconfig.geotz
+com.google.android.overlay.gmsconfig.gsa
+com.google.android.overlay.gmsconfig.personalsafety
+com.google.android.overlay.gmsconfig.photos
+com.google.android.overlay.healthconnect
+com.google.android.overlay.modules.captiveportallogin.forframework
+com.google.android.overlay.modules.documentsui
+com.google.android.overlay.modules.ext.services
+com.google.android.overlay.modules.healthfitness.forframework
+com.google.android.overlay.modules.modulemetadata.forframework
+com.google.android.overlay.modules.permissioncontroller
+com.google.android.overlay.modules.permissioncontroller.forframework
+com.google.android.packageinstaller
+com.google.android.partnersetup
+com.google.android.permissioncontroller
+com.google.android.photopicker
+com.google.android.printservice.recommendation
+com.google.android.projection.gearhead
+com.google.android.providers.media.module
+com.google.android.safetycenter.resources
+com.google.android.safetycore
+com.google.android.sdksandbox
+com.google.android.server.deviceconfig.resources
+com.google.android.setupwizard
+com.google.android.syncadapters.contacts
+com.google.android.tts
+com.google.android.videos
+com.google.android.webview
+com.google.android.wifi.resources.overlay.common
+com.google.android.wifi.resources.xiaomi
+com.google.android.youtube
+com.google.ar.core
+com.google.ar.lens
+com.google.mainline.adservices
+com.google.mainline.telemetry
+
+# Hardware
+com.mediatek.camera
+com.mediatek.fwk.plugin
+com.mediatek.ygps
+com.mediatek.engineermode
+com.mediatek.omacp
+com.mediatek.bluetooth.dtt
+com.mediatek.providers.drm
+com.mediatek.miravision.ui
+com.mediatek.batterywarning
+com.mediatek
+com.mediatek.calendarimporter
+com.mediatek.atci.service
+com.mediatek.thermalmanager
+com.mediatek.lbs.em2.ui
+com.mediatek.filemanager
+com.mediatek.mtklogger
+com.qualcomm.qti.cne
+com.qualcomm.uimremoteserver
+com.qualcomm.qti.uimGbaApp
+com.qualcomm.location
+com.qualcomm.qti.remoteSimlockAuth
+com.qualcomm.qti.xrcb
+com.qualcomm.timeservice
+com.qualcomm.wfd.service
+com.qualcomm.qti.telephonyservice
+com.qualcomm.qti.poweroffalarm
+com.qualcomm.qti.services.systemhelper
+com.qualcomm.qti.server.wigig.tethering.rro
+com.qualcomm.qti.devicestatisticsservice
+com.qti.qualcomm.datastatusnotification
+com.qualcomm.qti.ridemodeaudio
+com.qualcomm.qti.ims
+com.qualcomm.qti.xrvd.service
+com.qualcomm.qti.uceShimService
+com.qualcomm.qti.qcolor
+com.qualcomm.uimremoteclient
+com.qualcomm.atfwd2
+com.qualcomm.qti.confdialer
+com.qualcomm.qti.gpudrivers.taro.api31
+com.qualcomm.qti.simcontacts
+com.qualcomm.qti.server.qtiwifi
+com.qualcomm.qti.callfeaturessetting
+com.qualcomm.qti.workloadclassifier
+com.qualcomm.qti.uim
+com.qualcomm.atfwd
+com.qualcomm.qti.dynamicddsservice
+com.qualcomm.qcrilmsgtunnel
+com.qti.qualcomm.deviceinfo
+com.qualcomm.qti.qms.service.trustzoneaccess
+
+# Xiaomi
+com.miui.powerkeeper
+android.miui.overlay
+com.miui.face
+android.miui.overlay.telephony
+com.miui.global.packageinstaller
+com.miui.micloudsync
+com.miui.rom
+com.miui.aod
+com.miui.screenrecorder
+com.miui.guardprovider
+com.miui.systemui.overlay.devices.android
+com.miui.gallery
+com.miui.calculator
+com.miui.yellowpage
+com.miui.system
+com.miui.home
+com.miui.huanji
+com.miui.systemui.devices.overlay
+com.miui.daemon
+com.miui.settings.rro.device.systemui.overlay
+com.miui.analytics
+com.miui.android.fashiongallery
+com.miui.player
+com.miui.settings.rro.device.type.overlay
+com.miui.compass
+com.miui.accessibility
+com.miui.phone.carriers.overlay.h3g
+com.miui.notes
+com.miui.misightservice
+com.miui.settings.rro.device.config.overlay
+com.miui.screenshot
+com.miui.system.overlay
+com.miui.miwallpaper.overlay
+com.miui.miservice
+com.miui.miwallpaper.overlay.customize
+android.miui.home.launcher.res
+com.miui.phone.carriers.overlay.vodafone
+com.miui.safetycenter.config.overlay
+com.miui.core.internal.services
+com.miui.touchassistant
+com.miui.audiomonitor
+com.miui.securityadd
+com.miui.notification
+miui.systemui.plugin
+com.miui.mediaeditor
+com.miui.securitycenter
+com.miui.miwallpaper.config.overlay
+com.miui.misound
+com.miui.wallpaper.overlay.customize
+com.miui.videoplayer
+com.miui.securitycore
+com.miui.mediaviewer
+com.miui.safetycenter.res.overlay
+com.miui.weather2
+com.miui.permissioncontroller.overlay
+com.miui.thirdappassistant
+com.miui.mishare.connectivity
+com.miui.euicc
+com.miui.phrase
+com.miui.extraphoto
+com.miui.wallpaper.overlay
+com.miui.core
+com.miui.miwallpaper
+com.miui.cit
+com.miui.systemui.carriers.overlay
+com.miui.backup
+com.miui.cloudservice
+com.mi.healthglobal
+com.mi.global.shop
+com.mi.android.globalFileexplorer
+com.mi.globallayout
+com.mi.appfinder
+com.mi.globalbrowser
+com.mi.globalminusscreen
+com.xiaomi.xmsf
+com.xiaomi.glgm
+com.xiaomi.phone.overlay
+android.autoinstalls.config.Xiaomi.model
+com.xiaomi.cameratools
+com.xiaomi.cameramind
+com.xiaomi.mtb
+com.xiaomi.trustservice
+com.android.wifi.resources.xiaomi
+com.xiaomi.account
+com.xiaomi.payment
+com.xiaomi.mi_connect_service
+com.xiaomi.simactivate.service
+com.xiaomi.aicr
+com.xiaomi.router
+com.xiaomi.xmsfkeeper
+com.xiaomi.barrage
+com.xiaomi.misettings
+com.xiaomi.devauth
+com.xiaomi.joyose
+com.xiaomi.midrop
+com.xiaomi.touchservice
+com.xiaomi.bluetooth
+com.xiaomi.finddevice
+cn.wps.xiaomi.abroad.lite
+com.xiaomi.ugd
+com.xiaomi.aiasst.vision
+com.xiaomi.bluetooth.rro.device.config.overlay
+com.xiaomi.phone
+com.xiaomi.micloud.sdk
+com.xiaomi.scanner
+com.xiaomi.mipicks
+com.xiaomi.smarthome
+com.xiaomi.wearable
+com.google.android.wifi.resources.xiaomi
+com.xiaomi.hm.health
+com.xiaomi.discover
+com.xiaomi.calendar
+com.xiaomi.mirror</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Int sr="arg5" val="3" />
+			<Int sr="arg6" val="1" />
 		</Action>
 		<Action sr="act1" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%package_name_blacklist_raw</Str>
+			<Str sr="arg1" ve="3">\r</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act10" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%package_name_whitelist_raw</Str>
+			<Str sr="arg1" ve="3"> </Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Int sr="arg5" val="3" />
+			<Int sr="arg6" val="1" />
+		</Action>
+		<Action sr="act11" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%package_name_whitelist_raw</Str>
+			<Str sr="arg1" ve="3">\r</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act12" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%package_name_whitelist_raw</Str>
+			<Str sr="arg1" ve="3">^(?:\s)?#.*$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act13" ve="7">
+			<code>590</code>
+			<Str sr="arg0" ve="3">%package_name_whitelist_raw</Str>
+			<Str sr="arg1" ve="3">
+</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+		</Action>
+		<Action sr="act14" ve="7">
+			<code>354</code>
+			<Str sr="arg0" ve="3">%package_name_whitelist</Str>
+			<Str sr="arg1" ve="3">%package_name_whitelist_raw()</Str>
+			<Str sr="arg2" ve="3" />
+		</Action>
+		<Action sr="act15" ve="7">
+			<code>410</code>
+			<on>false</on>
+			<Str sr="arg0" ve="3">Tasker/log/wlset.txt</Str>
+			<Str sr="arg1" ve="3">Result for %anpackage:
+- length: %package_name_whitelist(#)
+Array index for it: %package_name_whitelist(#?%anpackage)
+</Str>
+			<Int sr="arg2" val="1" />
+			<Int sr="arg3" val="1" />
+		</Action>
+		<Action sr="act16" ve="7">
+			<code>37</code>
+			<ConditionList sr="if">
+				<bool0>And</bool0>
+				<Condition sr="c0" ve="3">
+					<lhs>%package_name_whitelist(#)</lhs>
+					<op>1</op>
+					<rhs>0</rhs>
+				</Condition>
+				<Condition sr="c1" ve="3">
+					<lhs>%package_name_whitelist(#?%anpackage)</lhs>
+					<op>0</op>
+					<rhs>0</rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+		<Action sr="act17" ve="7">
+			<code>137</code>
+			<Int sr="arg0" val="0" />
+			<Str sr="arg1" ve="3" />
+		</Action>
+		<Action sr="act18" ve="7">
+			<code>43</code>
+		</Action>
+		<Action sr="act19" ve="7">
+			<code>123</code>
+			<Str sr="arg0" ve="3">uuidgen</Str>
+			<Int sr="arg1" val="0" />
+			<Int sr="arg2" val="0" />
+			<Str sr="arg3" ve="3">%UUID</Str>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Int sr="arg7" val="0" />
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%package_name_blacklist_raw</Str>
+			<Str sr="arg1" ve="3">^(?:\s)?#.*$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act20" ve="7">
 			<code>394</code>
 			<Bundle sr="arg0">
 				<Vals sr="val">
@@ -262,45 +844,49 @@ When
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
 				</Vals>
 			</Bundle>
-			<Int sr="arg1" val="2"/>
-			<Int sr="arg10" val="0"/>
-			<Str sr="arg11" ve="3"/>
-			<Str sr="arg12" ve="3"/>
+			<Int sr="arg1" val="2" />
+			<Int sr="arg10" val="0" />
+			<Str sr="arg11" ve="3" />
+			<Str sr="arg12" ve="3" />
 			<Str sr="arg2" ve="3">%TIMEMS</Str>
-			<Str sr="arg3" ve="3"/>
-			<Str sr="arg4" ve="3"/>
+			<Str sr="arg3" ve="3" />
+			<Str sr="arg4" ve="3" />
 			<Str sr="arg5" ve="3">yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</Str>
-			<Str sr="arg6" ve="3"/>
+			<Str sr="arg6" ve="3" />
 			<Str sr="arg7" ve="3">%ISO_TIME</Str>
-			<Int sr="arg8" val="0"/>
-			<Int sr="arg9" val="0"/>
+			<Int sr="arg8" val="0" />
+			<Int sr="arg9" val="0" />
 		</Action>
-		<Action sr="act2" ve="7">
+		<Action sr="act21" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="5"/>
-			<Str sr="arg1" ve="3"/>
+			<se>false</se>
+			<Int sr="arg0" val="5" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%WIFI_SSID</Str>
 		</Action>
-		<Action sr="act3" ve="7">
+		<Action sr="act22" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="3"/>
-			<Str sr="arg1" ve="3"/>
+			<se>false</se>
+			<Int sr="arg0" val="3" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%WIFI_BSSID</Str>
 		</Action>
-		<Action sr="act4" ve="7">
+		<Action sr="act23" ve="7">
 			<code>341</code>
-			<Int sr="arg0" val="0"/>
-			<Str sr="arg1" ve="3"/>
+			<se>false</se>
+			<Int sr="arg0" val="0" />
+			<Str sr="arg1" ve="3" />
 			<Str sr="arg2" ve="3">%NETWORK_TYPE</Str>
 		</Action>
-		<Action sr="act5" ve="7">
+		<Action sr="act24" ve="7">
 			<code>312</code>
-			<Int sr="arg0" val="5"/>
-			<Int sr="arg1" val="0"/>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Str sr="arg4" ve="3"/>
-			<Str sr="arg5" ve="3"/>
+			<se>false</se>
+			<Int sr="arg0" val="5" />
+			<Int sr="arg1" val="0" />
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
 			<Bundle sr="arg6">
 				<Vals sr="val">
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""&gt;&lt;_array_net.dinglisch.android.tasker.RELEVANT_VARIABLES0&gt;%dnd_allow_callers
@@ -318,7 +904,115 @@ Suppressed Effects
 				</Vals>
 			</Bundle>
 		</Action>
-		<Action sr="act6" ve="7">
+		<Action sr="act25" ve="7">
+			<code>664</code>
+			<Str sr="arg0" ve="3">%anapp_escaped</Str>
+			<Str sr="arg1" ve="3">org.json.JSONObject</Str>
+			<Str sr="arg2" ve="3">quote
+{String} (String)</Str>
+			<Str sr="arg3" ve="3">%anapp</Str>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Str sr="arg8" ve="3" />
+			<Str sr="arg9" ve="3" />
+		</Action>
+		<Action sr="act26" ve="7">
+			<code>664</code>
+			<Str sr="arg0" ve="3">%antitle_escaped</Str>
+			<Str sr="arg1" ve="3">org.json.JSONObject</Str>
+			<Str sr="arg2" ve="3">quote
+{String} (String)</Str>
+			<Str sr="arg3" ve="3">%antitle</Str>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Str sr="arg8" ve="3" />
+			<Str sr="arg9" ve="3" />
+		</Action>
+		<Action sr="act27" ve="7">
+			<code>664</code>
+			<Str sr="arg0" ve="3">%antextbig_escaped</Str>
+			<Str sr="arg1" ve="3">org.json.JSONObject</Str>
+			<Str sr="arg2" ve="3">quote
+{String} (String)</Str>
+			<Str sr="arg3" ve="3">%antextbig</Str>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Str sr="arg8" ve="3" />
+			<Str sr="arg9" ve="3" />
+		</Action>
+		<Action sr="act28" ve="7">
+			<code>664</code>
+			<Str sr="arg0" ve="3">%antext_escaped</Str>
+			<Str sr="arg1" ve="3">org.json.JSONObject</Str>
+			<Str sr="arg2" ve="3">quote
+{String} (String)</Str>
+			<Str sr="arg3" ve="3">%antext</Str>
+			<Str sr="arg4" ve="3" />
+			<Str sr="arg5" ve="3" />
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Str sr="arg8" ve="3" />
+			<Str sr="arg9" ve="3" />
+		</Action>
+		<Action sr="act29" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%anapp_escaped</Str>
+			<Str sr="arg1" ve="3">^"|"$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act3" ve="7">
+			<code>590</code>
+			<Str sr="arg0" ve="3">%package_name_blacklist_raw</Str>
+			<Str sr="arg1" ve="3">
+</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+		</Action>
+		<Action sr="act30" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%antitle_escaped</Str>
+			<Str sr="arg1" ve="3">^"|"$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act31" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%antext_escaped</Str>
+			<Str sr="arg1" ve="3">^"|"$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act32" ve="7">
+			<code>598</code>
+			<Str sr="arg0" ve="3">%antextbig_escaped</Str>
+			<Str sr="arg1" ve="3">^"|"$</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Str sr="arg5" ve="3" />
+			<Int sr="arg6" val="1" />
+			<Str sr="arg7" ve="3" />
+		</Action>
+		<Action sr="act33" ve="7">
 			<code>547</code>
 			<Str sr="arg0" ve="3">%json</Str>
 			<Str sr="arg1" ve="3">{
@@ -326,7 +1020,7 @@ Suppressed Effects
             "createdAt": "%ISO_TIME",
             "source": "tasker",
             "device": {
-                "id": "your-device-name-1",
+                "id": "your-device-name",
                 "batteryLevelPercent": "%BATT",
                 "currentSimSlotIndex": "%SIMNUM" ,
                 "cellularCarrierName": "%TNET",
@@ -349,18 +1043,18 @@ Suppressed Effects
                 "packageName": "%anpackage",
                 "appName": "%anapp",
                 "at": "%TIME",
-                "title": "%antitle",
-                "body": "%antext",
+                "title": "%antitle_escaped",
+                "body": "%antextbig_escaped",
                 "tags": []
             }
         }</Str>
-			<Int sr="arg2" val="0"/>
-			<Int sr="arg3" val="0"/>
-			<Int sr="arg4" val="0"/>
-			<Int sr="arg5" val="3"/>
-			<Int sr="arg6" val="1"/>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="0" />
+			<Int sr="arg4" val="0" />
+			<Int sr="arg5" val="3" />
+			<Int sr="arg6" val="1" />
 		</Action>
-		<Action sr="act7" ve="7">
+		<Action sr="act34" ve="7">
 			<code>339</code>
 			<Bundle sr="arg0">
 				<Vals sr="val">
@@ -380,18 +1074,65 @@ The size of the response in bytes&lt;/_array_net.dinglisch.android.tasker.RELEVA
 					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
 				</Vals>
 			</Bundle>
-			<Int sr="arg1" val="1"/>
-			<Int sr="arg10" val="0"/>
-			<Int sr="arg11" val="0"/>
-			<Int sr="arg12" val="1"/>
-			<Str sr="arg2" ve="3">https://YOUR-N8N-INSTANCE-DOMAIN/webhook/device-relay</Str>
-			<Str sr="arg3" ve="3">x-n8n-device-relay:YOUR-TOKEN-HERE</Str>
-			<Str sr="arg4" ve="3"/>
+			<Int sr="arg1" val="1" />
+			<Int sr="arg10" val="0" />
+			<Int sr="arg11" val="0" />
+			<Int sr="arg12" val="1" />
+			<Str sr="arg2" ve="3">https://%YOUR_N8N_DOMAIN/webhook/device-relay</Str>
+			<Str sr="arg3" ve="3">x-n8n-device-relay:%YOUR_TOKEN_HERE</Str>
+			<Str sr="arg4" ve="3" />
 			<Str sr="arg5" ve="3">%json</Str>
-			<Str sr="arg6" ve="3"/>
-			<Str sr="arg7" ve="3"/>
-			<Int sr="arg8" val="30"/>
-			<Int sr="arg9" val="0"/>
+			<Str sr="arg6" ve="3" />
+			<Str sr="arg7" ve="3" />
+			<Int sr="arg8" val="30" />
+			<Int sr="arg9" val="0" />
+		</Action>
+		<Action sr="act4" ve="7">
+			<code>354</code>
+			<Str sr="arg0" ve="3">%package_name_blacklist</Str>
+			<Str sr="arg1" ve="3">%package_name_blacklist_raw()</Str>
+			<Str sr="arg2" ve="3">,</Str>
+		</Action>
+		<Action sr="act5" ve="7">
+			<code>410</code>
+			<on>false</on>
+			<Str sr="arg0" ve="3">Tasker/log/arrayset-test.txt</Str>
+			<Str sr="arg1" ve="3">Array raw:
+%package_name_blacklist_raw()
+
+New array:
+%package_name_blacklist
+
+---</Str>
+			<Int sr="arg2" val="0" />
+			<Int sr="arg3" val="1" />
+		</Action>
+		<Action sr="act6" ve="7">
+			<code>410</code>
+			<on>false</on>
+			<Str sr="arg0" ve="3">Tasker/log/arrayset.txt</Str>
+			<Str sr="arg1" ve="3">Result for %anpackage: %package_name_blacklist(#?%anpackage) </Str>
+			<Int sr="arg2" val="1" />
+			<Int sr="arg3" val="1" />
+		</Action>
+		<Action sr="act7" ve="7">
+			<code>37</code>
+			<coll>false</coll>
+			<ConditionList sr="if">
+				<Condition sr="c0" ve="3">
+					<lhs>%package_name_blacklist(#?%anpackage)</lhs>
+					<op>1</op>
+					<rhs>0</rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+		<Action sr="act8" ve="7">
+			<code>137</code>
+			<Int sr="arg0" val="0" />
+			<Str sr="arg1" ve="3" />
+		</Action>
+		<Action sr="act9" ve="7">
+			<code>43</code>
 		</Action>
 	</Task>
 </TaskerData>

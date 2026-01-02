@@ -1,0 +1,8 @@
+com.whatsapp
+org.telegram.messenger
+com.vkontakte.android
+com.vk.im
+jp.naver.line.android
+com.kakao.talk
+com.viber.voip
+com.snapchat.android
