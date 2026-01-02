@@ -2,8 +2,8 @@
 [CmdletBinding()]
 param(
     [string[]] $Paths = @(
-        ".\ru\tasker",
-        ".\en\tasker"
+        ".\assets\tasker\ru",
+        ".\assets\tasker\en"
     ),
 
     # Defaults to true because sr="profXX"/sr="taskYY" correlates with IDs.
@@ -78,6 +78,67 @@ function Set-ChildElementText {
     $node.InnerText = $Value
 }
 
+function Try-ParseJsonLoosely {
+    param(
+        [Parameter(Mandatory)] [string] $Text,
+        [ref] $Parsed
+    )
+
+    # Tasker exports often embed JSON with placeholders like %BATT or %LOCSPD.
+    # Those placeholders can appear unquoted (number-like fields) which breaks strict JSON parsing.
+    # We sanitize *only for parsing*; we do not use the sanitized text for output.
+
+    $candidate = $Text.Trim()
+    if (-not ($candidate.StartsWith('{') -and $candidate.EndsWith('}'))) {
+        return $false
+    }
+
+    $sanitized = $candidate
+    # Replace any unquoted %VAR tokens with 0 so ConvertFrom-Json can parse.
+    # We consider it "unquoted" if it's not immediately preceded by a double quote.
+    $sanitized = [regex]::Replace($sanitized, '(?<!")%[A-Za-z_][A-Za-z0-9_]*', '0')
+
+    try {
+        $Parsed.Value = $sanitized | ConvertFrom-Json -AsHashtable -ErrorAction Stop
+        return $true
+    } catch {
+        return $false
+    }
+}
+
+function Patch-DeviceIdInEmbeddedJson {
+    param(
+        [Parameter(Mandatory)] [string] $Text,
+        [Parameter(Mandatory)] [string] $ReplacementDeviceId
+    )
+
+    $parsed = $null
+    if (-not (Try-ParseJsonLoosely -Text $Text -Parsed ([ref] $parsed))) {
+        return $Text
+    }
+
+    if ($parsed -isnot [hashtable]) {
+        return $Text
+    }
+
+    if (-not $parsed.ContainsKey('device')) {
+        return $Text
+    }
+
+    $device = $parsed['device']
+    if ($device -isnot [hashtable] -or -not $device.ContainsKey('id')) {
+        return $Text
+    }
+
+    # We only replace the device.id value in the original JSON string, preserving all Tasker placeholders.
+    # Match inside the device object: "device": { ... "id": "..." ... }
+    return [regex]::Replace(
+        $Text,
+        '(?s)("device"\s*:\s*\{.*?"id"\s*:\s*")[^"]*(")',
+        ('$1' + [regex]::Escape($ReplacementDeviceId).Replace('\\','\\\\') + '$2')
+    )
+}
+
 function Scrub-TelegramStrings {
     param([Parameter(Mandatory)] [System.Xml.XmlDocument] $Doc)
 
@@ -96,8 +157,19 @@ function Scrub-TelegramStrings {
             continue
         }
 
+        # Replace x-n8n-device-relay:<token> anywhere.
+        if ($text -match 'x-n8n-device-relay\:.+') {
+            $str.InnerText = "x-n8n-device-relay:%YOUR_TOKEN_HERE"
+            continue
+        }
+
         # Replace chat_id:<digits> anywhere (including multiline Str values).
         $newText = [regex]::Replace($text, '(?m)chat_id:\s*\d+', 'chat_id:<YOUR_TELEGRAM_CHAT_ID>')
+
+        # Replace Tasker JSON device.id value with a non-sensitive placeholder.
+        # This is JSON-aware: it only applies when the Str looks like JSON and parses to an object with device.id.
+        $newText = Patch-DeviceIdInEmbeddedJson -Text $newText -ReplacementDeviceId 'your-device-name'
+
         if ($newText -ne $text) {
             $str.InnerText = $newText
         }

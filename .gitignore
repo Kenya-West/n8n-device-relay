@@ -53,6 +53,11 @@ assets/workflow-configs/*.json
 assets/workflows/*.json
 !assets/workflows/device-relay-log-ingestion.workflow.json
 !assets/workflows/device-relay-telegram.workflow.json
+assets/app-lists/*
+!assets/app-lists/full.txt
+!assets/app-lists/messengers.txt
+!assets/app-lists/system.txt
+!assets/app-lists/vendor-*.txt
 
 # Allow backup files
 backups/*
