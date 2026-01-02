@@ -1,0 +1,237 @@
+{
+  "version": "1.0.0",
+  "tokens": [
+    {
+      "name": "myphone",
+      "key": "<THINK_OF_A_SECRET_KEY_YOURSELF>"
+    },
+    {
+      "name": "debug",
+      "key": "<THIS_TOKEN_WITH_DEBUG_NAME_BYPASSES_DEVICE_CHECK_USE_ONLY_FOR_TESTING>"
+    }
+  ],
+  "recipients": {
+    "me": {
+      "vars": {
+        "botToken": "<INSERT_TELEGRAM_BOT_TOKEN>",
+        "tgChatId": "<INSERT_TELEGRAM_CHAT_ID>"
+      },
+      "rules": [
+        {
+          "id": "rule_sms_received",
+          "type": "sms_received",
+          "when": [
+            {
+              "path": "device.id",
+              "operator": "equals",
+              "value": "myphone"
+            }
+          ],
+          "then": {
+            "endpointIds": [
+              "telegram_sendMessage_post"
+            ],
+            "templateIds": [
+              "template_sms_1_ru"
+            ]
+          }
+        },
+        {
+          "id": "rule_call_received",
+          "type": "call_received",
+          "when": [
+            {
+              "path": "device.id",
+              "operator": "equals",
+              "value": "myphone"
+            }
+          ],
+          "then": {
+            "endpointIds": [
+              "telegram_sendMessage_post"
+            ],
+            "templateIds": [
+              "template_call_1_ru"
+            ]
+          }
+        },
+        {
+          "id": "rule_wifi_connected",
+          "type": "wifi_connected",
+          "when": [
+            {
+              "path": "device.id",
+              "operator": "equals",
+              "value": "myphone"
+            }
+          ],
+          "then": {
+            "endpointIds": [
+              "telegram_sendMessage_post"
+            ],
+            "templateIds": [
+              "template_wifi_1_ru"
+            ]
+          }
+        },
+        {
+          "id": "rule_notification_received",
+          "type": "notification_received",
+          "when": [
+            {
+              "path": "device.id",
+              "operator": "equals",
+              "value": "myphone"
+            }
+          ],
+          "then": {
+            "endpointIds": [
+              "telegram_sendMessage_post"
+            ],
+            "templateIds": [
+              "template_app_1_ru"
+            ]
+          }
+        },
+        {
+          "id": "rule_notification_received",
+          "type": "notification_received",
+          "when": [
+            {
+              "path": "device.id",
+              "operator": "equals",
+              "value": "myphone"
+            },
+            {
+              "path": "data.body",
+              "operator": "matches_regex",
+              "value": "(?:.+)?SOME STRING(?:.+)?"
+            }
+          ],
+          "then": {
+            "endpointIds": [
+              "telegram_sendMessage_post"
+            ],
+            "templateIds": [
+              "template_app_1_ru"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "endpoints": {
+    "telegram_sendMessage_get": {
+      "method": "GET",
+      "url": "https://api.telegram.org/bot{recipient.vars.botToken}/sendMessage",
+      "searchParams": {
+        "chat_id": "{recipient.vars.tgChatId}",
+        "text": "{%text%}"
+      }
+    },
+    "telegram_sendMessage_post": {
+      "method": "POST",
+      "url": "https://api.telegram.org/bot{recipient.vars.botToken}/sendMessage",
+      "body": {
+        "type": "json",
+        "content": {
+          "chat_id": "{recipient.vars.tgChatId}",
+          "text": "{%text%}"
+        }
+      }
+    }
+  },
+  "templates": {
+    "template_sms_1_ru": {
+      "text": "📄 Входящее смс от: {data.fromName} (номер телефона: {data.fromPhoneNumber})\n\n📖 Текст:\n{data.body}\n\nℹ️ Доп. данные:\n🔋 Заряд: {device.batteryLevelPercent}%,\n📟 Имя SIM: {device.cellularCarrierName} (ID: {device.currentSimSlotIndex}),\n📶 Сеть Wi-Fi: {device.currentWifiSsid}"
+    },
+    "template_call_1_ru": {
+      "text": "📞 Входящий звонок от: {data.fromName} (номер телефона: {data.fromPhoneNumber})\n\nℹ️ Доп. данные:\n🔋 Заряд: {device.batteryLevelPercent}%,\n📟 Имя SIM: {device.cellularCarrierName} (ID: {device.currentSimSlotIndex}),\n📶 Сеть Wi-Fi: {device.currentWifiSsid}"
+    },
+    "template_wifi_1_ru": {
+      "text": "🛜 Сеть Wi-Fi подключена!\n\nСеть Wi-Fi: {device.currentWifiSsid}\nДанные о локации:\n- {device.locationPoint}\n- {device.locationLink}\n- Ссылка на последнее известное местоположение: {device.locationLastTimestamp}\n- Скорость аппарата: {device.currentSpeed} км/ч.\n\nℹ️ Доп. данные:\n🔋 Заряд: {device.batteryLevelPercent}%"
+    },
+    "template_app_1_ru": {
+      "text": "🔔 Уведомление от приложения: {data.appName} ({data.packageName})\n\n📖 Заголовок:\n{data.title}\n\n📖 Текст:\n{data.body}\n\nℹ️ Доп. данные:\n🔋 Заряд: {device.batteryLevelPercent}%"
+    }
+  },
+  "logIngestions": {
+    "logingestion_1": {
+      "type": "open-telemetry",
+      "rules": [
+        {
+          "id": "logs",
+          "steps": [
+            "initial",
+            "send_message_after"
+          ],
+          "payloadIds": [
+            "payload_1"
+          ],
+          "endpointIds": [
+            "endpoint_1"
+          ]
+        }
+      ],
+      "payloads": [
+        {
+          "id": "payload_1",
+          "body": {
+            "resourceLogs": [
+              {
+                "resource": {
+                  "attributes": [
+                    {
+                      "key": "service.name",
+                      "value": {
+                        "stringValue": "n8n-device-relay"
+                      }
+                    }
+                  ]
+                },
+                "scopeLogs": [
+                  {
+                    "logRecords": [
+                      {
+                        "timeUnixNano": "{%expr=(Date.now() * 1e6).toString()%}",
+                        "observedTimeUnixNano": "{%expr=(Date.now() * 1e6).toString()%}",
+                        "severityNumber": 10,
+                        "severityText": "Information",
+                        "traceId": "{%expr=Array.from({length:32}).map(()=>Math.floor(Math.random()*16).toString(16)).join('').toUpperCase()%}",
+                        "spanId": "{%expr=Array.from({length:16}).map(()=>Math.floor(Math.random()*16).toString(16)).join('').toUpperCase()%}",
+                        "body": {
+                          "stringValue": "{%step%}"
+                        },
+                        "attributes": [
+                          {
+                            "key": "request",
+                            "value": {
+                              "stringValue": "{%event%}"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "endpoints": {
+        "endpoint_1": {
+          "method": "POST",
+          "url": "https://<API endpoint>",
+          "headers": {
+            "Authorization": "<Authorization Token>"
+          },
+          "body": {
+            "type": "json",
+            "content": "{%body%}"
+          }
+        }
+      }
+    }
+  }
+}
