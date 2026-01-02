@@ -50,6 +50,9 @@ vitest.config.*.timestamp*
 # Allow workflow-configs/example.json, exclude others
 assets/workflow-configs/*.json
 !assets/workflow-configs/example*.json
+assets/workflows/*.json
+!assets/workflows/device-relay-log-ingestion.workflow.json
+!assets/workflows/device-relay-telegram.workflow.json
 
 # Allow backup files
 backups/*

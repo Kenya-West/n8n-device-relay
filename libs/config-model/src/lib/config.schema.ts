@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ConfigModel } from './config.model';
+import { Step } from './log.model';
 
 export const ConfigSchema = z.object({
   recipients: z.record(
@@ -16,7 +17,13 @@ export const ConfigSchema = z.object({
       url: z.url(),
       method: z.enum(['GET', 'POST', 'PUT', 'PATCH', 'DELETE']).default('POST')
     })
-  )
+  ),
+  logIngestion: z.object({
+    type: z.literal('open-telemetry'),
+    step: z.enum(Object.values(Step)),
+    payload: z.object({}),
+
+  }).optional()
 });
 
 export type Config = z.infer<typeof ConfigSchema>;

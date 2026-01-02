@@ -1,4 +1,5 @@
 import { DataType, InboundDataModel } from "./inbound.model";
+import { LogIngestionModel } from "./log.model";
 
  
 
@@ -47,6 +48,8 @@ export interface ConfigModel {
    */
   devices?: Record<DeviceId, DeviceDefinition>;
 
+  logIngestions?: Record<LogIngestionId, LogIngestionModel>;
+
   /**
    * Optional global defaults applied by n8n when building outbound requests.
    * Per-endpoint settings override these defaults.
@@ -73,6 +76,7 @@ export type RecipientId = string;
 export type EndpointId = string;
 export type TemplateId = string;
 export type DeviceId = string;
+export type LogIngestionId = string;
 
 /* -------------------------------- Recipient ------------------------------ */
 
