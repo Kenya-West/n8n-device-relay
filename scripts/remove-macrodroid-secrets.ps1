@@ -37,6 +37,39 @@ function Backup-File {
     }
 }
 
+function Update-ExportedActionBlocks {
+    param(
+        [Parameter(Mandatory = $true)] $Blocks,
+        [Parameter(Mandatory = $true)][ref] $MacroGuidCounter,
+        [Parameter(Mandatory = $true)][ref] $SiguidCounter
+    )
+
+    if ($null -eq $Blocks) { return }
+
+    foreach ($block in @($Blocks)) {
+        if ($null -eq $block) { continue }
+
+        if ($block.PSObject.Properties.Name -contains 'm_GUID') {
+            $block.m_GUID = $MacroGuidCounter.Value.ToString('0')
+            $MacroGuidCounter.Value--
+        }
+
+        if ($block.PSObject.Properties.Name -contains 'm_actionList' -and $block.m_actionList) {
+            foreach ($action in @($block.m_actionList)) {
+                if ($null -eq $action) { continue }
+                if ($action.PSObject.Properties.Name -contains 'm_SIGUID') {
+                    $action.m_SIGUID = $SiguidCounter.Value.ToString('0')
+                    $SiguidCounter.Value--
+                }
+            }
+        }
+
+        if ($block.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $block.exportedActionBlocks) {
+            Update-ExportedActionBlocks -Blocks $block.exportedActionBlocks -MacroGuidCounter $MacroGuidCounter -SiguidCounter $SiguidCounter
+        }
+    }
+}
+
 # ---- Processing -------------------------------------------------------------
 
 foreach ($path in $Paths) {
@@ -117,6 +150,12 @@ foreach ($path in $Paths) {
                     }
                 }
             }
+        }
+
+        # ---- exportedActionBlocks (Action Blocks) ---------------------------
+
+        if ($macro.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $macro.exportedActionBlocks) {
+            Update-ExportedActionBlocks -Blocks $macro.exportedActionBlocks -MacroGuidCounter ([ref]$MacroGuidCounter) -SiguidCounter ([ref]$SiguidCounter)
         }
 
         # ---- m_triggerList ---------------------------------------------------

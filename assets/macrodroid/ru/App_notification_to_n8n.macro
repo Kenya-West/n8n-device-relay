@@ -1,14 +1,134 @@
 {
   "macro": {
     "disabledTimestamp": 0,
-    "exportedActionBlocks": [],
+    "exportedActionBlocks": [
+      {
+        "isInputExpanded": true,
+        "isLocalExpanded": false,
+        "isOutputExpanded": true,
+        "isTestMode": false,
+        "disabledTimestamp": 0,
+        "exportedActionBlocks": [],
+        "forceEvenIfNotEnabledTimestamp": 0,
+        "isActionBlock": true,
+        "isBeingImported": false,
+        "isClonedInstance": false,
+        "isExtra": false,
+        "isFavourite": false,
+        "lastEditedTimestamp": 1767441594274,
+        "localVariables": [
+          {
+            "dictionary": {
+              "entries": [],
+              "isArray": false,
+              "variableType": 4,
+              "type": "Dictionary"
+            },
+            "isActionBlockWorkingVar": false,
+            "isLocalVar": true,
+            "isSecure": false,
+            "m_booleanValue": false,
+            "m_decimalValue": 0.0,
+            "m_intValue": 0,
+            "m_name": "input",
+            "m_stringValue": "",
+            "m_type": 2,
+            "supportsInput": true,
+            "supportsOutput": false
+          },
+          {
+            "dictionary": {
+              "entries": [],
+              "isArray": false,
+              "variableType": 4,
+              "type": "Dictionary"
+            },
+            "isActionBlockWorkingVar": false,
+            "isLocalVar": true,
+            "isSecure": false,
+            "m_booleanValue": false,
+            "m_decimalValue": 0.0,
+            "m_intValue": 0,
+            "m_name": "output",
+            "m_stringValue": "",
+            "m_type": 2,
+            "supportsInput": false,
+            "supportsOutput": true
+          }
+        ],
+        "m_GUID": "-1700000000000000001",
+        "m_actionList": [
+          {
+            "m_option": 1,
+            "m_text": "{lv=input}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\n",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000014",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\r",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000015",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\\"",
+                "'"
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000016",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          }
+        ],
+        "m_category": "Без категории",
+        "m_constraintList": [],
+        "m_description": "",
+        "m_descriptionOpen": true,
+        "m_enabled": false,
+        "m_excludeLog": false,
+        "m_headingColor": 0,
+        "m_isOrCondition": false,
+        "m_name": "Normalize string",
+        "m_triggerList": []
+      }
+    ],
     "forceEvenIfNotEnabledTimestamp": 0,
     "isActionBlock": false,
     "isBeingImported": false,
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1767019443805,
+    "lastEditedTimestamp": 1767442356866,
     "localVariables": [
       {
         "dictionary": {
@@ -142,6 +262,4915 @@
         "m_type": 2,
         "supportsInput": false,
         "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [],
+          "isArray": false,
+          "variableType": 4,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "app_package_blacklist_raw",
+        "m_stringValue": "",
+        "m_type": 2,
+        "supportsInput": true,
+        "supportsOutput": true
+      },
+      {
+        "dictionary": {
+          "entries": [
+            {
+              "key": "0",
+              "variable": {
+                "textValue": "# Messengers\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "1",
+              "variable": {
+                "textValue": "com.whatsapp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "2",
+              "variable": {
+                "textValue": "org.telegram.messenger\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "3",
+              "variable": {
+                "textValue": "com.vkontakte.android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "4",
+              "variable": {
+                "textValue": "com.vk.im\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "5",
+              "variable": {
+                "textValue": "jp.naver.line.android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "6",
+              "variable": {
+                "textValue": "com.kakao.talk\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "7",
+              "variable": {
+                "textValue": "com.viber.voip\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "8",
+              "variable": {
+                "textValue": "com.snapchat.android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "9",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "10",
+              "variable": {
+                "textValue": "# Cloud\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "11",
+              "variable": {
+                "textValue": "com.microsoft.skydrive\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "12",
+              "variable": {
+                "textValue": "com.google.android.apps.docs\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "13",
+              "variable": {
+                "textValue": "com.dropbox.android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "14",
+              "variable": {
+                "textValue": "ru.mail.cloud\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "15",
+              "variable": {
+                "textValue": "ru.yandex.disk\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "16",
+              "variable": {
+                "textValue": "com.google.android.apps.photos\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "17",
+              "variable": {
+                "textValue": "com.adobe.cc\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "18",
+              "variable": {
+                "textValue": "com.dubox.drive\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "19",
+              "variable": {
+                "textValue": "dk.tacit.android.foldersync.lite\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "20",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "21",
+              "variable": {
+                "textValue": "# Tools\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "22",
+              "variable": {
+                "textValue": "dev.imranr.obtainium\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "23",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "24",
+              "variable": {
+                "textValue": "# Microsoft\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "25",
+              "variable": {
+                "textValue": "com.microsoft.teams\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "26",
+              "variable": {
+                "textValue": "com.microsoft.appmanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "27",
+              "variable": {
+                "textValue": "com.microsoft.skydrive\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "28",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "29",
+              "variable": {
+                "textValue": "# Maps\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "30",
+              "variable": {
+                "textValue": "ru.dublgis.dgismobile\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "31",
+              "variable": {
+                "textValue": "com.blinkmap\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "32",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "33",
+              "variable": {
+                "textValue": "# System\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "34",
+              "variable": {
+                "textValue": "android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "35",
+              "variable": {
+                "textValue": "android.aosp.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "36",
+              "variable": {
+                "textValue": "android.aosp.overlay.telephony\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "37",
+              "variable": {
+                "textValue": "android.auto_generated_characteristics_rro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "38",
+              "variable": {
+                "textValue": "android.autoinstalls.config.lge.d4\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "39",
+              "variable": {
+                "textValue": "android.autoinstalls.config.Xiaomi.model\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "40",
+              "variable": {
+                "textValue": "android.miui.home.launcher.res\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "41",
+              "variable": {
+                "textValue": "android.miui.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "42",
+              "variable": {
+                "textValue": "android.miui.overlay.telephony\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "43",
+              "variable": {
+                "textValue": "android.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "44",
+              "variable": {
+                "textValue": "android.overlay.priority1.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "45",
+              "variable": {
+                "textValue": "android.overlay.priority2.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "46",
+              "variable": {
+                "textValue": "android.overlay.target\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "47",
+              "variable": {
+                "textValue": "android.qvaoverlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "48",
+              "variable": {
+                "textValue": "com.android.angle\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "49",
+              "variable": {
+                "textValue": "com.android.apps.tag\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "50",
+              "variable": {
+                "textValue": "com.android.avatarpicker\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "51",
+              "variable": {
+                "textValue": "com.android.backupconfirm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "52",
+              "variable": {
+                "textValue": "com.android.bips\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "53",
+              "variable": {
+                "textValue": "com.android.bluetooth\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "54",
+              "variable": {
+                "textValue": "com.android.bluetooth.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "55",
+              "variable": {
+                "textValue": "com.android.bluetoothmidiservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "56",
+              "variable": {
+                "textValue": "com.android.bookmarkprovider\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "57",
+              "variable": {
+                "textValue": "com.android.calculator2\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "58",
+              "variable": {
+                "textValue": "com.android.calllogbackup\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "59",
+              "variable": {
+                "textValue": "com.android.camera\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "60",
+              "variable": {
+                "textValue": "com.android.cameraextensions\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "61",
+              "variable": {
+                "textValue": "com.android.captiveportallogin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "62",
+              "variable": {
+                "textValue": "com.android.carrierconfig\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "63",
+              "variable": {
+                "textValue": "com.android.carrierconfig.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "64",
+              "variable": {
+                "textValue": "com.android.carrierconfig.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "65",
+              "variable": {
+                "textValue": "com.android.carrierdefaultapp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "66",
+              "variable": {
+                "textValue": "com.android.cellbroadcastreceiver\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "67",
+              "variable": {
+                "textValue": "com.android.cellbroadcastreceiver.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "68",
+              "variable": {
+                "textValue": "com.android.certinstaller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "69",
+              "variable": {
+                "textValue": "com.android.chrome\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "70",
+              "variable": {
+                "textValue": "com.android.companiondevicemanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "71",
+              "variable": {
+                "textValue": "com.android.companiondevicemanager.auto_generated_characteristics_rro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "72",
+              "variable": {
+                "textValue": "com.android.compos.payload\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "73",
+              "variable": {
+                "textValue": "com.android.contacts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "74",
+              "variable": {
+                "textValue": "com.android.credentialmanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "75",
+              "variable": {
+                "textValue": "com.android.cts.ctsshim\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "76",
+              "variable": {
+                "textValue": "com.android.cts.priv.ctsshim\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "77",
+              "variable": {
+                "textValue": "com.android.defcontainer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "78",
+              "variable": {
+                "textValue": "com.android.deskclock\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "79",
+              "variable": {
+                "textValue": "com.android.DeviceAsWebcam\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "80",
+              "variable": {
+                "textValue": "com.android.devicediagnostics\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "81",
+              "variable": {
+                "textValue": "com.android.dialer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "82",
+              "variable": {
+                "textValue": "com.android.documentsui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "83",
+              "variable": {
+                "textValue": "com.android.dreams.basic\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "84",
+              "variable": {
+                "textValue": "com.android.dreams.phototable\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "85",
+              "variable": {
+                "textValue": "com.android.dynsystem\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "86",
+              "variable": {
+                "textValue": "com.android.egg\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "87",
+              "variable": {
+                "textValue": "com.android.email\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "88",
+              "variable": {
+                "textValue": "com.android.email.partnerprovider\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "89",
+              "variable": {
+                "textValue": "com.android.email.partnerprovider.overlay.priority2.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "90",
+              "variable": {
+                "textValue": "com.android.emergency\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "91",
+              "variable": {
+                "textValue": "com.android.exchange\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "92",
+              "variable": {
+                "textValue": "com.android.externalstorage\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "93",
+              "variable": {
+                "textValue": "com.android.facelock\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "94",
+              "variable": {
+                "textValue": "com.android.factoryservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "95",
+              "variable": {
+                "textValue": "com.android.fmradio\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "96",
+              "variable": {
+                "textValue": "com.android.gallery3d\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "97",
+              "variable": {
+                "textValue": "com.android.hotspot2.osulogin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "98",
+              "variable": {
+                "textValue": "com.android.hotwordenrollment.okgoogle\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "99",
+              "variable": {
+                "textValue": "com.android.hotwordenrollment.xgoogle\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "100",
+              "variable": {
+                "textValue": "com.android.htmlviewer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "101",
+              "variable": {
+                "textValue": "com.android.huaqin.factory\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "102",
+              "variable": {
+                "textValue": "com.android.imsserviceentitlement\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "103",
+              "variable": {
+                "textValue": "com.android.inputdevices\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "104",
+              "variable": {
+                "textValue": "com.android.inputsettings.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "105",
+              "variable": {
+                "textValue": "com.android.intentresolver\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "106",
+              "variable": {
+                "textValue": "com.android.internal.display.cutout.emulation.corner\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "107",
+              "variable": {
+                "textValue": "com.android.internal.display.cutout.emulation.double\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "108",
+              "variable": {
+                "textValue": "com.android.internal.display.cutout.emulation.hole\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "109",
+              "variable": {
+                "textValue": "com.android.internal.display.cutout.emulation.tall\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "110",
+              "variable": {
+                "textValue": "com.android.internal.display.cutout.emulation.waterfall\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "111",
+              "variable": {
+                "textValue": "com.android.internal.systemui.navbar.gestural\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "112",
+              "variable": {
+                "textValue": "com.android.internal.systemui.navbar.threebutton\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "113",
+              "variable": {
+                "textValue": "com.android.internal.systemui.navbar.transparent\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "114",
+              "variable": {
+                "textValue": "com.android.keychain\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "115",
+              "variable": {
+                "textValue": "com.android.launcher3\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "116",
+              "variable": {
+                "textValue": "com.android.launcher3.overlay.priority1.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "117",
+              "variable": {
+                "textValue": "com.android.localtransport\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "118",
+              "variable": {
+                "textValue": "com.android.location.fused\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "119",
+              "variable": {
+                "textValue": "com.android.managedprovisioning\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "120",
+              "variable": {
+                "textValue": "com.android.managedprovisioning.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "121",
+              "variable": {
+                "textValue": "com.android.microdroid.empty_payload\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "122",
+              "variable": {
+                "textValue": "com.android.mms\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "123",
+              "variable": {
+                "textValue": "com.android.mms.service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "124",
+              "variable": {
+                "textValue": "com.android.mtp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "125",
+              "variable": {
+                "textValue": "com.android.musicfx\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "126",
+              "variable": {
+                "textValue": "com.android.networkstack.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "127",
+              "variable": {
+                "textValue": "com.android.nfc\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "128",
+              "variable": {
+                "textValue": "com.android.noisefield\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "129",
+              "variable": {
+                "textValue": "com.android.ons\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "130",
+              "variable": {
+                "textValue": "com.android.overlay.gmscontactprovider\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "131",
+              "variable": {
+                "textValue": "com.android.overlay.gmssettingprovider\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "132",
+              "variable": {
+                "textValue": "com.android.overlay.gmssettings\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "133",
+              "variable": {
+                "textValue": "com.android.overlay.gmstelecomm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "134",
+              "variable": {
+                "textValue": "com.android.overlay.gmstelephony\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "135",
+              "variable": {
+                "textValue": "com.android.overlay.systemui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "136",
+              "variable": {
+                "textValue": "com.android.pacprocessor\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "137",
+              "variable": {
+                "textValue": "com.android.partnerbrowsercustomizations\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "138",
+              "variable": {
+                "textValue": "com.android.phasebeam\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "139",
+              "variable": {
+                "textValue": "com.android.phone\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "140",
+              "variable": {
+                "textValue": "com.android.phone.auto_generated_characteristics_rro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "141",
+              "variable": {
+                "textValue": "com.android.phone.cust.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "142",
+              "variable": {
+                "textValue": "com.android.phone.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "143",
+              "variable": {
+                "textValue": "com.android.phone.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "144",
+              "variable": {
+                "textValue": "com.android.printspooler\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "145",
+              "variable": {
+                "textValue": "com.android.providers.applications\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "146",
+              "variable": {
+                "textValue": "com.android.providers.blockednumber\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "147",
+              "variable": {
+                "textValue": "com.android.providers.calendar\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "148",
+              "variable": {
+                "textValue": "com.android.providers.contactkeys\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "149",
+              "variable": {
+                "textValue": "com.android.providers.contacts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "150",
+              "variable": {
+                "textValue": "com.android.providers.downloads\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "151",
+              "variable": {
+                "textValue": "com.android.providers.downloads.ui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "152",
+              "variable": {
+                "textValue": "com.android.providers.media\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "153",
+              "variable": {
+                "textValue": "com.android.providers.partnerbookmarks\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "154",
+              "variable": {
+                "textValue": "com.android.providers.settings\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "155",
+              "variable": {
+                "textValue": "com.android.providers.settings.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "156",
+              "variable": {
+                "textValue": "com.android.providers.settings.overlay.priority2.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "157",
+              "variable": {
+                "textValue": "com.android.providers.telephony\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "158",
+              "variable": {
+                "textValue": "com.android.providers.telephony.auto_generated_characteristics_rro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "159",
+              "variable": {
+                "textValue": "com.android.providers.telephony.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "160",
+              "variable": {
+                "textValue": "com.android.providers.userdictionary\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "161",
+              "variable": {
+                "textValue": "com.android.provision\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "162",
+              "variable": {
+                "textValue": "com.android.proxyhandler\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "163",
+              "variable": {
+                "textValue": "com.android.rkpdapp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "164",
+              "variable": {
+                "textValue": "com.android.role.notes.enabled\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "165",
+              "variable": {
+                "textValue": "com.android.se\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "166",
+              "variable": {
+                "textValue": "com.android.server.telecom\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "167",
+              "variable": {
+                "textValue": "com.android.server.telecom.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "168",
+              "variable": {
+                "textValue": "com.android.server.telecom.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "169",
+              "variable": {
+                "textValue": "com.android.settings\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "170",
+              "variable": {
+                "textValue": "com.android.settings.intelligence\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "171",
+              "variable": {
+                "textValue": "com.android.settings.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "172",
+              "variable": {
+                "textValue": "com.android.settings.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "173",
+              "variable": {
+                "textValue": "com.android.sharedstoragebackup\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "174",
+              "variable": {
+                "textValue": "com.android.shell\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "175",
+              "variable": {
+                "textValue": "com.android.simappdialog\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "176",
+              "variable": {
+                "textValue": "com.android.simmelock\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "177",
+              "variable": {
+                "textValue": "com.android.smspush\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "178",
+              "variable": {
+                "textValue": "com.android.soundpicker\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "179",
+              "variable": {
+                "textValue": "com.android.soundrecorder\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "180",
+              "variable": {
+                "textValue": "com.android.statementservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "181",
+              "variable": {
+                "textValue": "com.android.stk\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "182",
+              "variable": {
+                "textValue": "com.android.stk.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "183",
+              "variable": {
+                "textValue": "com.android.stk.overlay.priority1.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "184",
+              "variable": {
+                "textValue": "com.android.storagemanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "185",
+              "variable": {
+                "textValue": "com.android.systemui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "186",
+              "variable": {
+                "textValue": "com.android.systemui.accessibility.accessibilitymenu\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "187",
+              "variable": {
+                "textValue": "com.android.systemui.gesture.line.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "188",
+              "variable": {
+                "textValue": "com.android.systemui.navigation.bar.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "189",
+              "variable": {
+                "textValue": "com.android.systemui.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "190",
+              "variable": {
+                "textValue": "com.android.systemui.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "191",
+              "variable": {
+                "textValue": "com.android.systemui.overlay.priority1.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "192",
+              "variable": {
+                "textValue": "com.android.systemui.overlay.priority2.CLR_COM\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "193",
+              "variable": {
+                "textValue": "com.android.theme.font.notoserifsource\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "194",
+              "variable": {
+                "textValue": "com.android.thememanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "195",
+              "variable": {
+                "textValue": "com.android.thememanager.customizethemeconfig.config.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "196",
+              "variable": {
+                "textValue": "com.android.touch\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "197",
+              "variable": {
+                "textValue": "com.android.traceur\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "198",
+              "variable": {
+                "textValue": "com.android.updater\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "199",
+              "variable": {
+                "textValue": "com.android.uwb.resources\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "200",
+              "variable": {
+                "textValue": "com.android.uwb.resources.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "201",
+              "variable": {
+                "textValue": "com.android.vending\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "202",
+              "variable": {
+                "textValue": "com.android.virtualmachine.res\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "203",
+              "variable": {
+                "textValue": "com.android.vpndialogs\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "204",
+              "variable": {
+                "textValue": "com.android.wallpaper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "205",
+              "variable": {
+                "textValue": "com.android.wallpaper.holospiral\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "206",
+              "variable": {
+                "textValue": "com.android.wallpaper.livepicker\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "207",
+              "variable": {
+                "textValue": "com.android.wallpaperbackup\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "208",
+              "variable": {
+                "textValue": "com.android.wallpapercropper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "209",
+              "variable": {
+                "textValue": "com.android.wifi.dialog\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "210",
+              "variable": {
+                "textValue": "com.android.wifi.resources\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "211",
+              "variable": {
+                "textValue": "com.android.wifi.resources.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "212",
+              "variable": {
+                "textValue": "com.android.wifi.resources.overlay.target\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "213",
+              "variable": {
+                "textValue": "com.android.wifi.resources.overlay.taro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "214",
+              "variable": {
+                "textValue": "com.android.wifi.resources.xiaomi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "215",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "216",
+              "variable": {
+                "textValue": "# Google\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "217",
+              "variable": {
+                "textValue": "com.google.ambient.streaming\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "218",
+              "variable": {
+                "textValue": "com.google.android.accessibility.switchaccess\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "219",
+              "variable": {
+                "textValue": "com.google.android.adservices.api\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "220",
+              "variable": {
+                "textValue": "com.google.android.apps.bard\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "221",
+              "variable": {
+                "textValue": "com.google.android.apps.docs\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "222",
+              "variable": {
+                "textValue": "com.google.android.apps.googleassistant\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "223",
+              "variable": {
+                "textValue": "com.google.android.apps.healthdata\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "224",
+              "variable": {
+                "textValue": "com.google.android.apps.magazines\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "225",
+              "variable": {
+                "textValue": "com.google.android.apps.maps\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "226",
+              "variable": {
+                "textValue": "com.google.android.apps.meetings\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "227",
+              "variable": {
+                "textValue": "com.google.android.apps.messaging\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "228",
+              "variable": {
+                "textValue": "com.google.android.apps.nbu.files\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "229",
+              "variable": {
+                "textValue": "com.google.android.apps.photos\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "230",
+              "variable": {
+                "textValue": "com.google.android.apps.podcasts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "231",
+              "variable": {
+                "textValue": "com.google.android.apps.restore\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "232",
+              "variable": {
+                "textValue": "com.google.android.apps.safetyhub\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "233",
+              "variable": {
+                "textValue": "com.google.android.apps.subscriptions.red\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "234",
+              "variable": {
+                "textValue": "com.google.android.apps.tachyon\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "235",
+              "variable": {
+                "textValue": "com.google.android.apps.translate\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "236",
+              "variable": {
+                "textValue": "com.google.android.apps.turbo\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "237",
+              "variable": {
+                "textValue": "com.google.android.apps.walletnfcrel\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "238",
+              "variable": {
+                "textValue": "com.google.android.apps.wellbeing\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "239",
+              "variable": {
+                "textValue": "com.google.android.apps.youtube.music\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "240",
+              "variable": {
+                "textValue": "com.google.android.appsearch.apk\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "241",
+              "variable": {
+                "textValue": "com.google.android.as\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "242",
+              "variable": {
+                "textValue": "com.google.android.as.oss\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "243",
+              "variable": {
+                "textValue": "com.google.android.backuptransport\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "244",
+              "variable": {
+                "textValue": "com.google.android.calendar\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "245",
+              "variable": {
+                "textValue": "com.google.android.captiveportallogin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "246",
+              "variable": {
+                "textValue": "com.google.android.cellbroadcastreceiver\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "247",
+              "variable": {
+                "textValue": "com.google.android.cellbroadcastreceiver.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "248",
+              "variable": {
+                "textValue": "com.google.android.cellbroadcastservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "249",
+              "variable": {
+                "textValue": "com.google.android.cellbroadcastservice.overlay.miui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "250",
+              "variable": {
+                "textValue": "com.google.android.configupdater\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "251",
+              "variable": {
+                "textValue": "com.google.android.connectivity.resources\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "252",
+              "variable": {
+                "textValue": "com.google.android.contactkeys\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "253",
+              "variable": {
+                "textValue": "com.google.android.contacts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "254",
+              "variable": {
+                "textValue": "com.google.android.devicelockcontroller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "255",
+              "variable": {
+                "textValue": "com.google.android.dialer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "256",
+              "variable": {
+                "textValue": "com.google.android.documentsui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "257",
+              "variable": {
+                "textValue": "com.google.android.ext.services\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "258",
+              "variable": {
+                "textValue": "com.google.android.ext.shared\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "259",
+              "variable": {
+                "textValue": "com.google.android.federatedcompute\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "260",
+              "variable": {
+                "textValue": "com.google.android.feedback\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "261",
+              "variable": {
+                "textValue": "com.google.android.gm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "262",
+              "variable": {
+                "textValue": "com.google.android.gms\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "263",
+              "variable": {
+                "textValue": "com.google.android.gms.location.history\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "264",
+              "variable": {
+                "textValue": "com.google.android.gms.supervision\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "265",
+              "variable": {
+                "textValue": "com.google.android.googlequicksearchbox\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "266",
+              "variable": {
+                "textValue": "com.google.android.gsf\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "267",
+              "variable": {
+                "textValue": "com.google.android.gsf.login\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "268",
+              "variable": {
+                "textValue": "com.google.android.health.connect.backuprestore\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "269",
+              "variable": {
+                "textValue": "com.google.android.healthconnect.controller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "270",
+              "variable": {
+                "textValue": "com.google.android.ims\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "271",
+              "variable": {
+                "textValue": "com.google.android.inputmethod.korean\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "272",
+              "variable": {
+                "textValue": "com.google.android.inputmethod.latin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "273",
+              "variable": {
+                "textValue": "com.google.android.instantapps.supervisor\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "274",
+              "variable": {
+                "textValue": "com.google.android.marvin.talkback\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "275",
+              "variable": {
+                "textValue": "com.google.android.modulemetadata\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "276",
+              "variable": {
+                "textValue": "com.google.android.music\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "277",
+              "variable": {
+                "textValue": "com.google.android.networkstack\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "278",
+              "variable": {
+                "textValue": "com.google.android.networkstack.tethering\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "279",
+              "variable": {
+                "textValue": "com.google.android.ondevicepersonalization.services\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "280",
+              "variable": {
+                "textValue": "com.google.android.onetimeinitializer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "281",
+              "variable": {
+                "textValue": "com.google.android.overlay.devicelockcontroller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "282",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.asi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "283",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "284",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.comms\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "285",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.geotz\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "286",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.gsa\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "287",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.personalsafety\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "288",
+              "variable": {
+                "textValue": "com.google.android.overlay.gmsconfig.photos\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "289",
+              "variable": {
+                "textValue": "com.google.android.overlay.healthconnect\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "290",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.captiveportallogin.forframework\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "291",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.documentsui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "292",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.ext.services\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "293",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.healthfitness.forframework\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "294",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.modulemetadata.forframework\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "295",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.permissioncontroller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "296",
+              "variable": {
+                "textValue": "com.google.android.overlay.modules.permissioncontroller.forframework\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "297",
+              "variable": {
+                "textValue": "com.google.android.packageinstaller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "298",
+              "variable": {
+                "textValue": "com.google.android.partnersetup\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "299",
+              "variable": {
+                "textValue": "com.google.android.permissioncontroller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "300",
+              "variable": {
+                "textValue": "com.google.android.photopicker\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "301",
+              "variable": {
+                "textValue": "com.google.android.printservice.recommendation\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "302",
+              "variable": {
+                "textValue": "com.google.android.projection.gearhead\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "303",
+              "variable": {
+                "textValue": "com.google.android.providers.media.module\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "304",
+              "variable": {
+                "textValue": "com.google.android.safetycenter.resources\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "305",
+              "variable": {
+                "textValue": "com.google.android.safetycore\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "306",
+              "variable": {
+                "textValue": "com.google.android.sdksandbox\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "307",
+              "variable": {
+                "textValue": "com.google.android.server.deviceconfig.resources\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "308",
+              "variable": {
+                "textValue": "com.google.android.setupwizard\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "309",
+              "variable": {
+                "textValue": "com.google.android.syncadapters.contacts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "310",
+              "variable": {
+                "textValue": "com.google.android.tts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "311",
+              "variable": {
+                "textValue": "com.google.android.videos\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "312",
+              "variable": {
+                "textValue": "com.google.android.webview\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "313",
+              "variable": {
+                "textValue": "com.google.android.wifi.resources.overlay.common\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "314",
+              "variable": {
+                "textValue": "com.google.android.wifi.resources.xiaomi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "315",
+              "variable": {
+                "textValue": "com.google.android.youtube\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "316",
+              "variable": {
+                "textValue": "com.google.ar.core\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "317",
+              "variable": {
+                "textValue": "com.google.ar.lens\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "318",
+              "variable": {
+                "textValue": "com.google.mainline.adservices\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "319",
+              "variable": {
+                "textValue": "com.google.mainline.telemetry\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "320",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "321",
+              "variable": {
+                "textValue": "# Hardware\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "322",
+              "variable": {
+                "textValue": "com.mediatek.camera\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "323",
+              "variable": {
+                "textValue": "com.mediatek.fwk.plugin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "324",
+              "variable": {
+                "textValue": "com.mediatek.ygps\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "325",
+              "variable": {
+                "textValue": "com.mediatek.engineermode\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "326",
+              "variable": {
+                "textValue": "com.mediatek.omacp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "327",
+              "variable": {
+                "textValue": "com.mediatek.bluetooth.dtt\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "328",
+              "variable": {
+                "textValue": "com.mediatek.providers.drm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "329",
+              "variable": {
+                "textValue": "com.mediatek.miravision.ui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "330",
+              "variable": {
+                "textValue": "com.mediatek.batterywarning\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "331",
+              "variable": {
+                "textValue": "com.mediatek\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "332",
+              "variable": {
+                "textValue": "com.mediatek.calendarimporter\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "333",
+              "variable": {
+                "textValue": "com.mediatek.atci.service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "334",
+              "variable": {
+                "textValue": "com.mediatek.thermalmanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "335",
+              "variable": {
+                "textValue": "com.mediatek.lbs.em2.ui\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "336",
+              "variable": {
+                "textValue": "com.mediatek.filemanager\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "337",
+              "variable": {
+                "textValue": "com.mediatek.mtklogger\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "338",
+              "variable": {
+                "textValue": "com.qualcomm.qti.cne\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "339",
+              "variable": {
+                "textValue": "com.qualcomm.uimremoteserver\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "340",
+              "variable": {
+                "textValue": "com.qualcomm.qti.uimGbaApp\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "341",
+              "variable": {
+                "textValue": "com.qualcomm.location\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "342",
+              "variable": {
+                "textValue": "com.qualcomm.qti.remoteSimlockAuth\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "343",
+              "variable": {
+                "textValue": "com.qualcomm.qti.xrcb\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "344",
+              "variable": {
+                "textValue": "com.qualcomm.timeservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "345",
+              "variable": {
+                "textValue": "com.qualcomm.wfd.service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "346",
+              "variable": {
+                "textValue": "com.qualcomm.qti.telephonyservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "347",
+              "variable": {
+                "textValue": "com.qualcomm.qti.poweroffalarm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "348",
+              "variable": {
+                "textValue": "com.qualcomm.qti.services.systemhelper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "349",
+              "variable": {
+                "textValue": "com.qualcomm.qti.server.wigig.tethering.rro\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "350",
+              "variable": {
+                "textValue": "com.qualcomm.qti.devicestatisticsservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "351",
+              "variable": {
+                "textValue": "com.qti.qualcomm.datastatusnotification\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "352",
+              "variable": {
+                "textValue": "com.qualcomm.qti.ridemodeaudio\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "353",
+              "variable": {
+                "textValue": "com.qualcomm.qti.ims\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "354",
+              "variable": {
+                "textValue": "com.qualcomm.qti.xrvd.service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "355",
+              "variable": {
+                "textValue": "com.qualcomm.qti.uceShimService\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "356",
+              "variable": {
+                "textValue": "com.qualcomm.qti.qcolor\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "357",
+              "variable": {
+                "textValue": "com.qualcomm.uimremoteclient\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "358",
+              "variable": {
+                "textValue": "com.qualcomm.atfwd2\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "359",
+              "variable": {
+                "textValue": "com.qualcomm.qti.confdialer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "360",
+              "variable": {
+                "textValue": "com.qualcomm.qti.gpudrivers.taro.api31\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "361",
+              "variable": {
+                "textValue": "com.qualcomm.qti.simcontacts\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "362",
+              "variable": {
+                "textValue": "com.qualcomm.qti.server.qtiwifi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "363",
+              "variable": {
+                "textValue": "com.qualcomm.qti.callfeaturessetting\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "364",
+              "variable": {
+                "textValue": "com.qualcomm.qti.workloadclassifier\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "365",
+              "variable": {
+                "textValue": "com.qualcomm.qti.uim\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "366",
+              "variable": {
+                "textValue": "com.qualcomm.atfwd\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "367",
+              "variable": {
+                "textValue": "com.qualcomm.qti.dynamicddsservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "368",
+              "variable": {
+                "textValue": "com.qualcomm.qcrilmsgtunnel\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "369",
+              "variable": {
+                "textValue": "com.qti.qualcomm.deviceinfo\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "370",
+              "variable": {
+                "textValue": "com.qualcomm.qti.qms.service.trustzoneaccess\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "371",
+              "variable": {
+                "textValue": "\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "372",
+              "variable": {
+                "textValue": "# Xiaomi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "373",
+              "variable": {
+                "textValue": "com.miui.powerkeeper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "374",
+              "variable": {
+                "textValue": "android.miui.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "375",
+              "variable": {
+                "textValue": "com.miui.face\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "376",
+              "variable": {
+                "textValue": "android.miui.overlay.telephony\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "377",
+              "variable": {
+                "textValue": "com.miui.global.packageinstaller\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "378",
+              "variable": {
+                "textValue": "com.miui.micloudsync\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "379",
+              "variable": {
+                "textValue": "com.miui.rom\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "380",
+              "variable": {
+                "textValue": "com.miui.aod\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "381",
+              "variable": {
+                "textValue": "com.miui.screenrecorder\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "382",
+              "variable": {
+                "textValue": "com.miui.guardprovider\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "383",
+              "variable": {
+                "textValue": "com.miui.systemui.overlay.devices.android\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "384",
+              "variable": {
+                "textValue": "com.miui.gallery\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "385",
+              "variable": {
+                "textValue": "com.miui.calculator\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "386",
+              "variable": {
+                "textValue": "com.miui.yellowpage\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "387",
+              "variable": {
+                "textValue": "com.miui.system\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "388",
+              "variable": {
+                "textValue": "com.miui.home\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "389",
+              "variable": {
+                "textValue": "com.miui.huanji\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "390",
+              "variable": {
+                "textValue": "com.miui.systemui.devices.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "391",
+              "variable": {
+                "textValue": "com.miui.daemon\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "392",
+              "variable": {
+                "textValue": "com.miui.settings.rro.device.systemui.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "393",
+              "variable": {
+                "textValue": "com.miui.analytics\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "394",
+              "variable": {
+                "textValue": "com.miui.android.fashiongallery\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "395",
+              "variable": {
+                "textValue": "com.miui.player\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "396",
+              "variable": {
+                "textValue": "com.miui.settings.rro.device.type.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "397",
+              "variable": {
+                "textValue": "com.miui.compass\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "398",
+              "variable": {
+                "textValue": "com.miui.accessibility\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "399",
+              "variable": {
+                "textValue": "com.miui.phone.carriers.overlay.h3g\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "400",
+              "variable": {
+                "textValue": "com.miui.notes\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "401",
+              "variable": {
+                "textValue": "com.miui.misightservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "402",
+              "variable": {
+                "textValue": "com.miui.settings.rro.device.config.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "403",
+              "variable": {
+                "textValue": "com.miui.screenshot\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "404",
+              "variable": {
+                "textValue": "com.miui.system.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "405",
+              "variable": {
+                "textValue": "com.miui.miwallpaper.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "406",
+              "variable": {
+                "textValue": "com.miui.miservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "407",
+              "variable": {
+                "textValue": "com.miui.miwallpaper.overlay.customize\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "408",
+              "variable": {
+                "textValue": "android.miui.home.launcher.res\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "409",
+              "variable": {
+                "textValue": "com.miui.phone.carriers.overlay.vodafone\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "410",
+              "variable": {
+                "textValue": "com.miui.safetycenter.config.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "411",
+              "variable": {
+                "textValue": "com.miui.core.internal.services\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "412",
+              "variable": {
+                "textValue": "com.miui.touchassistant\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "413",
+              "variable": {
+                "textValue": "com.miui.audiomonitor\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "414",
+              "variable": {
+                "textValue": "com.miui.securityadd\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "415",
+              "variable": {
+                "textValue": "com.miui.notification\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "416",
+              "variable": {
+                "textValue": "miui.systemui.plugin\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "417",
+              "variable": {
+                "textValue": "com.miui.mediaeditor\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "418",
+              "variable": {
+                "textValue": "com.miui.securitycenter\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "419",
+              "variable": {
+                "textValue": "com.miui.miwallpaper.config.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "420",
+              "variable": {
+                "textValue": "com.miui.misound\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "421",
+              "variable": {
+                "textValue": "com.miui.wallpaper.overlay.customize\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "422",
+              "variable": {
+                "textValue": "com.miui.videoplayer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "423",
+              "variable": {
+                "textValue": "com.miui.securitycore\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "424",
+              "variable": {
+                "textValue": "com.miui.mediaviewer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "425",
+              "variable": {
+                "textValue": "com.miui.safetycenter.res.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "426",
+              "variable": {
+                "textValue": "com.miui.weather2\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "427",
+              "variable": {
+                "textValue": "com.miui.permissioncontroller.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "428",
+              "variable": {
+                "textValue": "com.miui.thirdappassistant\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "429",
+              "variable": {
+                "textValue": "com.miui.mishare.connectivity\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "430",
+              "variable": {
+                "textValue": "com.miui.euicc\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "431",
+              "variable": {
+                "textValue": "com.miui.phrase\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "432",
+              "variable": {
+                "textValue": "com.miui.extraphoto\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "433",
+              "variable": {
+                "textValue": "com.miui.wallpaper.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "434",
+              "variable": {
+                "textValue": "com.miui.core\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "435",
+              "variable": {
+                "textValue": "com.miui.miwallpaper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "436",
+              "variable": {
+                "textValue": "com.miui.cit\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "437",
+              "variable": {
+                "textValue": "com.miui.systemui.carriers.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "438",
+              "variable": {
+                "textValue": "com.miui.backup\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "439",
+              "variable": {
+                "textValue": "com.miui.cloudservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "440",
+              "variable": {
+                "textValue": "com.mi.healthglobal\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "441",
+              "variable": {
+                "textValue": "com.mi.global.shop\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "442",
+              "variable": {
+                "textValue": "com.mi.android.globalFileexplorer\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "443",
+              "variable": {
+                "textValue": "com.mi.globallayout\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "444",
+              "variable": {
+                "textValue": "com.mi.appfinder\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "445",
+              "variable": {
+                "textValue": "com.mi.globalbrowser\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "446",
+              "variable": {
+                "textValue": "com.mi.globalminusscreen\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "447",
+              "variable": {
+                "textValue": "com.xiaomi.xmsf\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "448",
+              "variable": {
+                "textValue": "com.xiaomi.glgm\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "449",
+              "variable": {
+                "textValue": "com.xiaomi.phone.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "450",
+              "variable": {
+                "textValue": "android.autoinstalls.config.Xiaomi.model\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "451",
+              "variable": {
+                "textValue": "com.xiaomi.cameratools\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "452",
+              "variable": {
+                "textValue": "com.xiaomi.cameramind\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "453",
+              "variable": {
+                "textValue": "com.xiaomi.mtb\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "454",
+              "variable": {
+                "textValue": "com.xiaomi.trustservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "455",
+              "variable": {
+                "textValue": "com.android.wifi.resources.xiaomi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "456",
+              "variable": {
+                "textValue": "com.xiaomi.account\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "457",
+              "variable": {
+                "textValue": "com.xiaomi.payment\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "458",
+              "variable": {
+                "textValue": "com.xiaomi.mi_connect_service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "459",
+              "variable": {
+                "textValue": "com.xiaomi.simactivate.service\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "460",
+              "variable": {
+                "textValue": "com.xiaomi.aicr\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "461",
+              "variable": {
+                "textValue": "com.xiaomi.router\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "462",
+              "variable": {
+                "textValue": "com.xiaomi.xmsfkeeper\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "463",
+              "variable": {
+                "textValue": "com.xiaomi.barrage\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "464",
+              "variable": {
+                "textValue": "com.xiaomi.misettings\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "465",
+              "variable": {
+                "textValue": "com.xiaomi.devauth\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "466",
+              "variable": {
+                "textValue": "com.xiaomi.joyose\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "467",
+              "variable": {
+                "textValue": "com.xiaomi.midrop\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "468",
+              "variable": {
+                "textValue": "com.xiaomi.touchservice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "469",
+              "variable": {
+                "textValue": "com.xiaomi.bluetooth\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "470",
+              "variable": {
+                "textValue": "com.xiaomi.finddevice\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "471",
+              "variable": {
+                "textValue": "cn.wps.xiaomi.abroad.lite\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "472",
+              "variable": {
+                "textValue": "com.xiaomi.ugd\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "473",
+              "variable": {
+                "textValue": "com.xiaomi.aiasst.vision\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "474",
+              "variable": {
+                "textValue": "com.xiaomi.bluetooth.rro.device.config.overlay\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "475",
+              "variable": {
+                "textValue": "com.xiaomi.phone\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "476",
+              "variable": {
+                "textValue": "com.xiaomi.micloud.sdk\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "477",
+              "variable": {
+                "textValue": "com.xiaomi.scanner\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "478",
+              "variable": {
+                "textValue": "com.xiaomi.mipicks\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "479",
+              "variable": {
+                "textValue": "com.xiaomi.smarthome\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "480",
+              "variable": {
+                "textValue": "com.xiaomi.wearable\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "481",
+              "variable": {
+                "textValue": "com.google.android.wifi.resources.xiaomi\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "482",
+              "variable": {
+                "textValue": "com.xiaomi.hm.health\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "483",
+              "variable": {
+                "textValue": "com.xiaomi.discover\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "484",
+              "variable": {
+                "textValue": "com.xiaomi.calendar\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "485",
+              "variable": {
+                "textValue": "com.xiaomi.mirror\r",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            },
+            {
+              "key": "486",
+              "variable": {
+                "textValue": "{not_app_package}",
+                "variableType": 2,
+                "type": "StringValue"
+              },
+              "variableType": 11,
+              "type": "DictionaryEntry"
+            }
+          ],
+          "isArray": true,
+          "variableType": 5,
+          "type": "Dictionary"
+        },
+        "isActionBlockWorkingVar": false,
+        "isLocalVar": true,
+        "isSecure": false,
+        "m_booleanValue": false,
+        "m_decimalValue": 0.0,
+        "m_intValue": 0,
+        "m_name": "app_package_blacklist",
+        "m_stringValue": "",
+        "m_type": 5,
+        "supportsInput": false,
+        "supportsOutput": true
       }
     ],
     "m_GUID": "-1700000000000000000",
@@ -164,7 +5193,7 @@
           "m_decimalValue": 0.0,
           "m_intValue": 0,
           "m_name": "uuid",
-          "m_stringValue": "c7230dc9-c137-4f2a-89c1-f06bee0746e6",
+          "m_stringValue": "6c999fb2-c6f0-4be8-9651-e5fd1995fe56",
           "m_type": 2,
           "supportsInput": false,
           "supportsOutput": true
@@ -179,154 +5208,55 @@
         "m_isOrCondition": false
       },
       {
-        "m_option": 1,
-        "m_text": "{not_title}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\n",
-            " "
-          ]
+        "actionBlockId": -7925777383883811073,
+        "actionBlockName": "Normalize string",
+        "continueActionsWithoutWaiting": false,
+        "inputDictionaryMap": {},
+        "inputVarsMap": {
+          "input": "{not_title}"
         },
-        "variableName": "not_title_normalized",
+        "outputDictionaryMap": {},
+        "outputVarsMap": {
+          "output": "not_title_normalized"
+        },
         "m_SIGUID": "-1600000000000000001",
-        "m_classType": "TextManipulationAction",
+        "m_classType": "ActionBlockAction",
         "m_constraintList": [],
         "m_isDisabled": false,
         "m_isOrCondition": false
       },
       {
-        "m_option": 1,
-        "m_text": "{lv=not_title_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\r",
-            " "
-          ]
+        "actionBlockId": -7925777383883811073,
+        "actionBlockName": "Normalize string",
+        "continueActionsWithoutWaiting": false,
+        "inputDictionaryMap": {},
+        "inputVarsMap": {
+          "input": "{notification}"
         },
-        "variableName": "not_title_normalized",
+        "outputDictionaryMap": {},
+        "outputVarsMap": {
+          "output": "notification_normalized"
+        },
         "m_SIGUID": "-1600000000000000002",
-        "m_classType": "TextManipulationAction",
+        "m_classType": "ActionBlockAction",
         "m_constraintList": [],
         "m_isDisabled": false,
         "m_isOrCondition": false
       },
       {
-        "m_option": 1,
-        "m_text": "{lv=not_title_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\\"",
-            "'"
-          ]
+        "actionBlockId": -7925777383883811073,
+        "actionBlockName": "Normalize string",
+        "continueActionsWithoutWaiting": false,
+        "inputDictionaryMap": {},
+        "inputVarsMap": {
+          "input": "{not_text_big}"
         },
-        "variableName": "not_title_normalized",
+        "outputDictionaryMap": {},
+        "outputVarsMap": {
+          "output": "notification_expanded_normalized"
+        },
         "m_SIGUID": "-1600000000000000003",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{notification}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\n",
-            " "
-          ]
-        },
-        "variableName": "notification_normalized",
-        "m_SIGUID": "-1600000000000000004",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=notification_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\r",
-            " "
-          ]
-        },
-        "variableName": "notification_normalized",
-        "m_SIGUID": "-1600000000000000005",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=notification_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\\"",
-            "'"
-          ]
-        },
-        "variableName": "notification_normalized",
-        "m_SIGUID": "-1600000000000000006",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{not_text_big}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\n",
-            " "
-          ]
-        },
-        "variableName": "notification_expanded_normalized",
-        "m_SIGUID": "-1600000000000000007",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=notification_expanded_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\r",
-            " "
-          ]
-        },
-        "variableName": "notification_expanded_normalized",
-        "m_SIGUID": "-1600000000000000008",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=notification_expanded_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\\"",
-            "'"
-          ]
-        },
-        "variableName": "notification_expanded_normalized",
-        "m_SIGUID": "-1600000000000000009",
-        "m_classType": "TextManipulationAction",
+        "m_classType": "ActionBlockAction",
         "m_constraintList": [],
         "m_isDisabled": false,
         "m_isOrCondition": false
@@ -352,7 +5282,136 @@
         "m_newBooleanValue": false,
         "m_newDoubleValue": 0.0,
         "m_newIntValue": 0,
-        "m_newStringValue": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"your-device-name\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\", \r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{lv=not_title_normalized}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
+        "m_newStringValue": "{lv=app_package_blacklist_raw}",
+        "m_trueLabel": "Истина",
+        "m_userPrompt": false,
+        "m_userPromptEmptyAtStart": false,
+        "m_userPromptPassword": false,
+        "m_userPromptShowCancel": true,
+        "m_userPromptStopAfterCancel": true,
+        "m_variable": {
+          "dictionary": {
+            "entries": [],
+            "isArray": false,
+            "variableType": 4,
+            "type": "Dictionary"
+          },
+          "isActionBlockWorkingVar": false,
+          "isLocalVar": true,
+          "isSecure": false,
+          "m_booleanValue": false,
+          "m_decimalValue": 0.0,
+          "m_intValue": 0,
+          "m_name": "app_package_blacklist_raw",
+          "m_stringValue": "",
+          "m_type": 2,
+          "supportsInput": true,
+          "supportsOutput": true
+        },
+        "m_SIGUID": "-1600000000000000004",
+        "m_classType": "SetVariableAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_option": 6,
+        "m_text": "{lv=app_package_blacklist_raw}",
+        "m_textManipulation": {
+          "type": "SplitManipulation",
+          "params": [
+            "\\n",
+            "0"
+          ]
+        },
+        "variableName": "app_package_blacklist",
+        "m_SIGUID": "-1600000000000000005",
+        "m_classType": "TextManipulationAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "childrenCollapsed": false,
+        "dontLogIfConditionIsFalse": false,
+        "m_SIGUID": "-1600000000000000006",
+        "m_classType": "IfConditionAction",
+        "m_constraintList": [
+          {
+            "comparisonType": 4,
+            "enableRegex": false,
+            "ignoreCase": true,
+            "option": 0,
+            "type": 2,
+            "value1": "{lv=app_package_blacklist}",
+            "value2": "{not_app_package}",
+            "m_SIGUID": -7596906331471774410,
+            "m_classType": "CompareValueConstraint",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          }
+        ],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "logLevel": "STANDARD",
+        "m_logText": "{not_app_package} was in the blacklist",
+        "m_SIGUID": "-1600000000000000007",
+        "m_classType": "LogAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "getByName": false,
+        "m_GUID": 111,
+        "m_macroName": "[Этот макрос]",
+        "m_SIGUID": "-1600000000000000008",
+        "m_classType": "CancelActiveMacroAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "m_SIGUID": "-1600000000000000009",
+        "m_classType": "EndIfAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "logLevel": "STANDARD",
+        "m_logText": "{not_app_package} was not in the blacklist",
+        "m_SIGUID": "-1600000000000000010",
+        "m_classType": "LogAction",
+        "m_constraintList": [],
+        "m_isDisabled": false,
+        "m_isOrCondition": false
+      },
+      {
+        "booleanDictionaryKeys": {
+          "keys": []
+        },
+        "dictionaryKeys": [],
+        "dictionaryOrArrayType": -1,
+        "existingManualKeyType": 0,
+        "m_booleanInvert": false,
+        "m_darkMode": -1,
+        "m_doubleRandomMax": 0.0,
+        "m_doubleRandomMin": 0.0,
+        "m_falseLabel": "Ложь",
+        "m_intExpression": false,
+        "m_intRandom": false,
+        "m_intRandomMax": 0,
+        "m_intRandomMin": 0,
+        "m_intValueDecrement": false,
+        "m_intValueIncrement": false,
+        "m_newBooleanValue": false,
+        "m_newDoubleValue": 0.0,
+        "m_newIntValue": 0,
+        "m_newStringValue": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"kw-mi-2\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\", \r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{lv=not_title_normalized}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
         "m_trueLabel": "Истина",
         "m_userPrompt": false,
         "m_userPromptEmptyAtStart": false,
@@ -378,7 +5437,7 @@
           "supportsInput": false,
           "supportsOutput": true
         },
-        "m_SIGUID": "-1600000000000000010",
+        "m_SIGUID": "-1600000000000000011",
         "m_classType": "SetVariableAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -387,7 +5446,7 @@
       {
         "logLevel": "STANDARD",
         "m_logText": "{lv=data}",
-        "m_SIGUID": "-1600000000000000011",
+        "m_SIGUID": "-1600000000000000012",
         "m_classType": "LogAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -425,7 +5484,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000012",
+        "m_SIGUID": "-1600000000000000013",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -459,7 +5518,7 @@
         "m_soundOption": 0,
         "m_supressMultiples": true,
         "m_textContent": "",
-        "m_SIGUID": "-1600000000000000013",
+        "m_SIGUID": "-1600000000000000017",
         "m_classType": "NotificationTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

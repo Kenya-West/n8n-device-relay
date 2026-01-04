@@ -68,7 +68,7 @@
         "supportsOutput": true
       }
     ],
-    "m_GUID": "-1700000000000000003",
+    "m_GUID": "-1700000000000000004",
     "m_actionList": [
       {
         "blockNextAction": true,
@@ -96,7 +96,7 @@
         "timeoutSeconds": 5,
         "useHelper": false,
         "useShizuku": false,
-        "m_SIGUID": "-1600000000000000025",
+        "m_SIGUID": "-1600000000000000029",
         "m_classType": "ShellScriptAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -134,7 +134,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000026",
+        "m_SIGUID": "-1600000000000000030",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -149,7 +149,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example Wi-Fi connected to n8n",
+    "m_name": "Example Example Example Example Wi-Fi connected to n8n",
     "m_triggerList": [
       {
         "customAddedSSIDs": [],
@@ -157,7 +157,7 @@
           "Любая сеть"
         ],
         "m_wifiState": 2,
-        "m_SIGUID": "-1600000000000000027",
+        "m_SIGUID": "-1600000000000000031",
         "m_classType": "WifiConnectionTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

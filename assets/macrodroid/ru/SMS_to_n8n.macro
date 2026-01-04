@@ -106,7 +106,7 @@
         "supportsOutput": true
       }
     ],
-    "m_GUID": "-1700000000000000002",
+    "m_GUID": "-1700000000000000003",
     "m_actionList": [
       {
         "blockNextAction": true,
@@ -134,7 +134,7 @@
         "timeoutSeconds": 5,
         "useHelper": false,
         "useShizuku": false,
-        "m_SIGUID": "-1600000000000000017",
+        "m_SIGUID": "-1600000000000000021",
         "m_classType": "ShellScriptAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -151,7 +151,7 @@
           ]
         },
         "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000018",
+        "m_SIGUID": "-1600000000000000022",
         "m_classType": "TextManipulationAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -168,7 +168,7 @@
           ]
         },
         "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000019",
+        "m_SIGUID": "-1600000000000000023",
         "m_classType": "TextManipulationAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -185,7 +185,7 @@
           ]
         },
         "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000020",
+        "m_SIGUID": "-1600000000000000024",
         "m_classType": "TextManipulationAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -238,7 +238,7 @@
           "supportsInput": false,
           "supportsOutput": true
         },
-        "m_SIGUID": "-1600000000000000021",
+        "m_SIGUID": "-1600000000000000025",
         "m_classType": "SetVariableAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -247,7 +247,7 @@
       {
         "logLevel": "STANDARD",
         "m_logText": "{lv=data}",
-        "m_SIGUID": "-1600000000000000022",
+        "m_SIGUID": "-1600000000000000026",
         "m_classType": "LogAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -285,7 +285,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000023",
+        "m_SIGUID": "-1600000000000000027",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -300,7 +300,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example SMS to n8n",
+    "m_name": "Example Example Example Example SMS to n8n",
     "m_triggerList": [
       {
         "enableRegex": false,
@@ -315,7 +315,7 @@
         "m_smsFromList": [],
         "m_smsNumberExclude": false,
         "subscriptionId": -1,
-        "m_SIGUID": "-1600000000000000024",
+        "m_SIGUID": "-1600000000000000028",
         "m_classType": "IncomingSMSTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

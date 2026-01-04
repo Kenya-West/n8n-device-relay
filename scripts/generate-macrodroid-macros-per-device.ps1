@@ -187,6 +187,43 @@ function Update-MacroObject {
 		)
 	}
 
+	function Update-ExportedActionBlockTree {
+		param([AllowNull()] $Blocks)
+
+		if ($null -eq $Blocks) { return }
+
+		foreach ($actionBlock in @($Blocks)) {
+			if ($null -eq $actionBlock) { continue }
+
+			# m_GUID: one per action block
+			if (Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value ([string]$GuidSeed.Value)) {
+				$GuidSeed.Value = $GuidSeed.Value - 1
+			}
+
+			$actionsInBlock = Get-OptionalPropertyValue -Object $actionBlock -Name 'm_actionList'
+			if ($null -ne $actionsInBlock) {
+				foreach ($action in @($actionsInBlock)) {
+					if ($null -eq $action) { continue }
+					# m_SIGUID: decrement by 1 for each action item met
+					if (Set-PropertyIfExists -Object $action -Name 'm_SIGUID' -Value ([string]$SiGuidSeed.Value)) {
+						$SiGuidSeed.Value = $SiGuidSeed.Value - 1
+						$foundSiGuid++
+					} else {
+						$classType = Get-OptionalPropertyValue -Object $action -Name 'm_classType'
+						Write-Warning "[$MacroRelativePath] Action item missing 'm_SIGUID' in exportedActionBlocks (classType=$classType)"
+					}
+				}
+			} else {
+				Write-Warning "[$MacroRelativePath] 'exportedActionBlock.m_actionList' not found; no action updates applied for this block"
+			}
+
+			$nestedBlocks = Get-OptionalPropertyValue -Object $actionBlock -Name 'exportedActionBlocks'
+			if ($null -ne $nestedBlocks) {
+				Update-ExportedActionBlockTree -Blocks $nestedBlocks
+			}
+		}
+	}
+
 	$actions = Get-OptionalPropertyValue -Object $macro -Name 'm_actionList'
 	if ($null -eq $actions) {
 		Write-Warning "[$MacroRelativePath] 'macro.m_actionList' not found; no action updates applied"
@@ -244,6 +281,12 @@ function Update-MacroObject {
 				$foundDeviceIdInSerializedJson++
 			}
 		}
+	}
+
+	# exportedActionBlocks (Action Blocks): replace m_GUID and m_SIGUID inside the blocks too
+	$exportedActionBlocks = Get-OptionalPropertyValue -Object $macro -Name 'exportedActionBlocks'
+	if ($null -ne $exportedActionBlocks) {
+		Update-ExportedActionBlockTree -Blocks $exportedActionBlocks
 	}
 
     $triggers = Get-OptionalPropertyValue -Object $macro -Name 'm_triggerList'

@@ -68,7 +68,7 @@
         "supportsOutput": true
       }
     ],
-    "m_GUID": "-1700000000000000001",
+    "m_GUID": "-1700000000000000002",
     "m_actionList": [
       {
         "blockNextAction": true,
@@ -96,7 +96,7 @@
         "timeoutSeconds": 5,
         "useHelper": false,
         "useShizuku": false,
-        "m_SIGUID": "-1600000000000000014",
+        "m_SIGUID": "-1600000000000000018",
         "m_classType": "ShellScriptAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -134,7 +134,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000015",
+        "m_SIGUID": "-1600000000000000019",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -149,7 +149,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example Call received to n8n",
+    "m_name": "Example Example Example Example Call received to n8n",
     "m_triggerList": [
       {
         "m_incomingCallFromList": [],
@@ -159,7 +159,7 @@
         "m_option": 3,
         "m_phoneNumberExclude": false,
         "useRegex": false,
-        "m_SIGUID": "-1600000000000000016",
+        "m_SIGUID": "-1600000000000000020",
         "m_classType": "IncomingCallTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,
