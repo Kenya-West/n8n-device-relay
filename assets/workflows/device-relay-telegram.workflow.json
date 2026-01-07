@@ -6,13 +6,13 @@
         "path": "device-relay",
         "options": {}
       },
-      "id": "b23b7b06-a159-4425-af22-7186007550d7",
+      "id": "f6be6a6e-93e1-4150-a911-486160aebc8e",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -960,
-        576
+        1056,
+        1312
       ],
       "webhookId": "fe4a40f7-acfa-4380-99d1-72c4b7c7ca34"
     },
@@ -21,10 +21,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -416,
-        736
+        1600,
+        1472
       ],
-      "id": "1d02a08e-b465-4bcc-8f1d-251d34b12ae7",
+      "id": "0b345f57-e545-4ab5-8d3c-81f63c7764df",
       "name": "Merge"
     },
     {
@@ -36,10 +36,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -592,
-        736
+        1424,
+        1472
       ],
-      "id": "fe78a809-f10c-48c4-a6a8-5bb70f427990",
+      "id": "109dfc7e-e89e-4098-9a31-2597fb3a0761",
       "name": "Config"
     },
     {
@@ -49,10 +49,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -96,
-        1504
+        1920,
+        2240
       ],
-      "id": "68f520b0-b024-4375-b12a-3f3de25c5619",
+      "id": "08579bae-485b-4ddf-a089-e04f00a57668",
       "name": "Form outbound",
       "alwaysOutputData": false
     },
@@ -63,24 +63,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        112,
-        1504
+        2128,
+        2240
       ],
-      "id": "d6ccb718-e616-4044-bff3-2c4f405cc867",
+      "id": "de659302-cee7-4b1e-849d-7b1c602a5e7f",
       "name": "Compose messages",
       "alwaysOutputData": false
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log('[debug]', ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v, path = '') => {\n    if (v == null) return v;\n\n    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${path}[${i}]`));\n\n    if (typeof v === 'object') {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        const full = path ? `${path}.${k}` : k;\n        if (SECRET_KEY_RE.test(k)) out[k] = '***REDACTED***';\n        else out[k] = walk(child, full);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog('Input item count:', $input.all().length);\n\nconst wrapper = $input.first().json;\nlog('Wrapper keys:', Object.keys(wrapper ?? {}));\n\n// Allow common shapes: {config, event}, {config, body}, or direct webhook body\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsFilteredGlobally = wrapper.recipientsFilteredGlobally;\n\nlog('Has config?', !!config, 'Has event?', !!event);\nlog('Config (redacted):', redact(config));\nlog('Event keys:', Object.keys(event ?? {}));\nlog('Event.body keys:', Object.keys(event?.body ?? {}));\n\nif (!recipientsFilteredGlobally) throw new Error('Missing recipientsFilteredGlobally');\nif (!config?.recipients) throw new Error('Missing config.recipients (ConfigModel)');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type (IncomingDataModel discriminator)');\nif (!event?.body?.device.id) throw new Error('Missing event.body.device.id');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\nlog('deviceId:', deviceId);\nlog('dataType:', dataType);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog('meta:', meta);\n\nconst isPresent = (v) => v !== undefined && v !== null;\n\n/**\n  * If the value is a string, convert it to lowercase.\n  * Otherwise, return the value as is.\n  * @param {unknown} v - The value to be checked and potentially converted.\n  * @returns {unknown | string} - The lowercase string or the original value.\n */\nconst normalizeIfString = (v) => {\n  if (typeof v === 'string') {\n    return v.trim().toLowerCase();\n  }\n  return v;\n}\n\n/**\n * Convert a value to a comparable number if possible.\n * @param {unknown} v - The value to be converted.\n * @returns {number | undefined} - The comparable number or undefined if conversion is not possible.\n */\nconst toComparableNumber = (v) => {\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  if (typeof v === 'string' && normalizeIfString(v) !== '') {\n    const n = Number(v);\n    return Number.isFinite(n) ? n : undefined;\n  }\n  return undefined;\n};\n\nconst normalizeEquals = (actual, expected) => {\n  log('normalizeEquals:', { actual, expected, actualType: typeof actual, expectedType: typeof expected });\n\n  if (!isPresent(actual) && !isPresent(expected)) return true;\n\n  if (typeof actual === 'boolean') {\n    if (typeof expected === 'boolean') return actual === expected;\n    if (typeof expected === 'string') {\n      const s = normalizeIfString(expected);\n      if (s === 'true') return actual === true;\n      if (s === 'false') return actual === false;\n    }\n    return false;\n  }\n\n  if (typeof actual === 'number') {\n    const n = toComparableNumber(expected);\n    return n !== undefined ? actual === n : false;\n  }\n\n  return normalizeIfString(String(actual)) === normalizeIfString(String(expected));\n};\n\nconst getByPath = (root, path) => {\n  const parts = (path ? String(normalizeIfString(path)) : '')\n    .split('.')\n    .filter(Boolean);\n\n  let cur = root;\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n  return cur;\n};\n\n// Uses \"operator\" (your current my.json)\nconst predicateMatches = (predicate) => {\n  const op = predicate?.operator;\n  const path = predicate?.path;\n  const expected = predicate?.value;\n\n  // Root lets your rules use paths like \"deviceId\" or \"data.body\" or \"meta.device.id\"\n  const predicateRoot = { ...event.body, data: event.body.data, meta };\n  const actual = getByPath(predicateRoot, path);\n\n  log('predicate:', { path, op, expected, actual });\n\n  switch (op) {\n    case 'equals':\n      return normalizeEquals(actual, expected);\n\n    case 'not_equals':\n      return !normalizeEquals(actual, expected);\n\n    case 'includes': {\n      if (!isPresent(actual)) return false;\n      if (Array.isArray(actual)) return actual.includes(expected);\n      return normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'not_includes': {\n      if (!isPresent(actual)) return true;\n      if (Array.isArray(actual)) return !actual.includes(expected);\n      return !normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'starts_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).startsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'ends_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).endsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'matches_regex': {\n      if (!isPresent(actual)) return false;\n      try {\n        const re = new RegExp(normalizeIfString(String(expected ?? '')));\n        return re.test(normalizeIfString(String(actual)));\n      } catch {\n        throw new Error(`Invalid regex in predicate for path \"${path}\": ${normalizeIfString(String(expected))}`);\n      }\n    }\n\n    case 'gt':\n    case 'gte':\n    case 'lt':\n    case 'lte': {\n      const a = toComparableNumber(actual);\n      const b = toComparableNumber(expected);\n      log('numeric compare:', { op, a, b });\n      if (a === undefined || b === undefined) return false;\n      if (op === 'gt') return a > b;\n      if (op === 'gte') return a >= b;\n      if (op === 'lt') return a < b;\n      return a <= b;\n    }\n\n    case 'exists':\n      return isPresent(actual);\n\n    default:\n      throw new Error(`Unsupported predicate operator: ${op}`);\n  }\n};\n\nconst resolveRecipient = (recipientId, recipient) => {\n  log('--- resolveRecipient ---', recipientId);\n  log('recipient (redacted):', redact(recipient));\n\n  const allowedDeviceIds = Array.isArray(recipient.allowedDeviceIds) ? recipient.allowedDeviceIds : [];\n  log('allowedDeviceIds:', allowedDeviceIds);\n  if (allowedDeviceIds.length > 0 && !allowedDeviceIds.includes(deviceId)) {\n    log('SKIP: deviceId not allowed', { deviceId, allowedDeviceIds });\n    return null;\n  }\n\n  const allowedDataTypes = Array.isArray(recipient.allowedDataTypes) ? recipient.allowedDataTypes : [];\n  log('allowedDataTypes:', allowedDataTypes);\n  if (allowedDataTypes.length > 0 && !allowedDataTypes.includes(dataType)) {\n    log('SKIP: dataType not allowed', { dataType, allowedDataTypes });\n    return null;\n  }\n\n  const baseEndpointIds = Array.isArray(recipient.endpointIds) ? recipient.endpointIds : [];\n  const baseTemplateIds = Array.isArray(recipient.templateIds) ? recipient.templateIds : [];\n  log('baseEndpointIds:', baseEndpointIds);\n  log('baseTemplateIds:', baseTemplateIds);\n\n  const rules = Array.isArray(recipient.rules) ? recipient.rules : [];\n  log('rule count:', rules.length);\n\n  if (rules.length === 0) {\n    log('NO RULES: selecting recipient with base routing');\n    return { id: recipientId, ...recipient, endpointIds: baseEndpointIds, templateIds: baseTemplateIds };\n  }\n\n  const matchedRules = [];\n\n  for (const rule of rules) {\n    log('checking rule:', { ruleId: rule?.id, type: rule?.type });\n\n    if (rule?.type !== dataType) {\n      log('rule type mismatch, skip:', { ruleType: rule?.type, dataType });\n      continue;\n    }\n\n    const whens = Array.isArray(rule.when) ? rule.when : [];\n    log('when predicates:', whens);\n\n    const matched = whens.every((p, idx) => {\n      const ok = predicateMatches(p);\n      log(`predicate[${idx}] result:`, ok);\n      return ok;\n    });\n\n    log('rule matched?', matched, 'ruleId:', rule?.id);\n\n    if (!matched) continue;\n\n    // IMPORTANT: keep track of matches (you were missing this)\n    matchedRules.push(rule);\n  }\n\n  log('matchedRules ids:', matchedRules.map((r) => r.id));\n\n  if (matchedRules.length === 0) {\n    log('NO MATCHED RULES: dropping recipient');\n    return null;\n  }\n\n  return { \n    id: recipientId,\n    vars: recipient.vars,\n    rules: matchedRules.map((r) => {\n      return { id: r.id, then: r.then };\n    }),\n  };\n};\n\nlog('recipient ids:', recipientsFilteredGlobally.join(\", \"));\n\nconst resolvedRecipients = recipientsFilteredGlobally\n  .map((id) => resolveRecipient(id, config.recipients?.[id]))\n  .filter(Boolean);\n\nlog('resolvedRecipients count:', resolvedRecipients.length);\nlog('resolvedRecipients (redacted):', redact(resolvedRecipients));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved: resolvedRecipients\n    }\n  }\n];"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log('[debug]', ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v, path = '') => {\n    if (v == null) return v;\n\n    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${path}[${i}]`));\n\n    if (typeof v === 'object') {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        const full = path ? `${path}.${k}` : k;\n        if (SECRET_KEY_RE.test(k)) out[k] = '***REDACTED***';\n        else out[k] = walk(child, full);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog('Input item count:', $input.all().length);\n\nconst wrapper = $input.first().json;\nlog('Wrapper keys:', Object.keys(wrapper ?? {}));\n\n// Allow common shapes: {config, event}, {config, body}, or direct webhook body\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsFilteredGlobally = wrapper.recipientsFilteredGlobally;\n\nlog('Has config?', !!config, 'Has event?', !!event);\nlog('Config (redacted):', redact(config));\nlog('Event keys:', Object.keys(event ?? {}));\nlog('Event.body keys:', Object.keys(event?.body ?? {}));\n\nif (!recipientsFilteredGlobally) throw new Error('Missing recipientsFilteredGlobally');\nif (!config?.recipients) throw new Error('Missing config.recipients (ConfigModel)');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type (IncomingDataModel discriminator)');\nif (!event?.body?.device.id) throw new Error('Missing event.body.device.id');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\nlog('deviceId:', deviceId);\nlog('dataType:', dataType);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog('meta:', meta);\n\nconst isPresent = (v) => v !== undefined && v !== null;\n\n/**\n  * If the value is a string, convert it to lowercase.\n  * Otherwise, return the value as is.\n  * @param {unknown} v - The value to be checked and potentially converted.\n  * @returns {unknown | string} - The lowercase string or the original value.\n */\nconst normalizeIfString = (v) => {\n  if (typeof v === 'string') {\n    return v.trim().toLowerCase();\n  }\n  return v;\n}\n\n/**\n * Convert a value to a comparable number if possible.\n * @param {unknown} v - The value to be converted.\n * @returns {number | undefined} - The comparable number or undefined if conversion is not possible.\n */\nconst toComparableNumber = (v) => {\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  if (typeof v === 'string' && normalizeIfString(v) !== '') {\n    const n = Number(v);\n    return Number.isFinite(n) ? n : undefined;\n  }\n  return undefined;\n};\n\nconst normalizeEquals = (actual, expected) => {\n  log('normalizeEquals:', { actual, expected, actualType: typeof actual, expectedType: typeof expected });\n\n  if (!isPresent(actual) && !isPresent(expected)) return true;\n\n  if (typeof actual === 'boolean') {\n    if (typeof expected === 'boolean') return actual === expected;\n    if (typeof expected === 'string') {\n      const s = normalizeIfString(expected);\n      if (s === 'true') return actual === true;\n      if (s === 'false') return actual === false;\n    }\n    return false;\n  }\n\n  if (typeof actual === 'number') {\n    const n = toComparableNumber(expected);\n    return n !== undefined ? actual === n : false;\n  }\n\n  return normalizeIfString(String(actual)) === normalizeIfString(String(expected));\n};\n\nconst getByPath = (root, path) => {\n  const parts = (path ? String(path) : '')\n    .split('.')\n    .filter(Boolean);\n\n  let cur = root;\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n  return cur;\n};\n\n// Uses \"operator\" (your current my.json)\nconst predicateMatches = (predicate) => {\n  const op = predicate?.operator;\n  const path = predicate?.path;\n  const expected = predicate?.value;\n\n  // Root lets your rules use paths like \"deviceId\" or \"data.body\" or \"meta.device.id\"\n  const predicateRoot = { ...event.body, data: event.body.data, meta };\n  const actual = getByPath(predicateRoot, path);\n\n  log('predicate:', { path, op, expected, actual });\n\n  switch (op) {\n    case 'equals':\n      return normalizeEquals(actual, expected);\n\n    case 'not_equals':\n      return !normalizeEquals(actual, expected);\n\n    case 'includes': {\n      if (!isPresent(actual)) return false;\n      if (Array.isArray(actual)) return actual.includes(expected);\n      return normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'not_includes': {\n      if (!isPresent(actual)) return true;\n      if (Array.isArray(actual)) return !actual.includes(expected);\n      return !normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'starts_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).startsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'ends_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).endsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'matches_regex': {\n      if (!isPresent(actual)) return false;\n      try {\n        const re = new RegExp(String(expected ?? ''));\n        return re.test(String(actual));\n      } catch {\n        throw new Error(`Invalid regex in predicate for path \"${path}\": ${String(expected)}`);\n      }\n    }\n\n    case 'gt':\n    case 'gte':\n    case 'lt':\n    case 'lte': {\n      const a = toComparableNumber(actual);\n      const b = toComparableNumber(expected);\n      log('numeric compare:', { op, a, b });\n      if (a === undefined || b === undefined) return false;\n      if (op === 'gt') return a > b;\n      if (op === 'gte') return a >= b;\n      if (op === 'lt') return a < b;\n      return a <= b;\n    }\n\n    case 'exists':\n      return isPresent(actual);\n\n    default:\n      throw new Error(`Unsupported predicate operator: ${op}`);\n  }\n};\n\nconst resolveRecipient = (recipientId, recipient) => {\n  log('--- resolveRecipient ---', recipientId);\n  log('recipient (redacted):', redact(recipient));\n\n  const allowedDeviceIds = Array.isArray(recipient.allowedDeviceIds) ? recipient.allowedDeviceIds : [];\n  log('allowedDeviceIds:', allowedDeviceIds);\n  if (allowedDeviceIds.length > 0 && !allowedDeviceIds.includes(deviceId)) {\n    log('SKIP: deviceId not allowed', { deviceId, allowedDeviceIds });\n    return null;\n  }\n\n  const allowedDataTypes = Array.isArray(recipient.allowedDataTypes) ? recipient.allowedDataTypes : [];\n  log('allowedDataTypes:', allowedDataTypes);\n  if (allowedDataTypes.length > 0 && !allowedDataTypes.includes(dataType)) {\n    log('SKIP: dataType not allowed', { dataType, allowedDataTypes });\n    return null;\n  }\n\n  const baseEndpointIds = Array.isArray(recipient.endpointIds) ? recipient.endpointIds : [];\n  const baseTemplateIds = Array.isArray(recipient.templateIds) ? recipient.templateIds : [];\n  log('baseEndpointIds:', baseEndpointIds);\n  log('baseTemplateIds:', baseTemplateIds);\n\n  const rules = Array.isArray(recipient.rules) ? recipient.rules : [];\n  log('rule count:', rules.length);\n\n  if (rules.length === 0) {\n    log('NO RULES: selecting recipient with base routing');\n    return { id: recipientId, ...recipient, endpointIds: baseEndpointIds, templateIds: baseTemplateIds };\n  }\n\n  const matchedRules = [];\n\n  for (const rule of rules) {\n    log('checking rule:', { ruleId: rule?.id, type: rule?.type });\n\n    if (rule?.type !== dataType) {\n      log('rule type mismatch, skip:', { ruleType: rule?.type, dataType });\n      continue;\n    }\n\n    const whens = Array.isArray(rule.when) ? rule.when : [];\n    log('when predicates:', whens);\n\n    const matched = whens.every((p, idx) => {\n      const ok = predicateMatches(p);\n      log(`predicate[${idx}] result:`, ok);\n      return ok;\n    });\n\n    log('rule matched?', matched, 'ruleId:', rule?.id);\n\n    if (!matched) continue;\n\n    // IMPORTANT: keep track of matches (you were missing this)\n    matchedRules.push(rule);\n  }\n\n  log('matchedRules ids:', matchedRules.map((r) => r.id));\n\n  if (matchedRules.length === 0) {\n    log('NO MATCHED RULES: dropping recipient');\n    return null;\n  }\n\n  return { \n    id: recipientId,\n    vars: recipient.vars,\n    rules: matchedRules.map((r) => {\n      return { id: r.id, then: r.then };\n    }),\n  };\n};\n\nlog('recipient ids:', recipientsFilteredGlobally.join(\", \"));\n\nconst resolvedRecipients = recipientsFilteredGlobally\n  .map((id) => resolveRecipient(id, config.recipients?.[id]))\n  .filter(Boolean);\n\nlog('resolvedRecipients count:', resolvedRecipients.length);\nlog('resolvedRecipients (redacted):', redact(resolvedRecipients));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved: resolvedRecipients\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -512,
-        1504
+        1504,
+        2240
       ],
-      "id": "31f21db0-aeac-4170-bc9d-8fa5fc8b61a9",
+      "id": "50c95128-d942-45d6-8678-ac9c37ba2f84",
       "name": "Filter recipients by recipient rules",
       "alwaysOutputData": false
     },
@@ -91,10 +91,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        320,
-        1504
+        2336,
+        2240
       ],
-      "id": "0daf0cac-4e93-46d7-8dc8-27834dc36294",
+      "id": "019d5da3-e44a-4192-8748-6edca4d23b71",
       "name": "Template messages",
       "alwaysOutputData": false
     },
@@ -105,10 +105,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -720,
-        1504
+        1296,
+        2240
       ],
-      "id": "94eb3b83-fab4-45d0-9510-2d4c138e0e91",
+      "id": "8aa9e847-e4d7-4709-bbe6-47f44e367266",
       "name": "Filter recipients by DeviceId and DataType filters"
     },
     {
@@ -118,10 +118,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -304,
-        1504
+        1712,
+        2240
       ],
-      "id": "6b05443e-d7af-4944-8a90-979da3d344c3",
+      "id": "dc545cfe-c7de-4f30-9b5a-419a5bcbd90a",
       "name": "Filter rules by recipients endpointIds and templateIds",
       "alwaysOutputData": false
     },
@@ -182,10 +182,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -928,
-        1808
+        1088,
+        2544
       ],
-      "id": "33168e35-b75c-4ba9-b075-32a63c33391f",
+      "id": "e5727b7a-8490-4053-b916-00eb9de823d2",
       "name": "Switch"
     },
     {
@@ -203,13 +203,13 @@
         "jsonBody": "={{ $json.toSend.body }}",
         "options": {}
       },
-      "id": "4be75843-fbff-45a7-9e11-b5815a312c0f",
+      "id": "af2ca88a-3f20-46f2-9bb7-283ee1bd7d5c",
       "name": "Send to Telegram (POST)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -720,
-        1728
+        1296,
+        2464
       ]
     },
     {
@@ -224,13 +224,13 @@
         "jsonHeaders": "={{ JSON.stringify($json.toSend.headers) }}",
         "options": {}
       },
-      "id": "5684aafa-48a8-49a7-8150-3efba6f37a44",
+      "id": "a27e5294-590e-4c6b-817e-b76ccbc176ae",
       "name": "Send to Telegram (GET)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -720,
-        1888
+        1296,
+        2624
       ]
     },
     {
@@ -261,10 +261,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -784,
-        576
+        1232,
+        1312
       ],
-      "id": "ada8bbc8-9e36-4c8d-b899-f46a5ea78169",
+      "id": "409e36eb-7d51-43a8-9be8-eabc48770c90",
       "name": "If"
     },
     {
@@ -274,10 +274,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -416,
-        592
+        1600,
+        1328
       ],
-      "id": "f76013bb-9014-4126-9e3e-53c8241e1b8b",
+      "id": "ab8801d0-91dc-42c5-bdb8-c7848d2eb37b",
       "name": "Stop and Error"
     },
     {
@@ -307,10 +307,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -928,
-        1152
+        1088,
+        1888
       ],
-      "id": "c3f42e23-a92e-4a37-b5ea-899194cb9722",
+      "id": "80107617-58c2-4126-91bf-63294a480bee",
       "name": "Validate config presence"
     },
     {
@@ -320,10 +320,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -720,
-        1328
+        1296,
+        2064
       ],
-      "id": "6c12c28f-7a7d-4398-bcac-9eb12fa9e055",
+      "id": "ee44ba5c-2bd8-4d0c-ada9-afff66ca2103",
       "name": "Stop and Error - config presence"
     },
     {
@@ -333,10 +333,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -512,
-        1328
+        1504,
+        2064
       ],
-      "id": "e8abbad6-4c3a-4045-bded-a776e5c9540a",
+      "id": "fa6dd447-a322-4fda-96fc-c999ff6934d4",
       "name": "Stop and Error - config tokens length"
     },
     {
@@ -366,10 +366,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -720,
-        1152
+        1296,
+        1888
       ],
-      "id": "c32c49b4-f799-43fe-99a0-134f605dbc43",
+      "id": "bc4d06c4-7f23-495e-a933-04753091b46e",
       "name": "Validate config tokens length"
     },
     {
@@ -400,10 +400,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -512,
-        1152
+        1504,
+        1888
       ],
-      "id": "c58dbfee-72cb-46de-856a-0c3376505ad9",
+      "id": "b9939b24-8922-4013-9c31-d31d1330d1fc",
       "name": "Validate config token"
     },
     {
@@ -413,10 +413,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -304,
-        1328
+        1712,
+        2064
       ],
-      "id": "02a1f61a-636c-4949-ad34-883fe16febb9",
+      "id": "7106bb64-9ffa-4fac-bce3-b2bb9b160098",
       "name": "Stop and Error - validate config token"
     },
     {
@@ -457,10 +457,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -96,
-        1152
+        1920,
+        1888
       ],
-      "id": "2a769c52-e96f-47c9-aa98-e6252600ceed",
+      "id": "76577436-0b6b-4f6f-8eeb-39116e046b64",
       "name": "Validate config data type"
     },
     {
@@ -501,10 +501,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        112,
-        1152
+        2128,
+        1888
       ],
-      "id": "41afb293-7b77-4066-8ffa-9d72a098541f",
+      "id": "b852f393-3ca2-4453-9ac4-6ecea3748f90",
       "name": "Validate config device id"
     },
     {
@@ -514,10 +514,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        112,
-        1328
+        2128,
+        2064
       ],
-      "id": "65bd2d6f-9676-4fcd-b8e5-070dd4ae4bfe",
+      "id": "f92463e3-5edd-4880-9abd-05aa3705561f",
       "name": "Stop and Error - validate data type in event"
     },
     {
@@ -527,10 +527,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        320,
-        1328
+        2336,
+        2064
       ],
-      "id": "3b1e6b66-d7a9-474e-843b-b2555e88ddcc",
+      "id": "f5ab8548-d437-433a-8243-3a2be4a15c1d",
       "name": "Stop and Error - validate device id in event"
     },
     {
@@ -539,24 +539,24 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -928,
-        720
+        1088,
+        1456
       ],
       "typeVersion": 1,
-      "id": "307fee8e-3103-4805-9221-1ab65ed623f4",
+      "id": "699b998b-b524-49aa-a711-1cc10751d100",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "jsCode": "// 0) Validate webhook payload type\nconst all = $input.all();\n\nconst eventItem = all[0].json;   // from Webhook\nconst configItem = all[1].json;  // from config node\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem\n    }\n  }\n];\n"
       },
-      "id": "ee4aad4d-42bf-45e0-b640-d713823be8ff",
+      "id": "0a9a0842-a62f-423d-a472-7743f4eabbee",
       "name": "Remap objects",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -928,
-        1504
+        1088,
+        2240
       ]
     },
     {
@@ -586,10 +586,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -304,
-        1152
+        1712,
+        1888
       ],
-      "id": "1e821894-7d68-400f-97ae-0aecf6bad7f3",
+      "id": "cfc38bbc-6880-4b79-a58d-9ed18ca0a42e",
       "name": "Validate config token per device"
     },
     {
@@ -619,10 +619,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -304,
-        960
+        1712,
+        1696
       ],
-      "id": "d636b1ee-8975-44c5-a78d-c86e3aec97ac",
+      "id": "a6b7f945-6936-46b6-a8b7-df40f030b11f",
       "name": "Is not debug device token"
     },
     {
@@ -632,10 +632,10 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        -96,
-        1328
+        1920,
+        2064
       ],
-      "id": "eb56d3e8-15e4-41d7-8f2e-47cea9ebaab3",
+      "id": "a198749f-04dc-4f5c-893a-fea478463df4",
       "name": "Stop and Error - validate config per device"
     },
     {
@@ -655,10 +655,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        64,
-        336
+        2080,
+        1072
       ],
-      "id": "0c7b3342-3974-45c5-b3bb-6264730ff09f",
+      "id": "5c7c98fd-44e4-4a50-96a4-32bdd8b85d54",
       "name": "Step value: initial",
       "executeOnce": true
     },
@@ -667,10 +667,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        896,
-        80
+        2912,
+        816
       ],
-      "id": "6d2518c9-7369-4a7b-a310-5dc72b350f4d",
+      "id": "ef0e3973-073e-4d70-881d-84ef89a76c48",
       "name": "Merge after step and config check"
     },
     {
@@ -711,10 +711,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        64,
-        192
+        2080,
+        928
       ],
-      "id": "554117ab-b1a7-46d3-8e87-fbab4f0a4f7f",
+      "id": "f8fc04c3-a284-4451-8e4b-af131b97d9b7",
       "name": "If logIngestions exists"
     },
     {
@@ -734,10 +734,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        192,
-        496
+        2208,
+        1232
       ],
-      "id": "14e5c4f6-483b-4087-99a0-fc56b38dab9d",
+      "id": "29ebf172-aed1-4e8a-8c4f-c05618d7e60f",
       "name": "Step value: config_validated",
       "executeOnce": true
     },
@@ -758,10 +758,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        336,
-        656
+        2352,
+        1392
       ],
-      "id": "dbcafb79-03ad-435d-957a-788ce6a3b6b6",
+      "id": "a31f163b-6af6-4726-88ef-5f03956b8348",
       "name": "Step value: validate_tokens_length",
       "executeOnce": true
     },
@@ -782,10 +782,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        480,
-        800
+        2496,
+        1536
       ],
-      "id": "9a169781-d208-48d0-afcf-473df085a3a1",
+      "id": "692f337e-e45c-4aca-8a40-24a6f3a06f8a",
       "name": "Step value: validate_config_token",
       "executeOnce": true
     },
@@ -806,10 +806,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        608,
-        928
+        2624,
+        1664
       ],
-      "id": "2ddb66e0-69ca-4f22-9368-522505c724b5",
+      "id": "344caf6d-51cc-452c-b397-9efe2bb646f2",
       "name": "Step value: validate_device_token",
       "executeOnce": true
     },
@@ -830,10 +830,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        752,
-        1040
+        2768,
+        1776
       ],
-      "id": "0c770eff-a267-4872-977b-a2092970a2c0",
+      "id": "c34c9baf-8218-4d6c-aaf1-4f7eb602f38b",
       "name": "Step value: validate_debug_token",
       "executeOnce": true
     },
@@ -854,10 +854,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        880,
-        1152
+        2896,
+        1888
       ],
-      "id": "22e04ca7-ffe1-4ef5-aa55-31d0e9c0781d",
+      "id": "57b18acc-35b9-48b0-98c3-0ce20e6362c4",
       "name": "Step value: validate_data_type",
       "executeOnce": true
     },
@@ -878,10 +878,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        992,
-        1264
+        3008,
+        2000
       ],
-      "id": "ff079fe2-0186-4e8d-963e-4a1d58be7701",
+      "id": "936d150c-6890-4bee-a53c-70d568866775",
       "name": "Step value: validate_device_id",
       "executeOnce": true
     },
@@ -902,10 +902,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1120,
-        1376
+        3136,
+        2112
       ],
-      "id": "2eb37b01-7613-4007-ac83-75f996e125fa",
+      "id": "7a110201-602d-46a0-ad17-a1bcfc0e8e79",
       "name": "Step value: step_remap_objects",
       "executeOnce": true
     },
@@ -926,10 +926,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1264,
-        1488
+        3280,
+        2224
       ],
-      "id": "fb713200-e4ad-4b63-8cb0-316a572c1801",
+      "id": "565ddcda-f941-441d-b136-11ecfb29a912",
       "name": "Step value: step_filter_recipients_by_deviceid_datatype",
       "executeOnce": true
     },
@@ -950,10 +950,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1392,
-        1600
+        3408,
+        2336
       ],
-      "id": "5bdd9adc-906c-4d34-9adf-601e78c081b7",
+      "id": "8e21e8bc-24dd-42cc-978b-45f642b1c5f4",
       "name": "Step value: step_filter_recipients_by_rules",
       "executeOnce": true
     },
@@ -974,10 +974,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1504,
-        1712
+        3520,
+        2448
       ],
-      "id": "8b8f7a3c-9ad2-4fe9-b4e3-27a86672b7a6",
+      "id": "cc5309a4-777c-4cd9-9293-31fe194ba761",
       "name": "Step value: step_filter_recipients_by_endpointids_templateids",
       "executeOnce": true
     },
@@ -998,10 +998,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1632,
-        1808
+        3648,
+        2544
       ],
-      "id": "c6a16e06-aab0-47a2-9864-3593a1ace714",
+      "id": "78bcc070-a52c-498f-99a1-f8e938bd2870",
       "name": "Step value: step_form_outbound",
       "executeOnce": true
     },
@@ -1022,10 +1022,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1760,
-        1920
+        3776,
+        2656
       ],
-      "id": "9ed35c59-d8b2-433f-929a-2efb19ab03f7",
+      "id": "d798977a-a64b-47f9-b66e-7f9fe3e46653",
       "name": "Step value: step_compose_messages",
       "executeOnce": true
     },
@@ -1046,10 +1046,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1904,
-        2032
+        3920,
+        2768
       ],
-      "id": "f6d917ea-3a7e-40b0-ae1a-a246045f45a3",
+      "id": "9c55a8e5-88aa-4c1c-a28b-da2870efcce9",
       "name": "Step value: step_template_messages",
       "executeOnce": true
     },
@@ -1070,10 +1070,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2048,
-        2128
+        4064,
+        2864
       ],
-      "id": "97cecaa6-4ce3-4862-83e0-53a745d22f54",
+      "id": "38183f47-61d7-47b8-93aa-de1bf5251acd",
       "name": "Step value: send_message",
       "executeOnce": true
     },
@@ -1094,10 +1094,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2160,
-        2224
+        4176,
+        2960
       ],
-      "id": "847a22a0-016b-4c78-9d13-18fbf9517f19",
+      "id": "2176e546-44cf-4d5e-a4c4-46baa2ba7df3",
       "name": "Step value: send_message_after",
       "executeOnce": true
     },
@@ -1128,10 +1128,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1168,
-        80
+        3184,
+        816
       ],
-      "id": "46170573-fac6-433d-86f8-4c04874aa504",
+      "id": "8ec743a5-16d6-4c6d-9208-37e475c5e24d",
       "name": "Validate body and step presence"
     },
     {
@@ -1141,11 +1141,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
-        0
+        2016,
+        736
       ],
       "typeVersion": 1,
-      "id": "65f356d3-01a2-4951-99a6-e9fbf46e4484",
+      "id": "7ba91fdc-b25d-4266-8936-e74712c780bb",
       "name": "Sticky Note1"
     },
     {
@@ -1176,20 +1176,20 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1392,
-        80
+        3408,
+        816
       ],
-      "id": "8c1d22d4-a1d1-4557-b45f-53eec6556f14",
+      "id": "580c3060-78f3-4d86-b5c5-14fd06800c54",
       "name": "Validate logIngestions length"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "Zd5JbqHzxPcdZhM6",
+          "value": "yQrHfWrwGyBImk0h",
           "mode": "list",
-          "cachedResultUrl": "/workflow/Zd5JbqHzxPcdZhM6",
-          "cachedResultName": "LogIngestion in Device Relay by Kenya-West (example)"
+          "cachedResultUrl": "/workflow/yQrHfWrwGyBImk0h",
+          "cachedResultName": "LogIngestion in Device Relay by Kenya-West"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -1236,24 +1236,24 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1808,
-        80
+        3824,
+        816
       ],
       "name": "Call LogIngestion in Device Relay by Kenya-West",
-      "id": "7158a3a1-0a12-41af-8ddd-296a62378374",
+      "id": "02ae1880-e959-4c5d-bed6-2303efc21be0",
       "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "jsCode": "const all = $input.all();\n\nconst eventItem = all[0].json.event;\nconst configItem = all[0].json.config;\nconst step = all[1].json.step;\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem,\n      logIngestions: configItem.logIngestions,\n      step\n    }\n  }\n];\n"
       },
-      "id": "03eaf168-509d-4511-b247-e713cd04c0f8",
+      "id": "34a23523-acdc-471a-9017-44b39e61a7c6",
       "name": "Remap logIngestion",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1616,
-        80
+        3632,
+        816
       ]
     }
   ],
@@ -1953,6 +1953,6 @@
   "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": ""
+    "instanceId": "f4300700b5a89163b88ad6a908ff9e3076c705e8b03a3f40f03ff2f29f7e4289"
   }
 }
