@@ -45,20 +45,21 @@ Choose either **MacroDroid** or **Tasker**.
 
 #### Option A: MacroDroid
 
-1.  **Transfer Files**: Copy the `.macro` files from `assets/macrodroid/` to your phone.
-2.  **Import Macros**:
+1.  **Create** `scripts/devices/device-list.json` file, copy contents from the example files, edit it to match your devices:
+    -   `identifier`: Ensure the payload or query parameters include the device ID you defined (e.g., "myphone").
+    -   `endpoint`: Update the URL to point to your n8n webhook (e.g., `https://your-n8n-instance.com/webhook/device-relay`).
+    -   `token`: This value is set in `x-n8n-device-relay` HTTP header to pass authorization you defined in the n8n config (e.g., `my-secret-token`).
+2. **Run** PowerShell script `scripts/generate-macrodroid-macros-per-device.ps1` to generate MacroDroid macros for your devices.
+3.  **Transfer Files**: Copy the `.macro` files from `scripts/devices/<YourDeviceName>/<language>/` to your phone. https://github.com/localsend/localsend can help you with that.
+4.  **Import Macros**:
     -   Open MacroDroid.
     -   Import the macros:
         -   `SMS_to_n8n.macro`
         -   `Call_received_to_n8n.macro`
         -   `App_notification_to_n8n.macro`
         -   `Wi-Fi_connected_to_n8n.macro`
-3.  **Configure Webhook**:
-    -   Open each macro.
-    -   Locate the "HTTP Request" (or Webhook) action.
-    -   **URL**: Update the URL to point to your n8n webhook (e.g., `https://your-n8n-instance.com/webhook/device-relay`).
-    -   **Headers**: Ensure the `x-n8n-device-relay` header is set to the secret key you defined in the n8n config (e.g., "my-secret-token").
-    -   **Device ID**: Ensure the payload or query parameters include the device ID you defined (e.g., "myphone").
+
+ℹ️ Note that you need to manually link **Get UUID** actions block by tapping on it and selecting "Get UUID" action from the given list. It is necessary to get event unique ID.
 
 #### Option B: Tasker
 
