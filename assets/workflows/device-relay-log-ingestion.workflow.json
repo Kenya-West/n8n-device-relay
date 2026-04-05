@@ -2,56 +2,30 @@
   "nodes": [
     {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// n8n Code node — support input as single ingestion object, an array of ingestions, or a config with `logIngestions` map.\nconst input = $json;\nconst globalStep = $json.step;\n\nfunction hasStepInRules(obj, step) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.some(rule => Array.isArray(rule.steps) && rule.steps.includes(step));\n}\n\nlet output = {};\n\nif (Array.isArray(input)) {\n  const filtered = input.filter(item => hasStepInRules(item, globalStep));\n  output = filtered.length ? filtered : {};\n} else if (input && typeof input === 'object' && input.logIngestions && typeof input.logIngestions === 'object' && !Array.isArray(input.logIngestions)) {\n  const kept = {};\n  for (const [key, val] of Object.entries(input.logIngestions)) {\n    if (hasStepInRules(val, globalStep)) kept[key] = val;\n  }\n  output = Object.keys(kept).length ? { ...input, logIngestions: kept } : null;\n} else if (input && typeof input === 'object') {\n  output = hasStepInRules(input, globalStep) ? input : null;\n} else {\n  output = {};\n}\n\nreturn { ...output };"
+        "httpMethod": "POST",
+        "path": "device-relay",
+        "options": {}
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "id": "ad8429c7-ad2f-448f-a54e-fd84a8b3e7a6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
-        3280,
-        -480
+        528,
+        2112
       ],
-      "id": "94626d8f-84f3-4caf-90b7-6b5d6cdbbdb5",
-      "name": "Filter logIngestions by rules"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// n8n Code node — validate LogRuleModel fields and filter by `.step`.\nconst input = $json;\nconst globalStep = $json.step;\n\nfunction hasStepInRules(obj, step) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.some(rule => Array.isArray(rule.steps) && rule.steps.includes(step));\n}\n\nfunction isValidRule(rule) {\n  if (!rule || typeof rule !== 'object') return false;\n  if (typeof rule.id !== 'string' || rule.id.length === 0) return false;\n  if (!Array.isArray(rule.steps) || rule.steps.length === 0 || !rule.steps.every(s => typeof s === 'string')) return false;\n  if (!Array.isArray(rule.payloadIds) || rule.payloadIds.length === 0 || !rule.payloadIds.every(p => typeof p === 'string')) return false;\n  return true;\n}\n\nfunction rulesAreAllValid(obj) {\n  if (!obj || !Array.isArray(obj.rules)) return false;\n  return obj.rules.every(isValidRule);\n}\n\nlet output = null;\n\nif (Array.isArray(input)) {\n  const result = input\n    .map(item => {\n      if (!rulesAreAllValid(item)) return {}; // invalid rules -> empty object for this ingestion\n      return hasStepInRules(item, globalStep) ? item : null; // non-matching -> removed (null marker)\n    })\n    .filter(x => x !== null);\n  output = result.length ? result : null;\n} else if (input && typeof input === 'object' && input.logIngestions && typeof input.logIngestions === 'object' && !Array.isArray(input.logIngestions)) {\n  const kept = {};\n  for (const [key, val] of Object.entries(input.logIngestions)) {\n    if (!rulesAreAllValid(val)) {\n      kept[key] = {}; // invalid rules -> empty object entry\n      continue;\n    }\n    if (hasStepInRules(val, globalStep)) kept[key] = val;\n  }\n  output = Object.keys(kept).length ? { ...input, logIngestions: kept } : null;\n} else if (input && typeof input === 'object') {\n  if (!rulesAreAllValid(input)) {\n    output = {}; // invalid rules -> empty object\n  } else {\n    output = hasStepInRules(input, globalStep) ? input : null;\n  }\n} else {\n  output = null;\n}\n\nreturn {...output}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        4336,
-        -480
-      ],
-      "id": "f7a62756-5fe6-4061-9072-9b6ca64e3f23",
-      "name": "Filter logIngestions rules consistency"
-    },
-    {
-      "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n    \"event\": null,\n    \"logIngestions\": null,\n    \"step\": null\n}"
-      },
-      "id": "3741e202-18cb-49a8-8bba-9c938aa46e0b",
-      "typeVersion": 1.1,
-      "name": "Start",
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "position": [
-        2512,
-        -480
-      ]
+      "webhookId": "fe4a40f7-acfa-4380-99d1-72c4b7c7ca34"
     },
     {
       "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
       "position": [
-        2512,
-        -752
+        1072,
+        2272
       ],
-      "id": "6d48c69c-e200-4f04-839f-f267aaaf57d8",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "ccad1df8-1b73-49eb-977f-c4a807641999",
+      "name": "Merge"
     },
     {
       "parameters": {
@@ -62,23 +36,201 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2704,
-        -752
+        896,
+        2272
       ],
-      "id": "51fd1701-f229-4e3f-bc34-46080cc59583",
-      "name": "Edit Fields"
+      "id": "def09294-2ecb-4b53-887e-eb6546f2d63e",
+      "name": "Config"
     },
     {
       "parameters": {
-        "jsCode": "// n8n Code node — split `logIngestions` map into one item per ingestion (include `step`)\n\nconst inputs = $input.all();\nconst out = [];\n\nfor (const item of inputs) {\n  const wrapper = item.json || {};\n  const logIngestions = wrapper.logIngestions || {};\n  const step = wrapper.step;\n\n  for (const [id, ingestion] of Object.entries(logIngestions)) {\n    out.push({\n      json: {\n        id,\n        step,\n        ...ingestion\n      }\n    });\n  }\n}\n\nreturn out;"
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog(\"Input item count:\", $input.all().length);\n\nconst wrapper = $input.first().json;\nlog(\"Wrapper keys:\", Object.keys(wrapper ?? {}));\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsResolved = wrapper.recipientsResolved;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event);\nlog(\"Config (redacted):\", redact(config));\nlog(\"Event keys:\", Object.keys(event ?? {}));\nlog(\"Event.body keys:\", Object.keys(event?.body ?? {}));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!recipientsResolved) throw new Error(\"Missing RecipientsResolved\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!event?.body?.data?.type)\n  throw new Error(\"Missing event.body.data.type (InboundDataModel discriminator)\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id (eventId)\");\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\nconst eventId = event.body.id;\n\nlog(\"deviceId:\", deviceId);\nlog(\"dataType:\", dataType);\nlog(\"eventId:\", eventId);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.deviceId,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog(\"meta:\", meta);\n\nconst ensureAllExist = (kind, ids, registry) => {\n  for (const id of ids) {\n    if (!registry[id]) {\n      throw new Error(`Unknown ${kind} id \"${id}\" referenced by routing logic`);\n    }\n  }\n};\n\n// Build OutboundDispatchPlan from config + event\nconst dispatches = [];\n/**\n * @type {Array<Object>}\n */\nconst recipients = recipientsResolved;\n\nlog(\"recipient ids:\", recipients.map((r) => r.id).flat().join(\", \"));\n\nfor (const recipient of recipientsResolved) {\n  const recipientId = recipient.id;\n\n  if (!Array.isArray(recipient.rules)) continue;\n\n  for (const rule of recipient.rules) {\n    const endpointIds = rule.then?.endpointIds ?? [];\n    const templateIds = rule.then?.templateIds ?? [];\n\n    if (endpointIds.length === 0 || templateIds.length === 0) continue;\n\n    ensureAllExist(\"endpoint\", endpointIds, config.endpoints);\n    ensureAllExist(\"template\", templateIds, config.templates);\n\n    for (const endpointId of endpointIds) {\n      for (const templateId of templateIds) {\n        dispatches.push({\n          id: `${eventId}:${recipientId}:${rule.id}:${endpointId}:${templateId}`,\n          recipientId,\n          ruleId: rule.id,\n          endpointId,\n          templateId,\n          matchedRuleIds: [rule.id],\n        });\n      }\n    }\n  }\n}\n\nconst outbound = {\n  eventId,\n  deviceId,\n  dataType,\n  configVersion: config.version,\n  dispatches,\n};\n\nlog(\"dispatches count:\", dispatches.length);\nlog(\"outbound:\", redact(outbound));\n\n// Return RuntimeModel\nreturn [\n  {\n    json: {\n      event,\n      config,\n      outbound,\n    },\n  },\n];"
       },
-      "id": "9ef3834c-12fd-47c7-9a94-652ae29bdf67",
-      "name": "Remap logIngestions to multiple entries",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3056,
-        -480
+        1392,
+        3040
+      ],
+      "id": "f28d4a02-3c7c-49ab-b8e8-ff4f5e77d68c",
+      "name": "Form outbound",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst wrapper = $input.first().json;\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst outbound = wrapper.outbound;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event, \"Has outbound?\", !!outbound);\nlog(\"Outbound (redacted):\", redact(outbound));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!outbound) throw new Error(\"Missing outbound\");\nif (!config?.recipients) throw new Error(\"Missing config.recipients (ConfigModel)\");\nif (!config?.endpoints) throw new Error(\"Missing config.endpoints (ConfigModel)\");\nif (!config?.templates) throw new Error(\"Missing config.templates (ConfigModel)\");\nif (!Array.isArray(outbound?.dispatches)) throw new Error(\"Missing outbound.dispatches\");\nif (!event?.body?.data?.type) throw new Error(\"Missing event.body.data.type\");\nif (!event?.body?.device.id) throw new Error(\"Missing event.body.device.id\");\nif (!event?.body?.id) throw new Error(\"Missing event.body.id\");\n\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\n\nconst mergeHeaders = (base, override) => ({\n  ...(base || {}),\n  ...(override || {}),\n});\n\nconst ensure = (kind, id, value) => {\n  if (!value) throw new Error(`Unknown ${kind} id \"${id}\"`);\n  return value;\n};\n\nconst defaultTimeoutMs = config?.defaults?.httpTimeoutMs;\nconst defaultHeaders = config?.defaults?.headers;\n\nlog(\"dispatch count:\", outbound.dispatches.length);\n\nconst items = outbound.dispatches.map((dispatch) => {\n  const recipientId = dispatch.recipientId;\n  const endpointId = dispatch.endpointId;\n  const templateId = dispatch.templateId;\n\n  const recipient = ensure(\"recipient\", recipientId, config.recipients[recipientId]);\n  const endpoint = ensure(\"endpoint\", endpointId, config.endpoints[endpointId]);\n  const template = ensure(\"template\", templateId, config.templates[templateId]);\n\n  // IMPORTANT: no templating here. Leave placeholders as-is.\n  // This node only adds metadata for later templating nodes.\n  if (endpoint?.body?.type && endpoint.body.type !== \"json\") {\n    throw new Error(\n      `Endpoint \"${endpointId}\" body.type=\"${endpoint.body.type}\" is not supported by this node (expects \"json\")`\n    );\n  }\n\n  return {\n    json: {\n      event,\n      config,\n      // metadata for later nodes that will do templating/rendering\n      templateData: {\n        meta, // typical {meta.*} namespace\n        data: event.body.data, // typical {data.*} namespace\n        device: event.body.device, // typical {data.*} namespace\n        recipient: {\n          id: recipientId,\n          vars: recipient.vars, // typical {recipient.vars.*} namespace\n        }\n      },\n      toTemplate: {\n        template: {\n          id: templateId,\n          text: template.text, // where `{message}` (or similar) should come from later\n          format: template.format,\n          fields: template.fields,\n        },\n        endpoint: endpoint\n      },\n    },\n  };\n});\n\nlog(\"Prepared items:\", items.length);\nlog(\"First item preview (redacted):\", redact(items[0]?.json));\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        3040
+      ],
+      "id": "6597f2de-cf12-4fcc-af94-3e3516eb8a4b",
+      "name": "Compose messages",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log('[debug]', ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v, path = '') => {\n    if (v == null) return v;\n\n    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${path}[${i}]`));\n\n    if (typeof v === 'object') {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        const full = path ? `${path}.${k}` : k;\n        if (SECRET_KEY_RE.test(k)) out[k] = '***REDACTED***';\n        else out[k] = walk(child, full);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog('Input item count:', $input.all().length);\n\nconst wrapper = $input.first().json;\nlog('Wrapper keys:', Object.keys(wrapper ?? {}));\n\n// Allow common shapes: {config, event}, {config, body}, or direct webhook body\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsFilteredGlobally = wrapper.recipientsFilteredGlobally;\n\nlog('Has config?', !!config, 'Has event?', !!event);\nlog('Config (redacted):', redact(config));\nlog('Event keys:', Object.keys(event ?? {}));\nlog('Event.body keys:', Object.keys(event?.body ?? {}));\n\nif (!recipientsFilteredGlobally) throw new Error('Missing recipientsFilteredGlobally');\nif (!config?.recipients) throw new Error('Missing config.recipients (ConfigModel)');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type (IncomingDataModel discriminator)');\nif (!event?.body?.device.id) throw new Error('Missing event.body.device.id');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\nlog('deviceId:', deviceId);\nlog('dataType:', dataType);\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog('meta:', meta);\n\nconst isPresent = (v) => v !== undefined && v !== null;\n\n/**\n  * If the value is a string, convert it to lowercase.\n  * Otherwise, return the value as is.\n  * @param {unknown} v - The value to be checked and potentially converted.\n  * @returns {unknown | string} - The lowercase string or the original value.\n */\nconst normalizeIfString = (v) => {\n  if (typeof v === 'string') {\n    return v.trim().toLowerCase();\n  }\n  return v;\n}\n\n/**\n * Convert a value to a comparable number if possible.\n * @param {unknown} v - The value to be converted.\n * @returns {number | undefined} - The comparable number or undefined if conversion is not possible.\n */\nconst toComparableNumber = (v) => {\n  if (typeof v === 'number' && Number.isFinite(v)) return v;\n  if (typeof v === 'string' && normalizeIfString(v) !== '') {\n    const n = Number(v);\n    return Number.isFinite(n) ? n : undefined;\n  }\n  return undefined;\n};\n\nconst normalizeEquals = (actual, expected) => {\n  log('normalizeEquals:', { actual, expected, actualType: typeof actual, expectedType: typeof expected });\n\n  if (!isPresent(actual) && !isPresent(expected)) return true;\n\n  if (typeof actual === 'boolean') {\n    if (typeof expected === 'boolean') return actual === expected;\n    if (typeof expected === 'string') {\n      const s = normalizeIfString(expected);\n      if (s === 'true') return actual === true;\n      if (s === 'false') return actual === false;\n    }\n    return false;\n  }\n\n  if (typeof actual === 'number') {\n    const n = toComparableNumber(expected);\n    return n !== undefined ? actual === n : false;\n  }\n\n  return normalizeIfString(String(actual)) === normalizeIfString(String(expected));\n};\n\nconst getByPath = (root, path) => {\n  const parts = (path ? String(path) : '')\n    .split('.')\n    .filter(Boolean);\n\n  let cur = root;\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n  return cur;\n};\n\n// Uses \"operator\" (your current my.json)\nconst predicateMatches = (predicate) => {\n  const op = predicate?.operator;\n  const path = predicate?.path;\n  const expected = predicate?.value;\n\n  // Root lets your rules use paths like \"deviceId\" or \"data.body\" or \"meta.device.id\"\n  const predicateRoot = { ...event.body, data: event.body.data, meta };\n  const actual = getByPath(predicateRoot, path);\n\n  log('predicate:', { path, op, expected, actual });\n\n  switch (op) {\n    case 'equals':\n      return normalizeEquals(actual, expected);\n\n    case 'not_equals':\n      return !normalizeEquals(actual, expected);\n\n    case 'includes': {\n      if (!isPresent(actual)) return false;\n      if (Array.isArray(actual)) return actual.includes(expected);\n      return normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'not_includes': {\n      if (!isPresent(actual)) return true;\n      if (Array.isArray(actual)) return !actual.includes(expected);\n      return !normalizeIfString(String(actual)).includes(normalizeIfString(String(expected ?? '')));\n    }\n\n    case 'starts_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).startsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'ends_with':\n      return isPresent(actual) && normalizeIfString(String(actual)).endsWith(normalizeIfString(String(expected ?? '')));\n\n    case 'matches_regex': {\n      if (!isPresent(actual)) return false;\n      try {\n        const re = new RegExp(String(expected ?? ''));\n        return re.test(String(actual));\n      } catch {\n        throw new Error(`Invalid regex in predicate for path \"${path}\": ${String(expected)}`);\n      }\n    }\n\n    case 'gt':\n    case 'gte':\n    case 'lt':\n    case 'lte': {\n      const a = toComparableNumber(actual);\n      const b = toComparableNumber(expected);\n      log('numeric compare:', { op, a, b });\n      if (a === undefined || b === undefined) return false;\n      if (op === 'gt') return a > b;\n      if (op === 'gte') return a >= b;\n      if (op === 'lt') return a < b;\n      return a <= b;\n    }\n\n    case 'exists':\n      return isPresent(actual);\n\n    default:\n      throw new Error(`Unsupported predicate operator: ${op}`);\n  }\n};\n\nconst resolveRecipient = (recipientId, recipient) => {\n  log('--- resolveRecipient ---', recipientId);\n  log('recipient (redacted):', redact(recipient));\n\n  const allowedDeviceIds = Array.isArray(recipient.allowedDeviceIds) ? recipient.allowedDeviceIds : [];\n  log('allowedDeviceIds:', allowedDeviceIds);\n  if (allowedDeviceIds.length > 0 && !allowedDeviceIds.includes(deviceId)) {\n    log('SKIP: deviceId not allowed', { deviceId, allowedDeviceIds });\n    return null;\n  }\n\n  const allowedDataTypes = Array.isArray(recipient.allowedDataTypes) ? recipient.allowedDataTypes : [];\n  log('allowedDataTypes:', allowedDataTypes);\n  if (allowedDataTypes.length > 0 && !allowedDataTypes.includes(dataType)) {\n    log('SKIP: dataType not allowed', { dataType, allowedDataTypes });\n    return null;\n  }\n\n  const baseEndpointIds = Array.isArray(recipient.endpointIds) ? recipient.endpointIds : [];\n  const baseTemplateIds = Array.isArray(recipient.templateIds) ? recipient.templateIds : [];\n  log('baseEndpointIds:', baseEndpointIds);\n  log('baseTemplateIds:', baseTemplateIds);\n\n  const rules = Array.isArray(recipient.rules) ? recipient.rules : [];\n  log('rule count:', rules.length);\n\n  if (rules.length === 0) {\n    log('NO RULES: selecting recipient with base routing');\n    return { id: recipientId, ...recipient, endpointIds: baseEndpointIds, templateIds: baseTemplateIds };\n  }\n\n  const matchedRules = [];\n\n  for (const rule of rules) {\n    log('checking rule:', { ruleId: rule?.id, type: rule?.type });\n\n    if (rule?.type !== dataType) {\n      log('rule type mismatch, skip:', { ruleType: rule?.type, dataType });\n      continue;\n    }\n\n    const whens = Array.isArray(rule.when) ? rule.when : [];\n    log('when predicates:', whens);\n\n    const matched = whens.every((p, idx) => {\n      const ok = predicateMatches(p);\n      log(`predicate[${idx}] result:`, ok);\n      return ok;\n    });\n\n    log('rule matched?', matched, 'ruleId:', rule?.id);\n\n    if (!matched) continue;\n\n    // IMPORTANT: keep track of matches (you were missing this)\n    matchedRules.push(rule);\n  }\n\n  log('matchedRules ids:', matchedRules.map((r) => r.id));\n\n  if (matchedRules.length === 0) {\n    log('NO MATCHED RULES: dropping recipient');\n    return null;\n  }\n\n  return { \n    id: recipientId,\n    vars: recipient.vars,\n    rules: matchedRules.map((r) => {\n      return { id: r.id, then: r.then };\n    }),\n  };\n};\n\nlog('recipient ids:', recipientsFilteredGlobally.join(\", \"));\n\nconst resolvedRecipients = recipientsFilteredGlobally\n  .map((id) => resolveRecipient(id, config.recipients?.[id]))\n  .filter(Boolean);\n\nlog('resolvedRecipients count:', resolvedRecipients.length);\nlog('resolvedRecipients (redacted):', redact(resolvedRecipients));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved: resolvedRecipients\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        3040
+      ],
+      "id": "7da68ff5-65e3-4fef-bdbb-6aa4aa78be54",
+      "name": "Filter recipients by recipient rules",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n    return v;\n  };\n\n  return walk(value);\n};\n\nconst getByPath = (root, path) => {\n  if (!path || typeof path !== \"string\") return undefined;\n\n  // supports simple dot paths like: meta.createdAt, data.body, recipient.vars.botToken\n  const parts = path.split(\".\").filter(Boolean);\n  let cur = root;\n\n  for (const part of parts) {\n    if (cur == null) return undefined;\n    cur = cur[part];\n  }\n\n  return cur;\n};\n\nconst templateString = (input, templateData, renderedText) => {\n  if (typeof input !== \"string\") return input;\n\n  return input.replace(/\\{([^{}]+)\\}/g, (match, rawToken) => {\n    const token = String(rawToken).trim();\n\n    // Special placeholder: {%text%} => already-rendered template.text\n    if (token === \"%text%\") return String(renderedText ?? \"\");\n\n    const value = getByPath(templateData, token);\n\n    // If missing, keep placeholder as-is (non-strict)\n    if (value === undefined || value === null) return match;\n\n    // For non-primitives, stringify to avoid \"[object Object]\"\n    if (typeof value === \"object\") return JSON.stringify(value);\n\n    return String(value);\n  });\n};\n\nconst templateDeepOnlyStrings = (value, templateData, renderedText) => {\n  if (typeof value === \"string\") return templateString(value, templateData, renderedText);\n\n  if (Array.isArray(value)) {\n    return value.map((v) => templateDeepOnlyStrings(v, templateData, renderedText));\n  }\n\n  if (value && typeof value === \"object\") {\n    const out = {};\n    for (const [k, v] of Object.entries(value)) {\n      out[k] = templateDeepOnlyStrings(v, templateData, renderedText);\n    }\n    return out;\n  }\n\n  return value;\n};\n\nconst items = $input.all().map((item) => {\n  const wrapper = item.json;\n  \n  const config = wrapper.config;\n  const event = wrapper.event;\n\n  const templateData = wrapper.templateData;\n  const toTemplate = wrapper.toTemplate;\n\n  if (!templateData) throw new Error(\"Missing templateData\");\n  if (!toTemplate) throw new Error(\"Missing toTemplate\");\n  if (!toTemplate?.template?.text) throw new Error(\"Missing toTemplate.template.text\");\n  if (!toTemplate?.endpoint) throw new Error(\"Missing toTemplate.endpoint\");\n\n  // 1) Render template.text first (only uses templateData)\n  const renderedText = templateString(toTemplate.template.text, templateData, \"\");\n\n  // 2) Template ONLY within toTemplate (strings only), using templateData,\n  //    with {%text%} resolved from the rendered template.text above.\n  const templatedEndpoint = templateDeepOnlyStrings(\n    toTemplate.endpoint,\n    templateData,\n    renderedText\n  );\n\n  // 3) Build \"toSend\" as a flattened, templated endpoint (no nesting)\n  //    Keep everything else as-is; just add toSend.\n  const toSend = {\n    method: templatedEndpoint.method,\n    url: templatedEndpoint.url,\n    headers: templatedEndpoint.headers ?? {},\n    searchParams: templatedEndpoint.searchParams ?? {},\n    timeoutMs: templatedEndpoint.timeoutMs,\n    body:\n      templatedEndpoint?.body?.type === \"json\"\n        ? (templatedEndpoint.body?.content ?? {})\n        : templatedEndpoint?.body?.content ?? templatedEndpoint?.body,\n  };\n\n  log(\"Rendered text preview:\", renderedText);\n  log(\"toSend (redacted):\", redact(toSend));\n\n  return {\n    json: {\n      event,\n      config,\n      toSend,\n    },\n  };\n});\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        3040
+      ],
+      "id": "e12731ea-ee3d-47cf-93b1-6c1bc13324ac",
+      "name": "Template messages",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for All Items)\n// Filters recipients by allowedDeviceIds / allowedDataTypes ONLY when those props exist.\n\nconst wrapper = $input.first().json;\nconst config = wrapper.config;\nconst event = wrapper.event;\n\nif (!config?.recipients) throw new Error('Missing config.recipients');\nif (!event?.body?.device?.id) throw new Error('Missing event.body.device.id');\nif (!event?.body?.data?.type) throw new Error('Missing event.body.data.type');\n\nconst deviceId = event.body.device.id;\nconst dataType = event.body.data.type;\n\n\nconst isNotDisabled = (recipient) => {\n  if (recipient.disabled === true) return false;\n  return true;\n};\n\nconst isAllowed = (recipient) => {\n  // If prop is missing/null => do NOT filter by it (recipient remains)\n  if (Array.isArray(recipient.allowedDeviceIds) && recipient.allowedDeviceIds.length > 0) {\n    if (!recipient.allowedDeviceIds.includes(deviceId)) return false;\n  }\n\n  if (Array.isArray(recipient.allowedDataTypes) && recipient.allowedDataTypes.length > 0) {\n    if (!recipient.allowedDataTypes.includes(dataType)) return false;\n  }\n\n  return true;\n};\n\nconst out = Object.entries(config.recipients)\n  .filter(([, recipient]) => isNotDisabled(recipient))\n  .filter(([, recipient]) => isAllowed(recipient))\n  .map(([id, recipient]) => (id));\n\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsFilteredGlobally: out\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        3040
+      ],
+      "id": "3c972a97-2e4f-4ad8-ab19-8ec5be3866ab",
+      "name": "Filter recipients by DeviceId and DataType filters"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (Run Once for All Items)\n\n// Toggle this to silence logs quickly\nconst DEBUG = true;\n\nconst log = (...args) => {\n  if (DEBUG) console.log(\"[debug]\", ...args);\n};\n\nconst redact = (value) => {\n  const SECRET_KEY_RE = /(token|secret|password|apiKey|key)/i;\n\n  const walk = (v) => {\n    if (v == null) return v;\n    if (Array.isArray(v)) return v.map(walk);\n\n    if (typeof v === \"object\") {\n      const out = {};\n      for (const [k, child] of Object.entries(v)) {\n        if (SECRET_KEY_RE.test(k)) out[k] = \"***REDACTED***\";\n        else out[k] = walk(child);\n      }\n      return out;\n    }\n\n    return v;\n  };\n\n  return walk(value);\n};\n\nlog(\"Input item count:\", $input.all().length);\n\nconst wrapper = $input.first().json;\nlog(\"Wrapper keys:\", Object.keys(wrapper ?? {}));\n\nconst config = wrapper.config;\nconst event = wrapper.event;\nconst recipientsResolved = wrapper.recipientsResolved;\n\nlog(\"Has config?\", !!config, \"Has event?\", !!event);\nlog(\"Config (redacted):\", redact(config));\nlog(\"Event keys:\", Object.keys(event ?? {}));\nlog(\"Event.body keys:\", Object.keys(event?.body ?? {}));\n\nif (!config) throw new Error(\"Missing config\");\nif (!event) throw new Error(\"Missing event\");\nif (!recipientsResolved) throw new Error(\"Missing RecipientsResolved\");\n\n// meta is what templates typically refer to as {meta.*}\nconst meta = {\n  id: event.body.id,\n  createdAt: event.body.createdAt,\n  deviceId: event.body.device.id,\n  source: event.body.source,\n  ...(event.body.meta ?? {}),\n};\nlog(\"meta:\", meta);\n\n/**\n * @type {Array<Object>}\n */\nconst recipients = recipientsResolved;\n\nlog(\"recipient ids:\", recipients.map((r) => r.id).flat().join(\", \"));\n\nfor (const recipient of recipientsResolved) {\n\n  const rulesFiltered = [...recipient.rules];\n\n  /**\n   * @type {Array<string>}\n   */\n  const recipientEndpointIds = config.recipients[recipient.id]?.endpointIds ?? [];\n  /**\n   * @type {Array<string>}\n   */\n  const recipientTemplateIds = config.recipients[recipient.id]?.templateIds ?? [];\n  for (const rule of recipient.rules) {\n    // filter rules by recipient.endpointIds (if any)\n    /**\n     * @type {Array<string>}\n     */\n    const ruleEndpointIds = [...rule.then.endpointIds];\n\n    if (recipientEndpointIds.length > 0 && ruleEndpointIds.length > 0) {\n      if (recipientEndpointIds.some(item => ruleEndpointIds.includes(item))) {\n        rule.then.endpointIds = ruleEndpointIds.filter(id => recipientEndpointIds.includes(id));\n        log(`Found matching endpoints for rule ${rule.id}:`, rule.then.endpointIds);\n      } else {\n        const index = rulesFiltered.findIndex(r => r.id === rule.id);\n        if (index > -1) {\n          log(`No matching endpoints for rule ${rule.id}, removing it`);\n          rulesFiltered.splice(index, 1);\n        }\n      }\n    }\n\n    // leave only unique\n    rule.then.endpointIds.splice(0, rule.then.endpointIds.length, ...new Set(rule.then.endpointIds));\n    \n    // filter rules by recipient.templateIds (if any)\n    /**\n     * @type {Array<string>}\n    */\n    const ruleTemplateIds = [...rule.then.templateIds];\n\n    if (recipientTemplateIds.length > 0 && ruleTemplateIds.length > 0) {\n      if (recipientTemplateIds.some(item => ruleTemplateIds.includes(item))) {\n        rule.then.templateIds = ruleTemplateIds.filter(id => recipientTemplateIds.includes(id));\n        log(`Found matching templates for rule ${rule.id}:`, rule.then.templateIds);\n      } else {\n        const index = rulesFiltered.findIndex(r => r.id === rule.id);\n        if (index > -1) {\n          log(`No matching templates for rule ${rule.id}, removing it`);\n          rulesFiltered.splice(index, 1);\n        }\n      }\n    }\n\n    // leave only unique\n    rule.then.templateIds.splice(0, rule.then.templateIds.length, ...new Set(rule.then.templateIds));\n\n    log(`Recipient ${recipient.id} filtered rules:`, recipient.rules.length, \"->\", rulesFiltered.length);\n\n    recipient.rules = rulesFiltered;\n  }\n}\n\n// Return RuntimeModel\nreturn [\n  {\n    json: {\n      event,\n      config,\n      recipientsResolved\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        3040
+      ],
+      "id": "8565e5b9-d56e-488e-b066-2da21b3386fa",
+      "name": "Filter rules by recipients endpointIds and templateIds",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.toSend.method }}",
+                    "rightValue": "POST",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "eda2323a-bf78-4eb5-be11-f7e3abe9b155"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "cd76dc0d-3f7a-4a11-8e58-ff83dcff3c6e",
+                    "leftValue": "={{ $json.toSend.method }}",
+                    "rightValue": "GET",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        3344
+      ],
+      "id": "3fc687e8-e59d-457f-b31b-5ef3d96e25dc",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "={{ $json.toSend.method }}",
+        "url": "={{ $json.toSend.url }}",
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={{ JSON.stringify($json.toSend.searchParams ?? {}) }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={{ JSON.stringify($json.toSend.headers ?? {}) }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.toSend.body }}",
+        "options": {}
+      },
+      "id": "eab75d0c-8f1a-4031-8ae4-a7e68015dbb1",
+      "name": "Send to Telegram (POST)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        768,
+        3264
+      ]
+    },
+    {
+      "parameters": {
+        "method": "={{ $json.toSend.method }}",
+        "url": "={{ $json.toSend.url }}",
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "={{ JSON.stringify($json.toSend.searchParams) }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={{ JSON.stringify($json.toSend.headers) }}",
+        "options": {}
+      },
+      "id": "dd774530-3e0b-4b4f-9d94-119402a18e72",
+      "name": "Send to Telegram (GET)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        768,
+        3424
       ]
     },
     {
@@ -92,12 +244,13 @@
           },
           "conditions": [
             {
-              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
-              "leftValue": "={{ Object.keys($json).length }}",
-              "rightValue": 0,
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $json.headers[\"x-n8n-device-relay\"] }}",
+              "rightValue": "",
               "operator": {
-                "type": "number",
-                "operation": "gt"
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
               }
             }
           ],
@@ -108,174 +261,392 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3488,
-        -480
+        704,
+        2112
       ],
-      "id": "3a49508e-7a5f-4b57-9574-b0d848d86891",
-      "name": "Check if object is empty"
+      "id": "8d866353-a974-4c78-a6aa-21baf52ed738",
+      "name": "If"
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
-              "leftValue": "={{ $json.payloads?.length ?? 0 }}",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "gt"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
+        "errorMessage": "No token specified!"
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        3904,
-        -480
-      ],
-      "id": "b7a3b354-1bb7-46ac-aa71-5a95d67a23ca",
-      "name": "Check if object's payloads is empty"
-    },
-    {
-      "parameters": {
-        "method": "={{ $json.endpoint.method }}",
-        "url": "={{ $json.endpoint.url }}",
-        "sendHeaders": true,
-        "specifyHeaders": "json",
-        "jsonHeaders": "={{ JSON.stringify($json.endpoint.headers ?? {}) }}",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ $json.endpoint.body.content }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        5184,
-        -480
-      ],
-      "id": "df592096-7328-4939-84e6-07e3b5c0f923",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "const input = $json;\nconst step = input && input.step;\n\nif (!step || !input || !input.rules || !Array.isArray(input.rules)) {\n  return [{ json: input }];\n}\n\nconst filteredRules = input.rules.filter(rule =>\n  Array.isArray(rule.steps) && rule.steps.includes(step)\n);\n\nconst output = { ...input, rules: filteredRules };\n\nreturn { ...output };\n\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        3696,
-        -480
-      ],
-      "id": "3dadfa7e-ff93-418c-a111-69d3b2471217",
-      "name": "Filter logIngestions by rules including the step"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "e4821099-83b4-4436-9e73-e1cb812bc156",
-              "leftValue": "={{ Object.keys($json.endpoints ?? {}).length ?? 0 }}",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "gt"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        4112,
-        -480
-      ],
-      "id": "5062ed7d-a782-40fb-a712-c3aa2810029d",
-      "name": "Check if object's endpoints is empty"
-    },
-    {
-      "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "// n8n Code node (JavaScript)\nconst input = $json;\n\nconst step = input?.step;\nconst rules = Array.isArray(input?.rules) ? input.rules : [];\nconst endpoints = input?.endpoints && typeof input.endpoints === 'object' ? input.endpoints : {};\n\nconst toSend = [];\n\nfor (const rule of rules) {\n  // Optional but usually desired: only include rules relevant to this step\n  if (step && Array.isArray(rule?.steps) && !rule.steps.includes(step)) continue;\n\n  const payloadIds = Array.isArray(rule?.payloadIds) ? rule.payloadIds : [];\n  const endpointIds = Array.isArray(rule?.endpointIds) ? rule.endpointIds : [];\n\n  for (const payloadId of payloadIds) {\n    for (const endpointId of endpointIds) {\n      const endpoint = endpoints[endpointId];\n      if (!endpoint) continue; // skip unknown endpoint ids\n\n      toSend.push({\n        step,        // step name\n        payloadId,   // payload id\n        endpoint,    // endpoint object taken entirely as-is (no modification)\n      });\n    }\n  }\n}\n\nreturn { json: { logIngestion: input, toSend } };"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        4544,
-        -480
-      ],
-      "id": "97f8e46e-1ac3-4c3e-9dc5-c05c0b2906d3",
-      "name": "Compose requests"
-    },
-    {
-      "parameters": {
-        "jsCode": "// n8n Function node code\n// Keep `logIngestion` untouched; only modify `toSend`.\n//\n// Templating policies:\n// - `{%step%}` => `logIngestion.step`\n// - `{%body%}` only inside `toSend` => rendered payload.body OBJECT (NOT stringified)\n// - `{%event%}` => JSON.stringify(event)\n// - `{%expr= ... %}` => evaluate as JS expression\n\nconst event = $input.all()?.[0]?.json?.event;\nconst input = $input.all()?.[1]?.json;\n\nconst logIngestion = input?.logIngestion;\nif (!logIngestion || !Array.isArray(input?.toSend)) {\n  return [{ json: input }];\n}\n\nconst step = logIngestion.step;\nconst eventString = JSON.stringify(event ?? null);\n\nfunction evalExpr(expression, scope) {\n  const allowedGlobals = {\n    Date,\n    Math,\n    Array,\n    JSON,\n    Number,\n    String,\n    Object,\n    Boolean,\n    RegExp,\n    parseInt,\n    parseFloat,\n    isNaN,\n    isFinite,\n  };\n\n  const argNames = [...Object.keys(allowedGlobals), ...Object.keys(scope)];\n  const argValues = [...Object.values(allowedGlobals), ...Object.values(scope)];\n\n  const fn = new Function(...argNames, `\"use strict\"; return (${expression});`);\n  return fn(...argValues);\n}\n\nfunction renderString(str, ctx, { allowBody }) {\n  if (typeof str !== \"string\") return str;\n\n  // 1) Evaluate {%expr=...%} blocks first\n  str = str.replace(/\\{\\%expr=([\\s\\S]*?)%\\}/g, (_, expr) => {\n    const value = evalExpr(expr, ctx);\n    return value == null ? \"\" : String(value);\n  });\n\n  // 2) If the whole string is exactly {%body%}, inject the OBJECT (no stringify)\n  if (allowBody && str === \"{%body%}\") {\n    return ctx.body == null ? \"\" : ctx.body;\n  }\n\n  // 3) Replace {%step%}\n  str = str.replace(/\\{\\%step%\\}/g, ctx.step == null ? \"\" : String(ctx.step));\n\n  // 4) Replace {%event%} with JSON-stringified event payload\n  str = str.replace(/\\{\\%event%\\}/g, ctx.eventString == null ? \"\" : String(ctx.eventString));\n\n  // 5) Replace {%body%} occurrences inside larger strings (must be string)\n  // If someone embeds it in text, we can only inject a string representation.\n  if (allowBody && str.includes(\"{%body%}\")) {\n    const bodyAsString =\n      ctx.body == null\n        ? \"\"\n        : typeof ctx.body === \"string\"\n          ? ctx.body\n          : JSON.stringify(ctx.body);\n    str = str.replace(/\\{\\%body%\\}/g, bodyAsString);\n  }\n\n  return str;\n}\n\nfunction renderDeep(value, ctx, opts) {\n  if (typeof value === \"string\") return renderString(value, ctx, opts);\n  if (Array.isArray(value)) return value.map((v) => renderDeep(v, ctx, opts));\n  if (value && typeof value === \"object\") {\n    const out = {};\n    for (const [k, v] of Object.entries(value)) {\n      out[k] = renderDeep(v, ctx, opts);\n    }\n    return out;\n  }\n  return value;\n}\n\nfunction findPayloadBodyById(payloadId) {\n  const payload = (logIngestion.payloads || []).find((p) => p?.id === payloadId);\n  return payload?.body;\n}\n\nfunction renderPayloadBody(payloadBody) {\n  if (payloadBody == null) return null;\n\n  // Render expressions/step inside payload body itself.\n  // `{%body%}` is NOT allowed here.\n  return renderDeep(payloadBody, { step, eventString }, { allowBody: false });\n}\n\n// Only modify `toSend`; do NOT change `logIngestion`\nconst renderedToSend = input.toSend.map((item) => {\n  const payloadBody = findPayloadBodyById(item.payloadId);\n  const renderedPayloadBody = renderPayloadBody(payloadBody);\n\n  const target = item.endpoint ? item.endpoint : item;\n\n  const ctx = {\n    step,\n    body: renderedPayloadBody, // OBJECT injected for `{%body%}`\n    eventString,               // STRING injected for `{%event%}`\n  };\n\n  const renderedTarget = {\n    ...target,\n    body: renderDeep(target.body, ctx, { allowBody: true }),\n    attributes: renderDeep(target.attributes, ctx, { allowBody: true }),\n  };\n\n  return item.endpoint\n    ? { ...item, endpoint: renderedTarget }\n    : { ...item, ...renderedTarget };\n});\n\nreturn [\n  {\n    json: {\n      ...input,\n      toSend: renderedToSend,\n    },\n  },\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        4736,
-        -480
-      ],
-      "id": "63900079-94f2-4b0c-b988-b1cac03fe45f",
-      "name": "Template requests"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "toSend",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
+      "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        4976,
-        -480
+        1072,
+        2128
       ],
-      "id": "1d3b6c3d-8e0e-4012-96d2-89007470a7d5",
-      "name": "Split Out"
+      "id": "ce1c0646-a6a1-4cd5-ad6d-a0264e089404",
+      "name": "Stop and Error"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
       "position": [
-        4736,
-        -736
+        560,
+        2688
       ],
-      "id": "e4d14ceb-b31b-4def-94b5-f34b79416172",
-      "name": "Merge"
+      "id": "43626b72-0906-47f1-a59f-e0cef9e4251f",
+      "name": "Validate config presence"
+    },
+    {
+      "parameters": {
+        "errorMessage": "No config or webhook data are present"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        768,
+        2864
+      ],
+      "id": "b3022e3e-f7d3-40b2-9b56-27a6062d1e87",
+      "name": "Stop and Error - config presence"
+    },
+    {
+      "parameters": {
+        "errorMessage": "No tokens in config"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        976,
+        2864
+      ],
+      "id": "0bd00bf0-0346-4ffc-a8c1-ad57f08be9fb",
+      "name": "Stop and Error - config tokens length"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[1].json.tokens.length\n}}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        2688
+      ],
+      "id": "8cf3a74f-e860-407a-973d-bdb7d4e9ee82",
+      "name": "Validate config tokens length"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[1].json.tokens.some(tokenObj =>\n  tokenObj.key === $input.all()[0].json.headers[\"x-n8n-device-relay\"]\n) }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "boolean",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        976,
+        2688
+      ],
+      "id": "77040391-f27d-4dc0-b5ec-f827fbd790be",
+      "name": "Validate config token"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Provided token does not exist"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        2864
+      ],
+      "id": "53a4aa78-f36f-43ae-b29a-1ae89fbd4e3a",
+      "name": "Stop and Error - validate config token"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[0].json.body.data.type }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c40abd2c-cc8f-4a9b-b111-161e8c200f76",
+              "leftValue": "={{ $input.all()[0].json.body.data.type }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1392,
+        2688
+      ],
+      "id": "38b6660f-51da-4757-b1e9-82708b898998",
+      "name": "Validate config data type"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[0].json.body.device.id }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c40abd2c-cc8f-4a9b-b111-161e8c200f76",
+              "leftValue": "={{ $input.all()[0].json.body.device.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1600,
+        2688
+      ],
+      "id": "0cda035b-37da-4d4c-805f-dd889892a357",
+      "name": "Validate config device id"
+    },
+    {
+      "parameters": {
+        "errorMessage": "data type does not exist or empty"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        2864
+      ],
+      "id": "e7f759c3-51a0-490a-b4d9-574302aba66d",
+      "name": "Stop and Error - validate data type in event"
+    },
+    {
+      "parameters": {
+        "errorMessage": "No Device ID provided"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1808,
+        2864
+      ],
+      "id": "2b24fa7f-3838-4500-b967-8e180e525b87",
+      "name": "Stop and Error - validate device id in event"
+    },
+    {
+      "parameters": {
+        "content": "## Edit the config variable there ->\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        2256
+      ],
+      "typeVersion": 1,
+      "id": "21ff3234-7114-4ad7-ae83-de3726e7f2ea",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 0) Validate webhook payload type\nconst all = $input.all();\n\nconst eventItem = all[0].json;   // from Webhook\nconst configItem = all[1].json;  // from config node\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem\n    }\n  }\n];\n"
+      },
+      "id": "f3b16361-5b15-49c3-be00-a31536da74d1",
+      "name": "Remap objects",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        3040
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[1].json.tokens.find(tokenObj =>\n  tokenObj.name === $input.all()[0].json.body.device.id\n).key }}",
+              "rightValue": "={{ $input.all()[0].json.headers[\"x-n8n-device-relay\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1184,
+        2688
+      ],
+      "id": "71506a11-7482-45d0-9648-63f1da53ecae",
+      "name": "Validate config token per device"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all()[1].json.tokens.find(tokenObj =>\n  tokenObj.name.toLowerCase() === \"debug\").key }}",
+              "rightValue": "={{ $input.all()[0].json.headers[\"x-n8n-device-relay\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1184,
+        2496
+      ],
+      "id": "b1cd2644-7166-44b3-966d-2c4f4559caf9",
+      "name": "Is not debug device token"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Token does not match with defined device"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        2864
+      ],
+      "id": "7475e9ca-a5f8-4f80-8720-007c359fe563",
+      "name": "Stop and Error - validate config per device"
     },
     {
       "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "66f55a7c-ecf8-42da-8858-b8b86ce38f33",
-              "name": "event",
-              "value": "={{ $json.event }}",
-              "type": "object"
+              "id": "2f835c8c-13fa-49f9-b5d9-922d92154be7",
+              "name": "step",
+              "value": "initial",
+              "type": "string"
             }
           ]
         },
@@ -284,166 +655,625 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3056,
-        -752
+        1552,
+        1872
       ],
-      "id": "87601e2c-42c8-44e2-9233-c567d7ba69d7",
-      "name": "Store event"
+      "id": "c06e6e4e-b9fe-449c-a1e8-c375f88aaabb",
+      "name": "Step value: initial",
+      "executeOnce": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2384,
+        1616
+      ],
+      "id": "8ce404ea-4ab3-46ac-936b-f2ff5449396b",
+      "name": "Merge after step and config check"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9095153c-1228-4fe9-934f-1c59c362b3a8",
+              "leftValue": "={{ $input.all()[1].json.logIngestions }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b4c8d7f7-6b71-4076-8b4d-d489ef7a766b",
+              "leftValue": "={{ $json.config.logIngestions }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1552,
+        1728
+      ],
+      "id": "5e517974-9242-4617-a1ec-0d5bd9c46ed0",
+      "name": "If logIngestions exists"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f835c8c-13fa-49f9-b5d9-922d92154be7",
+              "name": "step",
+              "value": "config_validated",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        2032
+      ],
+      "id": "6502c026-441e-4919-8a51-9a631a54e5f3",
+      "name": "Step value: config_validated",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000012",
+              "name": "step",
+              "value": "validate_tokens_length",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1824,
+        2192
+      ],
+      "id": "5277c340-d7af-4eda-a89c-bbeeef43b189",
+      "name": "Step value: validate_tokens_length",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000013",
+              "name": "step",
+              "value": "validate_config_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1968,
+        2336
+      ],
+      "id": "69df3077-0b4d-4266-89b4-2f825da268f4",
+      "name": "Step value: validate_config_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000014",
+              "name": "step",
+              "value": "validate_device_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2096,
+        2464
+      ],
+      "id": "20c114b5-83d7-42b2-942c-5d5cc6ab05ca",
+      "name": "Step value: validate_device_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000015",
+              "name": "step",
+              "value": "validate_debug_token",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2240,
+        2576
+      ],
+      "id": "b19d8ee3-b70a-4b13-8666-0444a322c98d",
+      "name": "Step value: validate_debug_token",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000016",
+              "name": "step",
+              "value": "validate_data_type",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2368,
+        2688
+      ],
+      "id": "5228a385-fd0b-4470-9cf8-2c8e1d631f99",
+      "name": "Step value: validate_data_type",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000017",
+              "name": "step",
+              "value": "validate_device_id",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2480,
+        2800
+      ],
+      "id": "0eb79449-2ecd-4b95-9426-5c116c0a193e",
+      "name": "Step value: validate_device_id",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000018",
+              "name": "step",
+              "value": "step_remap_objects",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2608,
+        2912
+      ],
+      "id": "316e30f5-84ee-46bc-9f9c-726299dc5e26",
+      "name": "Step value: step_remap_objects",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000019",
+              "name": "step",
+              "value": "step_filter_recipients_by_deviceid_datatype",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2752,
+        3024
+      ],
+      "id": "e0d21773-54ad-4666-a07e-ca927ae8ae50",
+      "name": "Step value: step_filter_recipients_by_deviceid_datatype",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001a",
+              "name": "step",
+              "value": "step_filter_recipients_by_rules",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2880,
+        3136
+      ],
+      "id": "a8a603fc-7c80-463b-900d-60ede93794be",
+      "name": "Step value: step_filter_recipients_by_rules",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001b",
+              "name": "step",
+              "value": "step_filter_recipients_by_endpointids_templateids",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2992,
+        3248
+      ],
+      "id": "0197b87f-333a-4bc8-b5d4-3c52c6853c87",
+      "name": "Step value: step_filter_recipients_by_endpointids_templateids",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001c",
+              "name": "step",
+              "value": "step_form_outbound",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3120,
+        3344
+      ],
+      "id": "089388c3-4610-42a9-a386-aad47bc66df0",
+      "name": "Step value: step_form_outbound",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001d",
+              "name": "step",
+              "value": "step_compose_messages",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3248,
+        3456
+      ],
+      "id": "4651d01c-1539-4dd8-931f-c81c76cf6ca4",
+      "name": "Step value: step_compose_messages",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001e",
+              "name": "step",
+              "value": "step_template_messages",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3392,
+        3568
+      ],
+      "id": "222b0bf9-aa68-476e-a1fc-50967def0098",
+      "name": "Step value: step_template_messages",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-00000000001f",
+              "name": "step",
+              "value": "send_message",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3536,
+        3664
+      ],
+      "id": "6c176bb9-718d-465d-9db2-25f2440e5a91",
+      "name": "Step value: send_message",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "00000000-0000-4000-8000-000000000020",
+              "name": "step",
+              "value": "send_message_after",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3648,
+        3760
+      ],
+      "id": "e05ad1bc-590b-4d24-8840-220971d5388f",
+      "name": "Step value: send_message_after",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ $input.all().length }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2656,
+        1616
+      ],
+      "id": "9fafdb08-8550-4efe-9c3f-bf5b9a1cd2d0",
+      "name": "Validate body and step presence"
+    },
+    {
+      "parameters": {
+        "content": "This is an optional log ingestion workflow to send telemetry and logs to an HTTP endpoint. It will be skipped if there is no `.logIngestion` property in JSON config.",
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1488,
+        1536
+      ],
+      "typeVersion": 1,
+      "id": "a48567b1-beea-4cf7-8094-c635caa5437c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d08dd15-fd42-4c1d-9d7a-32f7a00f5a9f",
+              "leftValue": "={{ Object.keys($input.all()[0].json.config.logIngestions || {}).length > 0 }}",
+              "rightValue": 2,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2880,
+        1616
+      ],
+      "id": "9a346599-39e7-40c9-b782-463b683dc246",
+      "name": "Validate logIngestions length"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "yQrHfWrwGyBImk0h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/yQrHfWrwGyBImk0h",
+          "cachedResultName": "LogIngestion in Device Relay by Kenya-West"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "logIngestions": "={{ $json.logIngestions }}",
+            "step": "={{ $json.step }}",
+            "event": "={{ $json.event }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "event",
+              "displayName": "event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "logIngestions",
+              "displayName": "logIngestions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "step",
+              "displayName": "step",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3296,
+        1616
+      ],
+      "name": "Call LogIngestion in Device Relay by Kenya-West",
+      "id": "4a5a202f-6256-4b32-b230-eb8a3e9c61a2",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const all = $input.all();\n\nconst eventItem = all[0].json.event;\nconst configItem = all[0].json.config;\nconst step = all[1].json.step;\n\nreturn [\n  {\n    json: {\n      event: eventItem,\n      config: configItem,\n      logIngestions: configItem.logIngestions,\n      step\n    }\n  }\n];\n"
+      },
+      "id": "6f490a25-cda6-40f1-b9aa-2adc721eddc0",
+      "name": "Remap logIngestion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3104,
+        1616
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        3760
+      ],
+      "id": "2eb31b8b-1cb6-434c-b2be-f0c091e93c3c",
+      "name": "Get HTTP response"
     }
   ],
   "connections": {
-    "Filter logIngestions by rules": {
+    "Webhook": {
       "main": [
         [
           {
-            "node": "Check if object is empty",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Filter logIngestions rules consistency": {
-      "main": [
-        [
-          {
-            "node": "Compose requests",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Start": {
-      "main": [
-        [
-          {
-            "node": "Remap logIngestions to multiple entries",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Store event",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Remap logIngestions to multiple entries",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Store event",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Remap logIngestions to multiple entries": {
-      "main": [
-        [
-          {
-            "node": "Filter logIngestions by rules",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check if object is empty": {
-      "main": [
-        [
-          {
-            "node": "Filter logIngestions by rules including the step",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check if object's payloads is empty": {
-      "main": [
-        [
-          {
-            "node": "Check if object's endpoints is empty",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        []
-      ]
-    },
-    "Filter logIngestions by rules including the step": {
-      "main": [
-        [
-          {
-            "node": "Check if object's payloads is empty",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check if object's endpoints is empty": {
-      "main": [
-        [
-          {
-            "node": "Filter logIngestions rules consistency",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Compose requests": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Template requests": {
-      "main": [
-        [
-          {
-            "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -454,18 +1284,697 @@
       "main": [
         [
           {
-            "node": "Template requests",
+            "node": "Validate config presence",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: initial",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Store event": {
+    "Config": {
       "main": [
         [
           {
             "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Form outbound": {
+      "main": [
+        [
+          {
+            "node": "Compose messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_form_outbound",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose messages": {
+      "main": [
+        [
+          {
+            "node": "Template messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_compose_messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter recipients by recipient rules": {
+      "main": [
+        [
+          {
+            "node": "Filter rules by recipients endpointIds and templateIds",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Template messages": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_template_messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter recipients by DeviceId and DataType filters": {
+      "main": [
+        [
+          {
+            "node": "Filter recipients by recipient rules",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_deviceid_datatype",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter rules by recipients endpointIds and templateIds": {
+      "main": [
+        [
+          {
+            "node": "Form outbound",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_filter_recipients_by_endpointids_templateids",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram (POST)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send to Telegram (GET)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Telegram (POST)": {
+      "main": [
+        [
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get HTTP response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: send_message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Telegram (GET)": {
+      "main": [
+        [
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: send_message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get HTTP response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config presence": {
+      "main": [
+        [
+          {
+            "node": "Validate config tokens length",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - config presence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config tokens length": {
+      "main": [
+        [
+          {
+            "node": "Validate config token",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_tokens_length",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - config tokens length",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config token": {
+      "main": [
+        [
+          {
+            "node": "Is not debug device token",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_config_token",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - validate config token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config data type": {
+      "main": [
+        [
+          {
+            "node": "Validate config device id",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_data_type",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - validate data type in event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config device id": {
+      "main": [
+        [
+          {
+            "node": "Remap objects",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_device_id",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - validate device id in event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remap objects": {
+      "main": [
+        [
+          {
+            "node": "Filter recipients by DeviceId and DataType filters",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: step_remap_objects",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate config token per device": {
+      "main": [
+        [
+          {
+            "node": "Validate config data type",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If logIngestions exists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_device_token",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error - validate config per device",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is not debug device token": {
+      "main": [
+        [
+          {
+            "node": "Validate config token per device",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Step value: validate_debug_token",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validate config data type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step value: initial": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge after step and config check": {
+      "main": [
+        [
+          {
+            "node": "Validate body and step presence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If logIngestions exists": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Step value: config_validated": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_tokens_length": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_config_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_device_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_debug_token": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_data_type": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: validate_device_id": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_remap_objects": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_deviceid_datatype": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_rules": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_filter_recipients_by_endpointids_templateids": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_form_outbound": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_compose_messages": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: step_template_messages": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: send_message": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Step value: send_message_after": {
+      "main": [
+        [
+          {
+            "node": "Merge after step and config check",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Validate body and step presence": {
+      "main": [
+        [
+          {
+            "node": "Validate logIngestions length",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate logIngestions length": {
+      "main": [
+        [
+          {
+            "node": "Remap logIngestion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remap logIngestion": {
+      "main": [
+        [
+          {
+            "node": "Call LogIngestion in Device Relay by Kenya-West",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get HTTP response": {
+      "main": [
+        [
+          {
+            "node": "Step value: send_message_after",
             "type": "main",
             "index": 0
           }
@@ -475,6 +1984,7 @@
   },
   "pinData": {},
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": ""
   }
 }
