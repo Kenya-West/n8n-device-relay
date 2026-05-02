@@ -157,6 +157,14 @@ function Update-MacroObject {
 		return $MacroObj
 	}
 
+	# Remove template prefix from macro name in generated outputs.
+	if (Test-HasProperty -Object $macro -Name 'm_name') {
+		$currentName = [string](Get-OptionalPropertyValue -Object $macro -Name 'm_name')
+		if ($currentName.StartsWith('Example - ')) {
+			[void](Set-PropertyIfExists -Object $macro -Name 'm_name' -Value $currentName.Substring('Example - '.Length))
+		}
+	}
+
 	# m_GUID: one per macro file
 	if (Set-PropertyIfExists -Object $macro -Name 'm_GUID' -Value ([string]$GuidSeed.Value)) {
 		$GuidSeed.Value = $GuidSeed.Value - 1

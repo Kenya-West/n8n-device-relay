@@ -15,7 +15,7 @@
         "isClonedInstance": false,
         "isExtra": false,
         "isFavourite": false,
-        "lastEditedTimestamp": 1769591410362,
+        "lastEditedTimestamp": 1769609925304,
         "localVariables": [
           {
             "dictionary": {
@@ -160,7 +160,7 @@
             "timeoutSeconds": 5,
             "useHelper": false,
             "useShizuku": false,
-            "m_SIGUID": "-1600000000000000127",
+            "m_SIGUID": "-1600000000000000123",
             "m_classType": "ShellScriptAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -213,7 +213,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000128",
+            "m_SIGUID": "-1600000000000000124",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -222,7 +222,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000129",
+            "m_SIGUID": "-1600000000000000125",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -316,8 +316,150 @@
             "timeoutSeconds": 5,
             "useHelper": false,
             "useShizuku": false,
-            "m_SIGUID": "-1600000000000000130",
+            "m_SIGUID": "-1600000000000000126",
             "m_classType": "ShellScriptAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "booleanDictionaryKeys": {
+              "keys": []
+            },
+            "dictionaryKeys": [],
+            "dictionaryOrArrayType": -1,
+            "existingManualKeyType": 0,
+            "m_booleanInvert": false,
+            "m_darkMode": -1,
+            "m_doubleRandomMax": 0.0,
+            "m_doubleRandomMin": 0.0,
+            "m_expression": "[strlen=internal_uuid]",
+            "m_falseLabel": "Ложь",
+            "m_intExpression": true,
+            "m_intRandom": false,
+            "m_intRandomMax": 0,
+            "m_intRandomMin": 0,
+            "m_intValueDecrement": false,
+            "m_intValueIncrement": false,
+            "m_newBooleanValue": false,
+            "m_newDoubleValue": 0.0,
+            "m_newIntValue": 0,
+            "m_trueLabel": "Истина",
+            "m_userPrompt": false,
+            "m_userPromptEmptyAtStart": false,
+            "m_userPromptPassword": false,
+            "m_userPromptShowCancel": true,
+            "m_userPromptStopAfterCancel": true,
+            "m_variable": {
+              "dictionary": {
+                "entries": [],
+                "isArray": false,
+                "variableType": 4,
+                "type": "Dictionary"
+              },
+              "isActionBlockWorkingVar": true,
+              "isLocalVar": true,
+              "isSecure": false,
+              "m_booleanValue": false,
+              "m_decimalValue": 0.0,
+              "m_intValue": 0,
+              "m_name": "internal_uuid_length",
+              "m_stringValue": "",
+              "m_type": 1,
+              "supportsInput": false,
+              "supportsOutput": true
+            },
+            "m_SIGUID": "-1600000000000000127",
+            "m_classType": "SetVariableAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_SIGUID": "-1600000000000000128",
+            "m_classType": "EndIfAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "childrenCollapsed": false,
+            "dontLogIfConditionIsFalse": true,
+            "m_SIGUID": "-1600000000000000129",
+            "m_classType": "IfConditionAction",
+            "m_constraintList": [
+              {
+                "checkCase": false,
+                "dictionaryKeys": {
+                  "keys": []
+                },
+                "dictionaryType": 1,
+                "enableRegex": false,
+                "m_booleanValue": false,
+                "m_doubleValue": 0.0,
+                "m_intCompareVariable": false,
+                "m_intGreaterThan": false,
+                "m_intLessThan": false,
+                "m_intNotEqual": true,
+                "m_intValue": 36,
+                "m_otherValueToCompare": {
+                  "dictionary": {
+                    "entries": [],
+                    "isArray": false,
+                    "variableType": 4,
+                    "type": "Dictionary"
+                  },
+                  "isActionBlockWorkingVar": false,
+                  "isLocalVar": true,
+                  "isSecure": false,
+                  "m_booleanValue": false,
+                  "m_decimalValue": 0.0,
+                  "m_intValue": 0,
+                  "m_name": "statuscode",
+                  "m_stringValue": "",
+                  "m_type": 1,
+                  "supportsInput": false,
+                  "supportsOutput": true
+                },
+                "m_stringComparisonType": 0,
+                "m_stringEqual": true,
+                "m_stringValue": "{strlen=uuid}",
+                "m_variable": {
+                  "dictionary": {
+                    "entries": [],
+                    "isArray": false,
+                    "variableType": 4,
+                    "type": "Dictionary"
+                  },
+                  "isActionBlockWorkingVar": true,
+                  "isLocalVar": true,
+                  "isSecure": false,
+                  "m_booleanValue": false,
+                  "m_decimalValue": 0.0,
+                  "m_intValue": 0,
+                  "m_name": "internal_uuid_length",
+                  "m_stringValue": "",
+                  "m_type": 1,
+                  "supportsInput": false,
+                  "supportsOutput": true
+                },
+                "m_SIGUID": -8964558832141673101,
+                "m_classType": "MacroDroidVariableConstraint",
+                "m_constraintList": [],
+                "m_isDisabled": false,
+                "m_isOrCondition": false
+              }
+            ],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "blockNextAction": true,
+            "javascriptEngine": "QuickJS",
+            "scriptText": "function uuidv4() {\r\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {\r\n    var r = Math.random() * 16 | 0;\r\n    var v = c === 'x' ? r : (r & 0x3 | 0x8);\r\n    return v.toString(16);\r\n  });\r\n}\r\n\r\nuuidv4();\r\n",
+            "stringVariableName": "internal_uuid",
+            "m_SIGUID": "-1600000000000000130",
+            "m_classType": "JavaScriptAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
@@ -443,148 +585,6 @@
                   "supportsInput": false,
                   "supportsOutput": true
                 },
-                "m_SIGUID": -8964558832141673101,
-                "m_classType": "MacroDroidVariableConstraint",
-                "m_constraintList": [],
-                "m_isDisabled": false,
-                "m_isOrCondition": false
-              }
-            ],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "blockNextAction": true,
-            "javascriptEngine": "QuickJS",
-            "scriptText": "function uuidv4() {\r\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {\r\n    var r = Math.random() * 16 | 0;\r\n    var v = c === 'x' ? r : (r & 0x3 | 0x8);\r\n    return v.toString(16);\r\n  });\r\n}\r\n\r\nuuidv4();\r\n",
-            "stringVariableName": "internal_uuid",
-            "m_SIGUID": "-1600000000000000134",
-            "m_classType": "JavaScriptAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "booleanDictionaryKeys": {
-              "keys": []
-            },
-            "dictionaryKeys": [],
-            "dictionaryOrArrayType": -1,
-            "existingManualKeyType": 0,
-            "m_booleanInvert": false,
-            "m_darkMode": -1,
-            "m_doubleRandomMax": 0.0,
-            "m_doubleRandomMin": 0.0,
-            "m_expression": "[strlen=internal_uuid]",
-            "m_falseLabel": "Ложь",
-            "m_intExpression": true,
-            "m_intRandom": false,
-            "m_intRandomMax": 0,
-            "m_intRandomMin": 0,
-            "m_intValueDecrement": false,
-            "m_intValueIncrement": false,
-            "m_newBooleanValue": false,
-            "m_newDoubleValue": 0.0,
-            "m_newIntValue": 0,
-            "m_trueLabel": "Истина",
-            "m_userPrompt": false,
-            "m_userPromptEmptyAtStart": false,
-            "m_userPromptPassword": false,
-            "m_userPromptShowCancel": true,
-            "m_userPromptStopAfterCancel": true,
-            "m_variable": {
-              "dictionary": {
-                "entries": [],
-                "isArray": false,
-                "variableType": 4,
-                "type": "Dictionary"
-              },
-              "isActionBlockWorkingVar": true,
-              "isLocalVar": true,
-              "isSecure": false,
-              "m_booleanValue": false,
-              "m_decimalValue": 0.0,
-              "m_intValue": 0,
-              "m_name": "internal_uuid_length",
-              "m_stringValue": "",
-              "m_type": 1,
-              "supportsInput": false,
-              "supportsOutput": true
-            },
-            "m_SIGUID": "-1600000000000000135",
-            "m_classType": "SetVariableAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "m_SIGUID": "-1600000000000000136",
-            "m_classType": "EndIfAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "childrenCollapsed": false,
-            "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000137",
-            "m_classType": "IfConditionAction",
-            "m_constraintList": [
-              {
-                "checkCase": false,
-                "dictionaryKeys": {
-                  "keys": []
-                },
-                "dictionaryType": 1,
-                "enableRegex": false,
-                "m_booleanValue": false,
-                "m_doubleValue": 0.0,
-                "m_intCompareVariable": false,
-                "m_intGreaterThan": false,
-                "m_intLessThan": false,
-                "m_intNotEqual": true,
-                "m_intValue": 36,
-                "m_otherValueToCompare": {
-                  "dictionary": {
-                    "entries": [],
-                    "isArray": false,
-                    "variableType": 4,
-                    "type": "Dictionary"
-                  },
-                  "isActionBlockWorkingVar": false,
-                  "isLocalVar": true,
-                  "isSecure": false,
-                  "m_booleanValue": false,
-                  "m_decimalValue": 0.0,
-                  "m_intValue": 0,
-                  "m_name": "statuscode",
-                  "m_stringValue": "",
-                  "m_type": 1,
-                  "supportsInput": false,
-                  "supportsOutput": true
-                },
-                "m_stringComparisonType": 0,
-                "m_stringEqual": true,
-                "m_stringValue": "{strlen=uuid}",
-                "m_variable": {
-                  "dictionary": {
-                    "entries": [],
-                    "isArray": false,
-                    "variableType": 4,
-                    "type": "Dictionary"
-                  },
-                  "isActionBlockWorkingVar": true,
-                  "isLocalVar": true,
-                  "isSecure": false,
-                  "m_booleanValue": false,
-                  "m_decimalValue": 0.0,
-                  "m_intValue": 0,
-                  "m_name": "internal_uuid_length",
-                  "m_stringValue": "",
-                  "m_type": 1,
-                  "supportsInput": false,
-                  "supportsOutput": true
-                },
                 "m_SIGUID": -8680919767290383763,
                 "m_classType": "MacroDroidVariableConstraint",
                 "m_constraintList": [],
@@ -641,7 +641,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000138",
+            "m_SIGUID": "-1600000000000000134",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -652,7 +652,7 @@
             "m_option": 2,
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000139",
+            "m_SIGUID": "-1600000000000000135",
             "m_classType": "LoopAction",
             "m_constraintList": [
               {
@@ -703,7 +703,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": false,
-            "m_SIGUID": "-1600000000000000140",
+            "m_SIGUID": "-1600000000000000136",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -752,14 +752,14 @@
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000141",
+            "m_SIGUID": "-1600000000000000137",
             "m_classType": "BreakFromLoopAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000142",
+            "m_SIGUID": "-1600000000000000138",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -791,7 +791,7 @@
               "saveReturnHeadersToVariable": false,
               "urlToOpen": "https://httpbin.org/uuid"
             },
-            "m_SIGUID": "-1600000000000000143",
+            "m_SIGUID": "-1600000000000000139",
             "m_classType": "HttpRequestAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -802,7 +802,7 @@
             "m_delayInSeconds": 1,
             "m_useAlarm": false,
             "unitForVariables": 0,
-            "m_SIGUID": "-1600000000000000144",
+            "m_SIGUID": "-1600000000000000140",
             "m_classType": "PauseAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -814,7 +814,7 @@
             },
             "dictionaryVarName": "internal_uuid_obj",
             "stringVarName": "internal_uuid_raw",
-            "m_SIGUID": "-1600000000000000145",
+            "m_SIGUID": "-1600000000000000141",
             "m_classType": "JsonParseAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -868,8 +868,127 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000146",
+            "m_SIGUID": "-1600000000000000142",
             "m_classType": "SetVariableAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "booleanDictionaryKeys": {
+              "keys": []
+            },
+            "dictionaryKeys": [],
+            "dictionaryOrArrayType": -1,
+            "existingManualKeyType": 0,
+            "m_booleanInvert": false,
+            "m_darkMode": -1,
+            "m_doubleRandomMax": 0.0,
+            "m_doubleRandomMin": 0.0,
+            "m_expression": "[strlen=internal_uuid]",
+            "m_falseLabel": "Ложь",
+            "m_intExpression": true,
+            "m_intRandom": false,
+            "m_intRandomMax": 0,
+            "m_intRandomMin": 0,
+            "m_intValueDecrement": false,
+            "m_intValueIncrement": false,
+            "m_newBooleanValue": false,
+            "m_newDoubleValue": 0.0,
+            "m_newIntValue": 0,
+            "m_trueLabel": "Истина",
+            "m_userPrompt": false,
+            "m_userPromptEmptyAtStart": false,
+            "m_userPromptPassword": false,
+            "m_userPromptShowCancel": true,
+            "m_userPromptStopAfterCancel": true,
+            "m_variable": {
+              "dictionary": {
+                "entries": [],
+                "isArray": false,
+                "variableType": 4,
+                "type": "Dictionary"
+              },
+              "isActionBlockWorkingVar": true,
+              "isLocalVar": true,
+              "isSecure": false,
+              "m_booleanValue": false,
+              "m_decimalValue": 0.0,
+              "m_intValue": 0,
+              "m_name": "internal_uuid_length",
+              "m_stringValue": "",
+              "m_type": 1,
+              "supportsInput": false,
+              "supportsOutput": true
+            },
+            "m_SIGUID": "-1600000000000000143",
+            "m_classType": "SetVariableAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "booleanDictionaryKeys": {
+              "keys": []
+            },
+            "dictionaryKeys": [],
+            "dictionaryOrArrayType": -1,
+            "existingManualKeyType": 0,
+            "m_booleanInvert": false,
+            "m_darkMode": -1,
+            "m_doubleRandomMax": 0.0,
+            "m_doubleRandomMin": 0.0,
+            "m_falseLabel": "Ложь",
+            "m_intExpression": false,
+            "m_intRandom": false,
+            "m_intRandomMax": 0,
+            "m_intRandomMin": 0,
+            "m_intValueDecrement": false,
+            "m_intValueIncrement": true,
+            "m_newBooleanValue": false,
+            "m_newDoubleValue": 0.0,
+            "m_newIntValue": 0,
+            "m_trueLabel": "Истина",
+            "m_userPrompt": false,
+            "m_userPromptEmptyAtStart": false,
+            "m_userPromptPassword": false,
+            "m_userPromptShowCancel": true,
+            "m_userPromptStopAfterCancel": true,
+            "m_variable": {
+              "dictionary": {
+                "entries": [],
+                "isArray": false,
+                "variableType": 4,
+                "type": "Dictionary"
+              },
+              "isActionBlockWorkingVar": false,
+              "isLocalVar": true,
+              "isSecure": false,
+              "m_booleanValue": false,
+              "m_decimalValue": 0.0,
+              "m_intValue": 0,
+              "m_name": "counter",
+              "m_stringValue": "",
+              "m_type": 1,
+              "supportsInput": false,
+              "supportsOutput": true
+            },
+            "m_SIGUID": "-1600000000000000144",
+            "m_classType": "SetVariableAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_SIGUID": "-1600000000000000145",
+            "m_classType": "EndLoopAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_SIGUID": "-1600000000000000146",
+            "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
@@ -924,132 +1043,13 @@
             "m_SIGUID": "-1600000000000000147",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "booleanDictionaryKeys": {
-              "keys": []
-            },
-            "dictionaryKeys": [],
-            "dictionaryOrArrayType": -1,
-            "existingManualKeyType": 0,
-            "m_booleanInvert": false,
-            "m_darkMode": -1,
-            "m_doubleRandomMax": 0.0,
-            "m_doubleRandomMin": 0.0,
-            "m_falseLabel": "Ложь",
-            "m_intExpression": false,
-            "m_intRandom": false,
-            "m_intRandomMax": 0,
-            "m_intRandomMin": 0,
-            "m_intValueDecrement": false,
-            "m_intValueIncrement": true,
-            "m_newBooleanValue": false,
-            "m_newDoubleValue": 0.0,
-            "m_newIntValue": 0,
-            "m_trueLabel": "Истина",
-            "m_userPrompt": false,
-            "m_userPromptEmptyAtStart": false,
-            "m_userPromptPassword": false,
-            "m_userPromptShowCancel": true,
-            "m_userPromptStopAfterCancel": true,
-            "m_variable": {
-              "dictionary": {
-                "entries": [],
-                "isArray": false,
-                "variableType": 4,
-                "type": "Dictionary"
-              },
-              "isActionBlockWorkingVar": false,
-              "isLocalVar": true,
-              "isSecure": false,
-              "m_booleanValue": false,
-              "m_decimalValue": 0.0,
-              "m_intValue": 0,
-              "m_name": "counter",
-              "m_stringValue": "",
-              "m_type": 1,
-              "supportsInput": false,
-              "supportsOutput": true
-            },
-            "m_SIGUID": "-1600000000000000148",
-            "m_classType": "SetVariableAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "m_SIGUID": "-1600000000000000149",
-            "m_classType": "EndLoopAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "m_SIGUID": "-1600000000000000150",
-            "m_classType": "EndIfAction",
-            "m_constraintList": [],
-            "m_isDisabled": false,
-            "m_isOrCondition": false
-          },
-          {
-            "booleanDictionaryKeys": {
-              "keys": []
-            },
-            "dictionaryKeys": [],
-            "dictionaryOrArrayType": -1,
-            "existingManualKeyType": 0,
-            "m_booleanInvert": false,
-            "m_darkMode": -1,
-            "m_doubleRandomMax": 0.0,
-            "m_doubleRandomMin": 0.0,
-            "m_expression": "[strlen=internal_uuid]",
-            "m_falseLabel": "Ложь",
-            "m_intExpression": true,
-            "m_intRandom": false,
-            "m_intRandomMax": 0,
-            "m_intRandomMin": 0,
-            "m_intValueDecrement": false,
-            "m_intValueIncrement": false,
-            "m_newBooleanValue": false,
-            "m_newDoubleValue": 0.0,
-            "m_newIntValue": 0,
-            "m_trueLabel": "Истина",
-            "m_userPrompt": false,
-            "m_userPromptEmptyAtStart": false,
-            "m_userPromptPassword": false,
-            "m_userPromptShowCancel": true,
-            "m_userPromptStopAfterCancel": true,
-            "m_variable": {
-              "dictionary": {
-                "entries": [],
-                "isArray": false,
-                "variableType": 4,
-                "type": "Dictionary"
-              },
-              "isActionBlockWorkingVar": true,
-              "isLocalVar": true,
-              "isSecure": false,
-              "m_booleanValue": false,
-              "m_decimalValue": 0.0,
-              "m_intValue": 0,
-              "m_name": "internal_uuid_length",
-              "m_stringValue": "",
-              "m_type": 1,
-              "supportsInput": false,
-              "supportsOutput": true
-            },
-            "m_SIGUID": "-1600000000000000151",
-            "m_classType": "SetVariableAction",
-            "m_constraintList": [],
             "m_isDisabled": true,
             "m_isOrCondition": false
           },
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000152",
+            "m_SIGUID": "-1600000000000000148",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -1164,14 +1164,14 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000153",
+            "m_SIGUID": "-1600000000000000149",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000154",
+            "m_SIGUID": "-1600000000000000150",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1224,7 +1224,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000155",
+            "m_SIGUID": "-1600000000000000151",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1249,7 +1249,7 @@
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1769430345376,
+    "lastEditedTimestamp": 1777721200256,
     "localVariables": [
       {
         "dictionary": {
@@ -1312,60 +1312,7 @@
     "m_GUID": "-1700000000000000008",
     "m_actionList": [
       {
-        "booleanDictionaryKeys": {
-          "keys": []
-        },
-        "dictionaryKeys": [],
-        "dictionaryOrArrayType": -1,
-        "existingManualKeyType": 0,
-        "m_booleanInvert": false,
-        "m_darkMode": -1,
-        "m_doubleRandomMax": 0.0,
-        "m_doubleRandomMin": 0.0,
-        "m_falseLabel": "Ложь",
-        "m_intExpression": false,
-        "m_intRandom": false,
-        "m_intRandomMax": 0,
-        "m_intRandomMin": 0,
-        "m_intValueDecrement": false,
-        "m_intValueIncrement": false,
-        "m_newBooleanValue": false,
-        "m_newDoubleValue": 0.0,
-        "m_newIntValue": 0,
-        "m_newStringValue": "",
-        "m_trueLabel": "Истина",
-        "m_userPrompt": false,
-        "m_userPromptEmptyAtStart": false,
-        "m_userPromptPassword": false,
-        "m_userPromptShowCancel": true,
-        "m_userPromptStopAfterCancel": true,
-        "m_variable": {
-          "dictionary": {
-            "entries": [],
-            "isArray": false,
-            "variableType": 4,
-            "type": "Dictionary"
-          },
-          "isActionBlockWorkingVar": false,
-          "isLocalVar": true,
-          "isSecure": false,
-          "m_booleanValue": false,
-          "m_decimalValue": 0.0,
-          "m_intValue": 0,
-          "m_name": "uuid",
-          "m_stringValue": "",
-          "m_type": 2,
-          "supportsInput": false,
-          "supportsOutput": true
-        },
-        "m_SIGUID": "-1600000000000000124",
-        "m_classType": "SetVariableAction",
-        "m_constraintList": [],
-        "m_isDisabled": false,
-        "m_isOrCondition": false
-      },
-      {
-        "actionBlockId": -9209467005915285274,
+        "actionBlockId": "-1700000000000000009",
         "actionBlockName": "Get UUID",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1374,7 +1321,7 @@
         "outputVarsMap": {
           "uuid": "uuid"
         },
-        "m_SIGUID": "-1600000000000000125",
+        "m_SIGUID": "-1600000000000000121",
         "m_classType": "ActionBlockAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1390,7 +1337,7 @@
           "contentBodyFileDisplayName": "",
           "contentBodyFileUri": "",
           "contentBodySource": 0,
-          "contentBodyText": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"kw-wiko-1\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"wifi_connected\",\r\n                \"ssid\": \"{ssid}\",\r\n                \"bssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\n                \"ipAddress\": \"{ip}\",\r\n                \"rssiDbm\": \"{wifi_strength}\"\r\n            }\r\n        }",
+          "contentBodyText": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"kw-mi-2\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\",\r\n                \"currentWifiBssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"wifi_connected\",\r\n                \"ssid\": \"{ssid}\",\r\n                \"bssid\": \"[setting_secure=key_latest_wifi_ssid_bssid]\",\r\n                \"ipAddress\": \"{ip}\",\r\n                \"rssiDbm\": \"{wifi_strength}\"\r\n            }\r\n        }",
           "contentType": "application/json",
           "followRedirects": false,
           "headerParams": [
@@ -1412,7 +1359,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000126",
+        "m_SIGUID": "-1600000000000000122",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1427,7 +1374,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example Example Wi-Fi connected to n8n",
+    "m_name": "Example - Wi-Fi connected to n8n",
     "m_triggerList": [
       {
         "customAddedSSIDs": [],
@@ -1435,7 +1382,7 @@
           "Любая сеть"
         ],
         "m_wifiState": 2,
-        "m_SIGUID": "-1600000000000000156",
+        "m_SIGUID": "-1600000000000000152",
         "m_classType": "WifiConnectionTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

@@ -160,7 +160,7 @@
             "timeoutSeconds": 5,
             "useHelper": false,
             "useShizuku": false,
-            "m_SIGUID": "-1600000000000000089",
+            "m_SIGUID": "-1600000000000000086",
             "m_classType": "ShellScriptAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -213,7 +213,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000090",
+            "m_SIGUID": "-1600000000000000087",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -222,7 +222,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000091",
+            "m_SIGUID": "-1600000000000000088",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -316,7 +316,7 @@
             "timeoutSeconds": 5,
             "useHelper": false,
             "useShizuku": false,
-            "m_SIGUID": "-1600000000000000092",
+            "m_SIGUID": "-1600000000000000089",
             "m_classType": "ShellScriptAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -369,14 +369,14 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000093",
+            "m_SIGUID": "-1600000000000000090",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000094",
+            "m_SIGUID": "-1600000000000000091",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -385,7 +385,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000095",
+            "m_SIGUID": "-1600000000000000092",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -458,7 +458,7 @@
             "javascriptEngine": "QuickJS",
             "scriptText": "function uuidv4() {\r\n  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {\r\n    var r = Math.random() * 16 | 0;\r\n    var v = c === 'x' ? r : (r & 0x3 | 0x8);\r\n    return v.toString(16);\r\n  });\r\n}\r\n\r\nuuidv4();\r\n",
             "stringVariableName": "internal_uuid",
-            "m_SIGUID": "-1600000000000000096",
+            "m_SIGUID": "-1600000000000000093",
             "m_classType": "JavaScriptAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -511,14 +511,14 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000097",
+            "m_SIGUID": "-1600000000000000094",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000098",
+            "m_SIGUID": "-1600000000000000095",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -527,7 +527,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000099",
+            "m_SIGUID": "-1600000000000000096",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -641,7 +641,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000100",
+            "m_SIGUID": "-1600000000000000097",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -652,7 +652,7 @@
             "m_option": 2,
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000101",
+            "m_SIGUID": "-1600000000000000098",
             "m_classType": "LoopAction",
             "m_constraintList": [
               {
@@ -703,7 +703,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": false,
-            "m_SIGUID": "-1600000000000000102",
+            "m_SIGUID": "-1600000000000000099",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -752,14 +752,14 @@
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000103",
+            "m_SIGUID": "-1600000000000000100",
             "m_classType": "BreakFromLoopAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000104",
+            "m_SIGUID": "-1600000000000000101",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -791,7 +791,7 @@
               "saveReturnHeadersToVariable": false,
               "urlToOpen": "https://httpbin.org/uuid"
             },
-            "m_SIGUID": "-1600000000000000105",
+            "m_SIGUID": "-1600000000000000102",
             "m_classType": "HttpRequestAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -802,7 +802,7 @@
             "m_delayInSeconds": 1,
             "m_useAlarm": false,
             "unitForVariables": 0,
-            "m_SIGUID": "-1600000000000000106",
+            "m_SIGUID": "-1600000000000000103",
             "m_classType": "PauseAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -814,7 +814,7 @@
             },
             "dictionaryVarName": "internal_uuid_obj",
             "stringVarName": "internal_uuid_raw",
-            "m_SIGUID": "-1600000000000000107",
+            "m_SIGUID": "-1600000000000000104",
             "m_classType": "JsonParseAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -868,7 +868,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000108",
+            "m_SIGUID": "-1600000000000000105",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -921,7 +921,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000109",
+            "m_SIGUID": "-1600000000000000106",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -973,21 +973,21 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000110",
+            "m_SIGUID": "-1600000000000000107",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000111",
+            "m_SIGUID": "-1600000000000000108",
             "m_classType": "EndLoopAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000112",
+            "m_SIGUID": "-1600000000000000109",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1040,7 +1040,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000113",
+            "m_SIGUID": "-1600000000000000110",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": true,
@@ -1049,7 +1049,7 @@
           {
             "childrenCollapsed": false,
             "dontLogIfConditionIsFalse": true,
-            "m_SIGUID": "-1600000000000000114",
+            "m_SIGUID": "-1600000000000000111",
             "m_classType": "IfConditionAction",
             "m_constraintList": [
               {
@@ -1164,14 +1164,14 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000115",
+            "m_SIGUID": "-1600000000000000112",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
             "m_isOrCondition": false
           },
           {
-            "m_SIGUID": "-1600000000000000116",
+            "m_SIGUID": "-1600000000000000113",
             "m_classType": "EndIfAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1224,7 +1224,7 @@
               "supportsInput": false,
               "supportsOutput": true
             },
-            "m_SIGUID": "-1600000000000000117",
+            "m_SIGUID": "-1600000000000000114",
             "m_classType": "SetVariableAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1309,7 +1309,7 @@
               ]
             },
             "variableName": "output",
-            "m_SIGUID": "-1600000000000000118",
+            "m_SIGUID": "-1600000000000000115",
             "m_classType": "TextManipulationAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1326,7 +1326,7 @@
               ]
             },
             "variableName": "output",
-            "m_SIGUID": "-1600000000000000119",
+            "m_SIGUID": "-1600000000000000116",
             "m_classType": "TextManipulationAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1343,7 +1343,7 @@
               ]
             },
             "variableName": "output",
-            "m_SIGUID": "-1600000000000000120",
+            "m_SIGUID": "-1600000000000000117",
             "m_classType": "TextManipulationAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1360,7 +1360,7 @@
               ]
             },
             "variableName": "output",
-            "m_SIGUID": "-1600000000000000121",
+            "m_SIGUID": "-1600000000000000118",
             "m_classType": "TextManipulationAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1377,7 +1377,7 @@
               ]
             },
             "variableName": "output",
-            "m_SIGUID": "-1600000000000000122",
+            "m_SIGUID": "-1600000000000000119",
             "m_classType": "TextManipulationAction",
             "m_constraintList": [],
             "m_isDisabled": false,
@@ -1402,7 +1402,7 @@
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1777717746138,
+    "lastEditedTimestamp": 1777721170637,
     "localVariables": [
       {
         "dictionary": {
@@ -1519,57 +1519,6 @@
         "m_isOrCondition": false
       },
       {
-        "m_option": 1,
-        "m_text": "{sms_message}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\n",
-            " "
-          ]
-        },
-        "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000082",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": true,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=sms_message_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\r",
-            " "
-          ]
-        },
-        "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000083",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": true,
-        "m_isOrCondition": false
-      },
-      {
-        "m_option": 1,
-        "m_text": "{lv=sms_message_normalized}",
-        "m_textManipulation": {
-          "type": "ReplaceAllManipulation",
-          "params": [
-            "\\\"",
-            "'"
-          ]
-        },
-        "variableName": "sms_message_normalized",
-        "m_SIGUID": "-1600000000000000084",
-        "m_classType": "TextManipulationAction",
-        "m_constraintList": [],
-        "m_isDisabled": true,
-        "m_isOrCondition": false
-      },
-      {
         "actionBlockId": "-1700000000000000007",
         "actionBlockName": "Normalize string",
         "continueActionsWithoutWaiting": false,
@@ -1581,7 +1530,7 @@
         "outputVarsMap": {
           "output": "sms_message_normalized"
         },
-        "m_SIGUID": "-1600000000000000085",
+        "m_SIGUID": "-1600000000000000082",
         "m_classType": "ActionBlockAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1634,7 +1583,7 @@
           "supportsInput": false,
           "supportsOutput": true
         },
-        "m_SIGUID": "-1600000000000000086",
+        "m_SIGUID": "-1600000000000000083",
         "m_classType": "SetVariableAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1643,7 +1592,7 @@
       {
         "logLevel": "STANDARD",
         "m_logText": "{lv=data}",
-        "m_SIGUID": "-1600000000000000087",
+        "m_SIGUID": "-1600000000000000084",
         "m_classType": "LogAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1681,7 +1630,7 @@
           "saveReturnHeadersToVariable": false,
           "urlToOpen": "https://YOUR-N8N-INSTANCE-DOMAIN.tld/webhook/device-relay"
         },
-        "m_SIGUID": "-1600000000000000088",
+        "m_SIGUID": "-1600000000000000085",
         "m_classType": "HttpRequestAction",
         "m_constraintList": [],
         "m_isDisabled": false,
@@ -1696,7 +1645,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example SMS to n8n",
+    "m_name": "Example - SMS to n8n",
     "m_triggerList": [
       {
         "enableRegex": false,
@@ -1711,7 +1660,7 @@
         "m_smsFromList": [],
         "m_smsNumberExclude": false,
         "subscriptionId": -1,
-        "m_SIGUID": "-1600000000000000123",
+        "m_SIGUID": "-1600000000000000120",
         "m_classType": "IncomingSMSTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,
