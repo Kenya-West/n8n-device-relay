@@ -148,7 +148,8 @@ function Update-MacroObject {
 		[Parameter(Mandatory = $true)][string] $DeviceEndpoint,
 		[Parameter(Mandatory = $true)][ref] $GuidSeed,
 		[Parameter(Mandatory = $true)][ref] $SiGuidSeed,
-		[Parameter(Mandatory = $true)][string] $MacroRelativePath
+		[Parameter(Mandatory = $true)][string] $MacroRelativePath,
+		[Parameter(Mandatory = $true)][hashtable] $GuidMap
 	)
 
 	$macro = Get-OptionalPropertyValue -Object $MacroObj -Name 'macro'
@@ -195,7 +196,9 @@ function Update-MacroObject {
 		)
 	}
 
-	$guidMap = @{}
+	# Use the per-device shared map so the same original action block GUID
+	# resolves to the same new GUID across every macro file for this device.
+	$guidMap = $GuidMap
 
 	function Update-ExportedActionBlockTree {
 		param([AllowNull()] $Blocks)
@@ -205,14 +208,20 @@ function Update-MacroObject {
 		foreach ($actionBlock in @($Blocks)) {
 			if ($null -eq $actionBlock) { continue }
 
-			# m_GUID: one per action block
+			# m_GUID: one per action block; reuse mapping if already seen.
 			$oldGuid = Get-OptionalPropertyValue -Object $actionBlock -Name 'm_GUID'
-			$newGuid = [string]$GuidSeed.Value
-			if (Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value $newGuid) {
-				if ($null -ne $oldGuid) {
-					$guidMap[$oldGuid.ToString()] = $newGuid
+			$oldKey = if ($null -ne $oldGuid) { $oldGuid.ToString() } else { $null }
+			if ($null -ne $oldKey -and $guidMap.ContainsKey($oldKey)) {
+				[void](Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value $guidMap[$oldKey])
+			}
+			else {
+				$newGuid = [string]$GuidSeed.Value
+				if (Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value $newGuid) {
+					if ($null -ne $oldKey) {
+						$guidMap[$oldKey] = $newGuid
+					}
+					$GuidSeed.Value = $GuidSeed.Value - 1
 				}
-				$GuidSeed.Value = $GuidSeed.Value - 1
 			}
 
 			$actionsInBlock = Get-OptionalPropertyValue -Object $actionBlock -Name 'm_actionList'
@@ -340,7 +349,9 @@ function Update-MacroObject {
 		Update-ExportedActionBlockTree -Blocks $exportedActionBlocks
 	}
 
-	# Rewrite actionBlockId references to point to the new m_GUID values
+	# Rewrite actionBlockId references to point to the new m_GUID values.
+	# Always run when the device map has any entries — references may target
+	# action blocks that were renumbered while processing a previous macro file.
 	if ($guidMap.Count -gt 0) {
 		Update-ActionBlockReferenceList -Actions $actions
 		if ($null -ne $exportedActionBlocks) {
@@ -461,6 +472,11 @@ try {
 			continue
 		}
 
+		# Per-device action-block GUID map: shared across all macro files for this
+		# device so identical original m_GUIDs produce a single new GUID, and
+		# cross-macro actionBlockId references resolve to the same block.
+		$deviceGuidMap = @{}
+
 		foreach ($lang in $Languages) {
 			$langNorm = Normalize-Text $lang
 			if ([string]::IsNullOrWhiteSpace($langNorm)) { continue }
@@ -521,7 +537,7 @@ try {
 
 				$updated = $null
 				try {
-					$updated = Update-MacroObject -MacroObj $macroObj -DeviceIdentifier $identifier -DeviceToken $token -DeviceEndpoint $endpoint -GuidSeed ([ref]$guidSeed) -SiGuidSeed ([ref]$siGuidSeed) -MacroRelativePath $macroRelativePath
+					$updated = Update-MacroObject -MacroObj $macroObj -DeviceIdentifier $identifier -DeviceToken $token -DeviceEndpoint $endpoint -GuidSeed ([ref]$guidSeed) -SiGuidSeed ([ref]$siGuidSeed) -MacroRelativePath $macroRelativePath -GuidMap $deviceGuidMap
 				} catch {
 					Write-Warning "[$macroRelativePath] Update failed: $($_.Exception.Message)"
 					continue

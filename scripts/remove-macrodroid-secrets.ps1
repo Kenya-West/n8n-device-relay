@@ -15,6 +15,10 @@ $ErrorActionPreference = "Stop"
 [decimal]$MacroGuidCounter = -1700000000000000000
 [decimal]$SiguidCounter    = -1600000000000000000
 
+# Shared across all processed files so that an action block with the same
+# original m_GUID in multiple macros maps to the same new m_GUID.
+$GlobalGuidMap = @{}
+
 # ---- Helpers ----------------------------------------------------------------
 
 function Get-JsonFiles {
@@ -52,10 +56,16 @@ function Update-ExportedActionBlocks {
 
         if ($block.PSObject.Properties.Name -contains 'm_GUID') {
             $oldGuid = $block.m_GUID
-            $newGuid = $MacroGuidCounter.Value.ToString('0')
-            $block.m_GUID = $newGuid
-            $GuidMap[$oldGuid.ToString()] = $newGuid
-            $MacroGuidCounter.Value--
+            $key = $oldGuid.ToString()
+            if ($GuidMap.ContainsKey($key)) {
+                # Same action block already renumbered in another macro — reuse mapping.
+                $block.m_GUID = $GuidMap[$key]
+            } else {
+                $newGuid = $MacroGuidCounter.Value.ToString('0')
+                $block.m_GUID = $newGuid
+                $GuidMap[$key] = $newGuid
+                $MacroGuidCounter.Value--
+            }
         }
 
         if ($block.PSObject.Properties.Name -contains 'm_actionList' -and $block.m_actionList) {
@@ -131,7 +141,7 @@ foreach ($path in $Paths) {
 
         $macro = $json.macro
 
-        $guidMap = @{}
+        $guidMap = $GlobalGuidMap
 
         # ---- macro.m_name (STRING) -----------------------------------------
 
@@ -213,13 +223,15 @@ foreach ($path in $Paths) {
         }
 
         # ---- Rewrite actionBlockId references to point to new m_GUIDs ------
+        # Use the global map so references resolve even if the target action block
+        # lives in a different macro file already processed in this run.
 
-        if ($guidMap.Count -gt 0) {
+        if ($GlobalGuidMap.Count -gt 0) {
             if ($macro.m_actionList) {
-                Update-ActionBlockReferences -Actions $macro.m_actionList -GuidMap $guidMap
+                Update-ActionBlockReferences -Actions $macro.m_actionList -GuidMap $GlobalGuidMap
             }
             if ($macro.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $macro.exportedActionBlocks) {
-                Update-ActionBlockReferencesInBlocks -Blocks $macro.exportedActionBlocks -GuidMap $guidMap
+                Update-ActionBlockReferencesInBlocks -Blocks $macro.exportedActionBlocks -GuidMap $GlobalGuidMap
             }
         }
 
