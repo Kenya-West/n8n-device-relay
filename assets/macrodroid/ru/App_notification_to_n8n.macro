@@ -15,7 +15,7 @@
         "isClonedInstance": false,
         "isExtra": false,
         "isFavourite": false,
-        "lastEditedTimestamp": 1769591410362,
+        "lastEditedTimestamp": 1769609925304,
         "localVariables": [
           {
             "dictionary": {
@@ -1241,6 +1241,159 @@
         "m_isOrCondition": false,
         "m_name": "Get UUID",
         "m_triggerList": []
+      },
+      {
+        "isInputExpanded": true,
+        "isLocalExpanded": false,
+        "isOutputExpanded": true,
+        "isTestMode": false,
+        "disabledTimestamp": 0,
+        "exportedActionBlocks": [],
+        "forceEvenIfNotEnabledTimestamp": 0,
+        "isActionBlock": true,
+        "isBeingImported": false,
+        "isClonedInstance": false,
+        "isExtra": false,
+        "isFavourite": false,
+        "lastEditedTimestamp": 1777717613118,
+        "localVariables": [
+          {
+            "dictionary": {
+              "entries": [],
+              "isArray": false,
+              "variableType": 4,
+              "type": "Dictionary"
+            },
+            "isActionBlockWorkingVar": false,
+            "isLocalVar": true,
+            "isSecure": false,
+            "m_booleanValue": false,
+            "m_decimalValue": 0.0,
+            "m_intValue": 0,
+            "m_name": "input",
+            "m_stringValue": "",
+            "m_type": 2,
+            "supportsInput": true,
+            "supportsOutput": false
+          },
+          {
+            "dictionary": {
+              "entries": [],
+              "isArray": false,
+              "variableType": 4,
+              "type": "Dictionary"
+            },
+            "isActionBlockWorkingVar": false,
+            "isLocalVar": true,
+            "isSecure": false,
+            "m_booleanValue": false,
+            "m_decimalValue": 0.0,
+            "m_intValue": 0,
+            "m_name": "output",
+            "m_stringValue": "",
+            "m_type": 2,
+            "supportsInput": false,
+            "supportsOutput": true
+          }
+        ],
+        "m_GUID": "-1700000000000000002",
+        "m_actionList": [
+          {
+            "m_option": 1,
+            "m_text": "{lv=input}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\n",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000043",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\r",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000044",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\\"",
+                "'"
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000045",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\\t",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000046",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          },
+          {
+            "m_option": 1,
+            "m_text": "{lv=output}",
+            "m_textManipulation": {
+              "type": "ReplaceAllManipulation",
+              "params": [
+                "\t",
+                " "
+              ]
+            },
+            "variableName": "output",
+            "m_SIGUID": "-1600000000000000047",
+            "m_classType": "TextManipulationAction",
+            "m_constraintList": [],
+            "m_isDisabled": false,
+            "m_isOrCondition": false
+          }
+        ],
+        "m_category": "Без категории",
+        "m_constraintList": [],
+        "m_description": "",
+        "m_descriptionOpen": false,
+        "m_enabled": false,
+        "m_excludeLog": false,
+        "m_headingColor": 0,
+        "m_isOrCondition": false,
+        "m_name": "Normalize string",
+        "m_triggerList": []
       }
     ],
     "forceEvenIfNotEnabledTimestamp": 0,
@@ -1249,7 +1402,7 @@
     "isClonedInstance": false,
     "isExtra": false,
     "isFavourite": false,
-    "lastEditedTimestamp": 1769434552860,
+    "lastEditedTimestamp": 1777461460644,
     "localVariables": [
       {
         "dictionary": {
@@ -1437,7 +1590,7 @@
     "m_GUID": "-1700000000000000000",
     "m_actionList": [
       {
-        "actionBlockId": -9209467005915285274,
+        "actionBlockId": "-1700000000000000001",
         "actionBlockName": "Get UUID",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1453,7 +1606,7 @@
         "m_isOrCondition": false
       },
       {
-        "actionBlockId": -7925777383883811073,
+        "actionBlockId": "-1700000000000000002",
         "actionBlockName": "Normalize string",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1471,7 +1624,7 @@
         "m_isOrCondition": false
       },
       {
-        "actionBlockId": -7925777383883811073,
+        "actionBlockId": "-1700000000000000002",
         "actionBlockName": "Normalize string",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1489,7 +1642,7 @@
         "m_isOrCondition": false
       },
       {
-        "actionBlockId": -7925777383883811073,
+        "actionBlockId": "-1700000000000000002",
         "actionBlockName": "Normalize string",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1656,7 +1809,7 @@
         "m_newBooleanValue": false,
         "m_newDoubleValue": 0.0,
         "m_newIntValue": 0,
-        "m_newStringValue": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"kw-wiko-1\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\", \r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{lv=not_title_normalized}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
+        "m_newStringValue": "{\r\n            \"id\": \"{lv=uuid}\",\r\n            \"createdAt\": \"[setting_global=auto_time]\",\r\n            \"source\": \"macrodroid\",\r\n            \"device\": {\r\n                \"id\": \"kw-mi-2\",\r\n                \"batteryLevelPercent\": \"{battery}\",\r\r\n                \"currentSimSlotIndex\": \"{sms_sim_id}\",\r\n                \"cellularCarrierName\": \"{sim_operator_name}\",\r\n                \"locationLatitude\": \"{last_loc_lat}\",\r\n                \"locationLongitude\": \"{last_loc_long}\",\r\n                \"locationPoint\": \"{last_loc_latlong}\",\r\n               \"locationLink\": \"{last_loc_link}\",\n               \"locationLastTimestamp\": \"{last_loc_age_timestamp}\",\n                \"locationAccuracyMeters\": \"{last_loc_accuracy}\",\r\n                \"currentSpeed\": \"{last_loc_speed_kmh}\",\r\n                \"currentWifiSsid\": \"{ssid}\", \r\n                \"mediaVolumePercent\": \"{vol_music}\",\r\n                \"ringerVolumePercent\": \"{vol_ring}\",\r\n                \"isBluetoothOn\": \"[setting_global=bluetooth_on]\",\r\n                \"isAirplaneModeOn\": \"[setting_global=airplane_mode_on]\",\r\n                \"timeZone\": \"[setting_global=auto_time_zone]\",\r\n                \"locale\": \"{country_code}\",\r\n                \"availableStorageBytes\": \"{storage_internal_free}\",\r\n                \"totalStorageBytes\": \"{storage_internal_total}\"\r\n            },\r\n            \"data\": {\r\n                \"type\": \"notification_received\",\r\n                \"packageName\": \"{not_app_package}\",\r\n                \"appName\": \"{not_app_name}\",\r\n                \"at\": \"{not_timestamp}\",\r\n                \"title\": \"{lv=not_title_normalized}\",\r\n                \"body\": \"{lv=notification_normalized}\",\n                \"body_expanded\": \"{lv=notification_expanded_normalized}\",\r\n                \"tags\": []\r\n            }\r\n        }",
         "m_trueLabel": "Истина",
         "m_userPrompt": false,
         "m_userPromptEmptyAtStart": false,
@@ -1763,7 +1916,7 @@
         "m_soundOption": 0,
         "m_supressMultiples": true,
         "m_textContent": "",
-        "m_SIGUID": "-1600000000000000043",
+        "m_SIGUID": "-1600000000000000048",
         "m_classType": "NotificationTrigger",
         "m_constraintList": [],
         "m_isDisabled": false,

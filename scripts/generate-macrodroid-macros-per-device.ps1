@@ -187,6 +187,8 @@ function Update-MacroObject {
 		)
 	}
 
+	$guidMap = @{}
+
 	function Update-ExportedActionBlockTree {
 		param([AllowNull()] $Blocks)
 
@@ -196,7 +198,12 @@ function Update-MacroObject {
 			if ($null -eq $actionBlock) { continue }
 
 			# m_GUID: one per action block
-			if (Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value ([string]$GuidSeed.Value)) {
+			$oldGuid = Get-OptionalPropertyValue -Object $actionBlock -Name 'm_GUID'
+			$newGuid = [string]$GuidSeed.Value
+			if (Set-PropertyIfExists -Object $actionBlock -Name 'm_GUID' -Value $newGuid) {
+				if ($null -ne $oldGuid) {
+					$guidMap[$oldGuid.ToString()] = $newGuid
+				}
 				$GuidSeed.Value = $GuidSeed.Value - 1
 			}
 
@@ -220,6 +227,42 @@ function Update-MacroObject {
 			$nestedBlocks = Get-OptionalPropertyValue -Object $actionBlock -Name 'exportedActionBlocks'
 			if ($null -ne $nestedBlocks) {
 				Update-ExportedActionBlockTree -Blocks $nestedBlocks
+			}
+		}
+	}
+
+	function Update-ActionBlockReferenceList {
+		param([AllowNull()] $Actions)
+
+		if ($null -eq $Actions) { return }
+
+		foreach ($action in @($Actions)) {
+			if ($null -eq $action) { continue }
+			if (Test-HasProperty -Object $action -Name 'actionBlockId') {
+				$key = $action.actionBlockId.ToString()
+				if ($guidMap.ContainsKey($key)) {
+					$action.actionBlockId = $guidMap[$key]
+				}
+			}
+		}
+	}
+
+	function Update-ActionBlockReferencesInTree {
+		param([AllowNull()] $Blocks)
+
+		if ($null -eq $Blocks) { return }
+
+		foreach ($actionBlock in @($Blocks)) {
+			if ($null -eq $actionBlock) { continue }
+
+			$actionsInBlock = Get-OptionalPropertyValue -Object $actionBlock -Name 'm_actionList'
+			if ($null -ne $actionsInBlock) {
+				Update-ActionBlockReferenceList -Actions $actionsInBlock
+			}
+
+			$nestedBlocks = Get-OptionalPropertyValue -Object $actionBlock -Name 'exportedActionBlocks'
+			if ($null -ne $nestedBlocks) {
+				Update-ActionBlockReferencesInTree -Blocks $nestedBlocks
 			}
 		}
 	}
@@ -287,6 +330,14 @@ function Update-MacroObject {
 	$exportedActionBlocks = Get-OptionalPropertyValue -Object $macro -Name 'exportedActionBlocks'
 	if ($null -ne $exportedActionBlocks) {
 		Update-ExportedActionBlockTree -Blocks $exportedActionBlocks
+	}
+
+	# Rewrite actionBlockId references to point to the new m_GUID values
+	if ($guidMap.Count -gt 0) {
+		Update-ActionBlockReferenceList -Actions $actions
+		if ($null -ne $exportedActionBlocks) {
+			Update-ActionBlockReferencesInTree -Blocks $exportedActionBlocks
+		}
 	}
 
     $triggers = Get-OptionalPropertyValue -Object $macro -Name 'm_triggerList'

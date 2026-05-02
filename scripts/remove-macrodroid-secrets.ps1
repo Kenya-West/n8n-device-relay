@@ -41,7 +41,8 @@ function Update-ExportedActionBlocks {
     param(
         [Parameter(Mandatory = $true)] $Blocks,
         [Parameter(Mandatory = $true)][ref] $MacroGuidCounter,
-        [Parameter(Mandatory = $true)][ref] $SiguidCounter
+        [Parameter(Mandatory = $true)][ref] $SiguidCounter,
+        [Parameter(Mandatory = $true)][hashtable] $GuidMap
     )
 
     if ($null -eq $Blocks) { return }
@@ -50,7 +51,10 @@ function Update-ExportedActionBlocks {
         if ($null -eq $block) { continue }
 
         if ($block.PSObject.Properties.Name -contains 'm_GUID') {
-            $block.m_GUID = $MacroGuidCounter.Value.ToString('0')
+            $oldGuid = $block.m_GUID
+            $newGuid = $MacroGuidCounter.Value.ToString('0')
+            $block.m_GUID = $newGuid
+            $GuidMap[$oldGuid.ToString()] = $newGuid
             $MacroGuidCounter.Value--
         }
 
@@ -65,7 +69,47 @@ function Update-ExportedActionBlocks {
         }
 
         if ($block.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $block.exportedActionBlocks) {
-            Update-ExportedActionBlocks -Blocks $block.exportedActionBlocks -MacroGuidCounter $MacroGuidCounter -SiguidCounter $SiguidCounter
+            Update-ExportedActionBlocks -Blocks $block.exportedActionBlocks -MacroGuidCounter $MacroGuidCounter -SiguidCounter $SiguidCounter -GuidMap $GuidMap
+        }
+    }
+}
+
+function Update-ActionBlockReferences {
+    param(
+        [Parameter(Mandatory = $true)] $Actions,
+        [Parameter(Mandatory = $true)][hashtable] $GuidMap
+    )
+
+    if ($null -eq $Actions) { return }
+
+    foreach ($action in @($Actions)) {
+        if ($null -eq $action) { continue }
+        if ($action.PSObject.Properties.Name -contains 'actionBlockId') {
+            $key = $action.actionBlockId.ToString()
+            if ($GuidMap.ContainsKey($key)) {
+                $action.actionBlockId = $GuidMap[$key]
+            }
+        }
+    }
+}
+
+function Update-ActionBlockReferencesInBlocks {
+    param(
+        [Parameter(Mandatory = $true)] $Blocks,
+        [Parameter(Mandatory = $true)][hashtable] $GuidMap
+    )
+
+    if ($null -eq $Blocks) { return }
+
+    foreach ($block in @($Blocks)) {
+        if ($null -eq $block) { continue }
+
+        if ($block.PSObject.Properties.Name -contains 'm_actionList' -and $block.m_actionList) {
+            Update-ActionBlockReferences -Actions $block.m_actionList -GuidMap $GuidMap
+        }
+
+        if ($block.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $block.exportedActionBlocks) {
+            Update-ActionBlockReferencesInBlocks -Blocks $block.exportedActionBlocks -GuidMap $GuidMap
         }
     }
 }
@@ -86,6 +130,8 @@ foreach ($path in $Paths) {
         }
 
         $macro = $json.macro
+
+        $guidMap = @{}
 
         # ---- macro.m_GUID (STRING) -------------------------------------------
 
@@ -155,7 +201,18 @@ foreach ($path in $Paths) {
         # ---- exportedActionBlocks (Action Blocks) ---------------------------
 
         if ($macro.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $macro.exportedActionBlocks) {
-            Update-ExportedActionBlocks -Blocks $macro.exportedActionBlocks -MacroGuidCounter ([ref]$MacroGuidCounter) -SiguidCounter ([ref]$SiguidCounter)
+            Update-ExportedActionBlocks -Blocks $macro.exportedActionBlocks -MacroGuidCounter ([ref]$MacroGuidCounter) -SiguidCounter ([ref]$SiguidCounter) -GuidMap $guidMap
+        }
+
+        # ---- Rewrite actionBlockId references to point to new m_GUIDs ------
+
+        if ($guidMap.Count -gt 0) {
+            if ($macro.m_actionList) {
+                Update-ActionBlockReferences -Actions $macro.m_actionList -GuidMap $guidMap
+            }
+            if ($macro.PSObject.Properties.Name -contains 'exportedActionBlocks' -and $macro.exportedActionBlocks) {
+                Update-ActionBlockReferencesInBlocks -Blocks $macro.exportedActionBlocks -GuidMap $guidMap
+            }
         }
 
         # ---- m_triggerList ---------------------------------------------------
