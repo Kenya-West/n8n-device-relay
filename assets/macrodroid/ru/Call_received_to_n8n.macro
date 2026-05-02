@@ -132,7 +132,7 @@
             "supportsOutput": true
           }
         ],
-        "m_GUID": "-1700000000000000004",
+        "m_GUID": "-1700000000000000001",
         "m_actionList": [
           {
             "blockNextAction": true,
@@ -1312,7 +1312,7 @@
     "m_GUID": "-1700000000000000003",
     "m_actionList": [
       {
-        "actionBlockId": "-1700000000000000004",
+        "actionBlockId": "-1700000000000000001",
         "actionBlockName": "Get UUID",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},

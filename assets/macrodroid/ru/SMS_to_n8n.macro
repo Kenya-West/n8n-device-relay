@@ -132,7 +132,7 @@
             "supportsOutput": true
           }
         ],
-        "m_GUID": "-1700000000000000006",
+        "m_GUID": "-1700000000000000001",
         "m_actionList": [
           {
             "blockNextAction": true,
@@ -1296,7 +1296,7 @@
             "supportsOutput": true
           }
         ],
-        "m_GUID": "-1700000000000000007",
+        "m_GUID": "-1700000000000000002",
         "m_actionList": [
           {
             "m_option": 1,
@@ -1500,10 +1500,10 @@
         "supportsOutput": true
       }
     ],
-    "m_GUID": "-1700000000000000005",
+    "m_GUID": "-1700000000000000004",
     "m_actionList": [
       {
-        "actionBlockId": "-1700000000000000006",
+        "actionBlockId": "-1700000000000000001",
         "actionBlockName": "Get UUID",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
@@ -1519,7 +1519,7 @@
         "m_isOrCondition": false
       },
       {
-        "actionBlockId": "-1700000000000000007",
+        "actionBlockId": "-1700000000000000002",
         "actionBlockName": "Normalize string",
         "continueActionsWithoutWaiting": false,
         "inputDictionaryMap": {},
