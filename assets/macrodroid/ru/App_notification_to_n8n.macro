@@ -1897,7 +1897,7 @@
     "m_excludeLog": false,
     "m_headingColor": -8062,
     "m_isOrCondition": false,
-    "m_name": "Example App notification to n8n",
+    "m_name": "Example - App notification to n8n",
     "m_triggerList": [
       {
         "enableRegex": false,

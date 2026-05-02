@@ -133,9 +133,17 @@ foreach ($path in $Paths) {
 
         $guidMap = @{}
 
-        # ---- macro.m_GUID (STRING) -------------------------------------------
+        # ---- macro.m_name (STRING) -----------------------------------------
 
-        $macro.m_name = "Example $($macro.m_name)"
+        if ($macro.PSObject.Properties.Name -contains 'm_name') {
+            $currentName = [string]$macro.m_name
+            if ([string]::IsNullOrWhiteSpace($currentName)) {
+                $macro.m_name = 'Example - '
+            }
+            elseif (-not $currentName.StartsWith('Example - ')) {
+                $macro.m_name = 'Example - ' + $currentName
+            }
+        }
 
         # ---- macro.m_GUID (STRING) -------------------------------------------
 
